@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="RangeFanAddinUpdate.RangeFanWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             xmlns:opsDashCtl="clr-namespace:ESRI.ArcGIS.OperationsDashboard.Controls;assembly=ESRI.ArcGIS.OperationsDashboard"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid Margin="10">
+        <ListBox x:Name="FeatureListBox"
+             Background="Transparent"
+             Style="{StaticResource ThemedListBoxStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Tag="{Binding DataContext, ElementName=FeatureListBox}">
+                        <TextBlock Text="{Binding FieldValue}"
+                       Style="{DynamicResource LargeTextBlockStyle}" />
+
+                        <ContentControl.ContextMenu>
+                            <opsDashCtl:FeatureActionContextMenu FeatureActions="{Binding PlacementTarget.Tag.FeatureActions, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                                   DataSource="{Binding PlacementTarget.Tag.DataSource, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                                   Feature="{Binding Graphic, Mode=OneWay}" />
+                        </ContentControl.ContextMenu>
+                    </ContentControl>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
