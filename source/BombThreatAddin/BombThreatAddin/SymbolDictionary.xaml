@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:esri="http://schemas.esri.com/arcgis/client/2009"
+>
+    <esri:PictureMarkerSymbol x:Key="DefaultClickSymbol" OffsetY="5" OffsetX="5" Source="Images/bomb32.png" Height="15" Width="15"/>
+</ResourceDictionary>
