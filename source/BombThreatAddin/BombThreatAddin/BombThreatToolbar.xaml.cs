@@ -145,13 +145,41 @@ namespace BombThreatAddin
         
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
-            // When the user is finished with the toolbar, revert to the configured toolbar.
-            if (_mapWidget != null)
+            try
             {
-                _mapWidget.Map.MouseClick -= Map_MouseClick;
-                _mapWidget.SetToolbar(null);
-                
+                if (_graphicsLayer != null)
+                    _graphicsLayer.Graphics.Clear();
+
+                // Find the map layer in the map widget that contains the data source.
+                IEnumerable<ESRI.ArcGIS.OperationsDashboard.DataSource> dataSources = OperationsDashboard.Instance.DataSources;
+                foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
+                {
+
+                    if (_mapWidget != null)
+                    {
+                        // Get the feature layer in the map for the data source.
+                        client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
+
+                        //Clear Selection on Feature Layers in map
+                        featureL.ClearSelection();
+
+                    }
+                }
+                location = null;
+                RunButton.IsEnabled = false;
+                txtAddress.Text = "Enter Address";
+
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                    _mapWidget.SetToolbar(null);
+                }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+           
         }
 
         /// <summary>
@@ -163,6 +191,10 @@ namespace BombThreatAddin
         {
             try
             {
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                }
                 // Find the map layer in the map widget that contains the data source.
                 IEnumerable<ESRI.ArcGIS.OperationsDashboard.DataSource> dataSources = OperationsDashboard.Instance.DataSources;
                 foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
@@ -206,7 +238,8 @@ namespace BombThreatAddin
                 graphic.SetZIndex(1);
                 _graphicsLayer.Graphics.Add(graphic);
 
-
+                if (location != null)
+                    RunButton.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -442,6 +475,14 @@ namespace BombThreatAddin
 
                     }
                 }
+                location = null;
+                RunButton.IsEnabled = false;
+                txtAddress.Text = "Enter Address";
+
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                }
             }
             catch (Exception ex)
             {
@@ -452,6 +493,10 @@ namespace BombThreatAddin
         {
             try
             {
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                }
                 Locator locatorTask = new Locator("http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer");
                 locatorTask.AddressToLocationsCompleted += new EventHandler<AddressToLocationsEventArgs>(locatorTask_AddressToLocationsCompleted);
                 locatorTask.Failed += new EventHandler<TaskFailedEventArgs>(locatorTaskFindAddress_Failed);
@@ -537,6 +582,17 @@ namespace BombThreatAddin
                     
                     location = candidate.Location;
                     graphic.SetZIndex(1);
+                    if (_graphicsLayer == null)
+                    {
+                        _graphicsLayer = new ESRI.ArcGIS.Client.GraphicsLayer();
+                        _graphicsLayer.ID = "BombThreatGraphics";
+                        client.AcceleratedDisplayLayers aclyrs = _mapWidget.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
+                        if (aclyrs.Count() > 0)
+                        {
+                            aclyrs.ChildLayers.Add(_graphicsLayer);
+                        }
+                    }
+
                     _graphicsLayer.Graphics.Add(graphic);
 
                     GeometryService geometryTask = new GeometryService();
@@ -558,12 +614,27 @@ namespace BombThreatAddin
                 }
                 else
                 {
-                    MessageBox.Show("No address found.  Try another or click on the map");
+                    MessageBox.Show("No address found.  Example schema: 380 New York Ave., Redlands, CA or click on the map");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error in Address location complete: " + ex.Message);
+            }
+        }
+
+        private void txtAddress_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (txtAddress.Text != "Enter Address")
+                {
+                    RunButton.IsEnabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 

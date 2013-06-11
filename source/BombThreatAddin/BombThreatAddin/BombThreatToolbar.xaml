@@ -32,13 +32,13 @@
                 </WrapPanel.RenderTransform>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,5,10,5" Text="Select bomb type:"></TextBlock>
                 <ComboBox x:Name="bombType" HorizontalAlignment="Center" VerticalAlignment="Center" Width="136" Text="150"></ComboBox>
-                <TextBox x:Name="txtAddress" TextWrapping="Wrap" Text="Enter Address" Width="209" Margin="10,8,0,8" Background="#FFDEDEDE" BorderThickness="1" FontFamily="Arial" FontSize="13.333" SelectionBrush="#CC5A85AF" ToolTip="Enter Address for placing bomb location" Foreground="#FF686868" GotFocus="txtAddress_GotFocus" Height="25"/>
+                <TextBox x:Name="txtAddress" TextWrapping="Wrap" Text="Enter Address" Width="209" Margin="10,8,0,8" Background="#FFDEDEDE" BorderThickness="1" FontFamily="Arial" FontSize="13.333" SelectionBrush="#CC5A85AF" ToolTip="Enter Address like, 380 New York Ave, Redlands, CA, for placing bomb location" Foreground="#FF686868" GotFocus="txtAddress_GotFocus" Height="25" TextChanged="txtAddress_TextChanged"/>
                 <Button x:Name="MapButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
               ToolTip="Click on map to get address" Click="MapButton_Click_1">
                     <TextBlock Text="Click Map"/>
                 </Button>
                 <Button x:Name="RunButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
-              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1">
+              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1" IsEnabled="False">
                     <TextBlock Text="Run" />
                 </Button>
                 <Button x:Name="ClearButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
