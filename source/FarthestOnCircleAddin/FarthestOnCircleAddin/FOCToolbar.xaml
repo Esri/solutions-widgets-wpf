@@ -21,7 +21,7 @@
            <TextBlock Text="Click Map"/>
         </Button>
         <Button x:Name="RunButton" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
-              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1">
+              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1" IsEnabled="False">
            <TextBlock Text="Run"/>
         </Button>
                 <Button x:Name="ClearButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"

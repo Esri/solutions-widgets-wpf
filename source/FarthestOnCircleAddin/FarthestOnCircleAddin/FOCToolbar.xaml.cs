@@ -95,33 +95,45 @@ namespace FarthestOnCircleAddin
 
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
-            // When the user is finished with the toolbar, revert to the configured toolbar.
-            if (_mapWidget != null)
+            try
             {
-                _mapWidget.Map.MouseClick -= Map_MouseClick;
-                _mapWidget.SetToolbar(null);
+                RunButton.IsEnabled = false;
 
-            }
-            int id = -1;
-            for (int i = 0; i < _mapWidget.Map.Layers.Count; i++)
-            {
-
-                client.Layer player = _mapWidget.Map.Layers[i];
-
-                if (player.ID == "Farthest On Circle")
+                // When the user is finished with the toolbar, revert to the configured toolbar.
+                if (_mapWidget != null)
                 {
-                    id = i;
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                    _mapWidget.SetToolbar(null);
+
                 }
+                int id = -1;
+                for (int i = 0; i < _mapWidget.Map.Layers.Count; i++)
+                {
+
+                    client.Layer player = _mapWidget.Map.Layers[i];
+
+                    if (player.ID == "Farthest On Circle")
+                    {
+                        id = i;
+                    }
+                }
+
+                if (id != -1)
+                    _mapWidget.Map.Layers.RemoveAt(id);
+
+                if (_graphicsLayer != null)
+                    _graphicsLayer.Graphics.Clear();
+
+                if (pWin != null)
+                    pWin.Close();
+
+                if (_dtLegends != null)
+                    _dtLegends.Clear();
             }
-
-            if(id != -1)
-                _mapWidget.Map.Layers.RemoveAt(id);
-
-            if (_graphicsLayer != null)
-                _graphicsLayer.Graphics.Clear();
-
-            if (pWin != null)
-                pWin.Close();
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
@@ -131,79 +143,95 @@ namespace FarthestOnCircleAddin
         /// <param name="e"></param>
         void Map_MouseClick(object sender, client.Map.MouseEventArgs e)
         {
-            client.Geometry.MapPoint clickPoint = e.MapPoint;
-            if (_graphicsLayer == null)
+            try
             {
-                _graphicsLayer = new ESRI.ArcGIS.Client.GraphicsLayer();
-                _graphicsLayer.ID = "FarthestOnCircleGraphics";
-                client.AcceleratedDisplayLayers aclyrs = _mapWidget.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
-                if (aclyrs.Count() > 0)
+                client.Geometry.MapPoint clickPoint = e.MapPoint;
+                if (_graphicsLayer == null)
                 {
-                    aclyrs.ChildLayers.Add(_graphicsLayer);
+                    _graphicsLayer = new ESRI.ArcGIS.Client.GraphicsLayer();
+                    _graphicsLayer.ID = "FarthestOnCircleGraphics";
+                    client.AcceleratedDisplayLayers aclyrs = _mapWidget.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
+                    if (aclyrs.Count() > 0)
+                    {
+                        aclyrs.ChildLayers.Add(_graphicsLayer);
+                    }
+                }
+                ResourceDictionary mydictionary = new ResourceDictionary();
+                mydictionary.Source = new Uri("/FarthestOnCircleAddin;component/SymbolDictionary.xaml", UriKind.RelativeOrAbsolute);
+                client.Graphic graphic = new client.Graphic();
+                graphic.Geometry = clickPoint;
+                graphic.Symbol = mydictionary["RedPin"] as client.Symbols.MarkerSymbol;
+                _graphicsLayer.Graphics.Add(graphic);
+
+                RunButton.IsEnabled = true;
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
                 }
             }
-            ResourceDictionary mydictionary = new ResourceDictionary();
-            mydictionary.Source = new Uri("/FarthestOnCircleAddin;component/SymbolDictionary.xaml", UriKind.RelativeOrAbsolute);
-            client.Graphic graphic = new client.Graphic();
-            graphic.Geometry = clickPoint;
-            graphic.Symbol = mydictionary["RedPin"] as client.Symbols.MarkerSymbol;
-            _graphicsLayer.Graphics.Add(graphic);
-
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         async void gpFarthest_JobCompleted(object sender, JobInfoEventArgs e)
         {
-            Geoprocessor gpFOC = sender as Geoprocessor;
-            client.ArcGISDynamicMapServiceLayer gpLayer =  gpFOC.GetResultMapServiceLayer(e.JobInfo.JobId);
-            gpLayer.ID = "Farthest On Circle";
-            gpLayer.Opacity = .65;
-
-            _mapWidget.Map.Layers.Add(gpLayer);
-            
-            //get legend
-            HttpClient client = new HttpClient();
-            string response =
-                await client.GetStringAsync(_baseURL + "MapServer/legend?f=pjson");
-
-            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(response);
-            XmlNodeList xmlnode = doc.GetElementsByTagName("legend");
-            List<legend> pLegends = new List<legend>();
-            int count = 0;
-            double test = System.Convert.ToInt16(Range.Text) / System.Convert.ToInt16(Speed.Text);
-            int theval = System.Convert.ToInt16(test);
-            //decimal numRings = Math.Truncate(System.Convert.ToDecimal(test));
-            foreach (XmlNode node in xmlnode)
+            try
             {
-                legend pLegend = new legend();
-                foreach (XmlNode child in node.ChildNodes)
+                Geoprocessor gpFOC = sender as Geoprocessor;
+                client.ArcGISDynamicMapServiceLayer gpLayer = gpFOC.GetResultMapServiceLayer(e.JobInfo.JobId);
+                gpLayer.ID = "Farthest On Circle";
+                gpLayer.Opacity = .65;
+
+                _mapWidget.Map.Layers.Add(gpLayer);
+
+                //get legend
+                HttpClient client = new HttpClient();
+                string response =
+                    await client.GetStringAsync(_baseURL + "MapServer/legend?f=pjson");
+
+                XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(response);
+                XmlNodeList xmlnode = doc.GetElementsByTagName("legend");
+                List<legend> pLegends = new List<legend>();
+                int count = 0;
+                double test = System.Convert.ToInt16(Range.Text) / System.Convert.ToInt16(Speed.Text);
+                int theval = System.Convert.ToInt16(test);
+                _dtLegends.Clear();
+
+                foreach (XmlNode node in xmlnode)
                 {
-                    if (child.Name == "label")
-                        pLegend.label = child.InnerText + " Hours of Transit";
-                    if (child.Name == "url")
-                        pLegend.url = _baseURL + "MapServer/1/images/" + child.InnerText;
+                    legend pLegend = new legend();
+                    foreach (XmlNode child in node.ChildNodes)
+                    {
+                        if (child.Name == "label")
+                            pLegend.label = child.InnerText + " Hours of Transit";
+                        if (child.Name == "url")
+                            pLegend.url = _baseURL + "MapServer/1/images/" + child.InnerText;
+                    }
+                    if (count <= theval && count < 24)
+                        _dtLegends.Add(pLegend);
+
+                    count++;
                 }
-                if (count <= theval && count < 24)
-                    _dtLegends.Add(pLegend);
 
-                count++;
+
+                if (pWin == null)
+                    pWin = new LegendDialog();
+                pWin.ListView.DataContext = _dtLegends;
+                pWin.Closed += pWin_Closed;
+                pWin.Show();
+                pWin.Topmost = true;
             }
-            
-
-            if (pWin == null)
-                pWin = new LegendDialog();
-            pWin.ListView.DataContext = _dtLegends;
-            pWin.Closed += pWin_Closed;
-            // Provide feature action implementation.
-            //_dtLegends.Clear();
-            pWin.Show();
-            pWin.Topmost = true;
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
         void pWin_Closed(object sender, EventArgs e)
         {
             try
             {
-                //if (_graphicsLayer != null)
-                   // _graphicsLayer.Graphics.Clear();
                 pWin = null;
             }
             catch (Exception ex)
@@ -218,25 +246,38 @@ namespace FarthestOnCircleAddin
 
         private void ClearButton_Click_1(object sender, RoutedEventArgs e)
         {
-            int id = -1;
-            for(int i = 0; i < _mapWidget.Map.Layers.Count; i++)
+            try
             {
-
-                client.Layer player = _mapWidget.Map.Layers[i];
-                
-                if (player.ID == "Farthest On Circle")
+                int id = -1;
+                for (int i = 0; i < _mapWidget.Map.Layers.Count; i++)
                 {
-                    id = i;
-                }
-            }
-            if (id != -1)
-                _mapWidget.Map.Layers.RemoveAt(id);
-            if (_graphicsLayer != null)
-                _graphicsLayer.Graphics.Clear();
 
-            if (pWin != null)
-                pWin.Close();
-            
+                    client.Layer player = _mapWidget.Map.Layers[i];
+
+                    if (player.ID == "Farthest On Circle")
+                    {
+                        id = i;
+                    }
+                }
+                if (id != -1)
+                    _mapWidget.Map.Layers.RemoveAt(id);
+                if (_graphicsLayer != null)
+                    _graphicsLayer.Graphics.Clear();
+
+                if (pWin != null)
+                    pWin.Close();
+                
+                if (_mapWidget != null)
+                {
+                    _mapWidget.Map.MouseClick -= Map_MouseClick;
+                }
+                RunButton.IsEnabled = false;
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         private void ClickMapButton_Click_1(object sender, RoutedEventArgs e)
@@ -260,6 +301,7 @@ namespace FarthestOnCircleAddin
             }
             if (id != -1)
                 _mapWidget.Map.Layers.RemoveAt(id);
+
 
         }
 
