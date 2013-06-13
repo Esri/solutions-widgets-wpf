@@ -89,7 +89,8 @@ namespace BombThreatAddin
         public bool Configure(System.Windows.Window owner)
         {
             // Implement this method if CanConfigure returned true.
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return false;
         }
 
         #endregion
