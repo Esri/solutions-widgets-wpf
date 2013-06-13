@@ -32,7 +32,7 @@ namespace RangeFanAddinUpdate
     /// </summary>
     [Export("ESRI.ArcGIS.OperationsDashboard.FeatureAction")]
     [ExportMetadata("DisplayName", "Remove Range Fan")]
-    [ExportMetadata("Description", "Removes a range fan from the list")]
+    [ExportMetadata("Description", "Removes a range fan from the range fan list")]
     [ExportMetadata("ImagePath", "/RangeFanAddinUpdate;component/Images/RangeFan-16x.png")]
     public class RemoveFanFA : IFeatureAction
     {
@@ -93,17 +93,25 @@ namespace RangeFanAddinUpdate
         /// </summary>
         public void Execute(ESRI.ArcGIS.OperationsDashboard.DataSource dataSource, client.Graphic feature)
         {
-            // Provide feature action implementation.
-            // Check if the data source and feature can be used with this feature action.
-            foreach (var widget in OperationsDashboard.Instance.Widgets)
-                if (widget is RangeFanWidget)
-                {
-                    //((RangeFanWidget)widget).Visibility = System.Windows.Visibility.Visible;
-                    RangeFanWidget pWidget = (RangeFanWidget)widget;
-                    pWidget.removefromList(feature);
-                    return;
-                }
+            try
+            {
+                // Provide feature action implementation.
+                // Check if the data source and feature can be used with this feature action.
+                foreach (var widget in OperationsDashboard.Instance.Widgets)
+                    if (widget is RangeFanWidget)
+                    {
+                        //((RangeFanWidget)widget).Visibility = System.Windows.Visibility.Visible;
+                        RangeFanWidget pWidget = (RangeFanWidget)widget;
+                        pWidget.removefromList(feature);
+                        return;
+                    }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
+
 
         #endregion
 

@@ -340,27 +340,33 @@ namespace RangeFanAddinUpdate
 
         public void removefromList(client.Graphic pGraphic)
         {
-            string oid = pGraphic.Attributes[_datasource.ObjectIdFieldName].ToString();
-            System.Diagnostics.Debug.WriteLine("Removing OID: " + oid);
-            foreach (Feature f in _rfFeatures)
+            try
             {
-                if (f.Graphic.Attributes[_datasource.ObjectIdFieldName].ToString() == oid)
+                string oid = pGraphic.Attributes[_datasource.ObjectIdFieldName].ToString();
+                System.Diagnostics.Debug.WriteLine("Removing OID: " + oid);
+                foreach (Feature f in _rfFeatures)
                 {
-                    _rfFeatures.Remove(f);
-                    break;
+                    if (f.Graphic.Attributes[_datasource.ObjectIdFieldName].ToString() == oid)
+                    {
+                        _rfFeatures.Remove(f);
+                        break;
+                    }
                 }
+                int idx = 0;
+                for (int g = 0; g < _graphics.Graphics.Count; g++)
+                {
+                    if (_graphics.Graphics[g].Attributes["Name"].ToString() == oid)
+                    {
+                        idx = g;
+                    }
+                }
+                _graphics.Graphics.RemoveAt(idx);
+                FeatureListBox.ItemsSource = _rfFeatures;
             }
-            int idx=0;
-            for (int g =0; g < _graphics.Graphics.Count; g++)
+            catch (Exception ex)
             {
-                if (_graphics.Graphics[g].Attributes["Name"].ToString() == oid)
-                {
-                    idx = g;
-                }
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            _graphics.Graphics.RemoveAt(idx);
-            FeatureListBox.ItemsSource = _rfFeatures;
-
             
         }
         private client.Graphic CreateFan(client.Graphic g)
@@ -522,38 +528,48 @@ namespace RangeFanAddinUpdate
         /// <param name="dataSource">The DataSource being updated.</param>
         public async void OnRefresh(DataSource dataSource)
         {
-            int[] oIds = new int[_rfFeatures.Count];
-            int count = 0;
-            foreach (Feature f in _rfFeatures)
+            try
             {
-                oIds[count] = System.Convert.ToInt32(f.Graphic.Attributes[dataSource.ObjectIdFieldName].ToString());
-                System.Diagnostics.Debug.WriteLine("Refresh:  " + oIds[count].ToString());
-                count++;
-            }
-
-            var result = await dataSource.ExecuteQueryObjectIdsAsync(oIds, new Query());
-            if (result == null || result.Features == null)
-                return;
-
-
-            client.GraphicsLayer gLayer = _map.Layers["RangeFanGraphics"] as client.GraphicsLayer;
-            if (gLayer.Graphics.Count == result.Features.Count)
-            {
-                foreach (client.Graphic g in result.Features)
+                int[] oIds = new int[_rfFeatures.Count];
+                int count = 0;
+                foreach (Feature f in _rfFeatures)
                 {
-                    client.Graphic pFan = CreateFan(g);
-                    if (pFan != null)
+                    oIds[count] = System.Convert.ToInt32(f.Graphic.Attributes[dataSource.ObjectIdFieldName].ToString());
+                    System.Diagnostics.Debug.WriteLine("Refresh:  " + oIds[count].ToString());
+                    count++;
+                }
+
+                var result = await dataSource.ExecuteQueryObjectIdsAsync(oIds, new Query());
+                if (result == null || result.Features == null)
+                    return;
+
+
+                client.GraphicsLayer gLayer = _map.Layers["RangeFanGraphics"] as client.GraphicsLayer;
+                if (gLayer != null)
+                {
+                    if (gLayer.Graphics.Count == result.Features.Count)
                     {
-                        foreach (client.Graphic graphic in gLayer.Graphics)
+                        foreach (client.Graphic g in result.Features)
                         {
-                            if (graphic.Attributes["Name"].ToString() == g.Attributes[_datasource.ObjectIdFieldName].ToString())
-                                graphic.Geometry = pFan.Geometry;
+                            client.Graphic pFan = CreateFan(g);
+                            if (pFan != null)
+                            {
+                                foreach (client.Graphic graphic in gLayer.Graphics)
+                                {
+                                    if (graphic.Attributes["Name"].ToString() == g.Attributes[_datasource.ObjectIdFieldName].ToString())
+                                        graphic.Geometry = pFan.Geometry;
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
         #endregion
     }
     

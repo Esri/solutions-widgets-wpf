@@ -102,16 +102,22 @@ namespace RangeFanAddinUpdate
         /// </summary>
         public void Execute(ESRI.ArcGIS.OperationsDashboard.DataSource dataSource, client.Graphic feature)
         {
-            // For example, in the MapWidget that ultimately provides the data source, show the popup window for the feature.
-            MapWidget mw = MapWidget.FindMapWidget(dataSource);
-            foreach (var widget in OperationsDashboard.Instance.Widgets)
-                if (widget is RangeFanWidget)
-                {
-                    RangeFanWidget pWidget = (RangeFanWidget)widget;
-                    pWidget.addToList(feature);
-                    return;
-                }
-           
+            try
+            {
+                // For example, in the MapWidget that ultimately provides the data source, show the popup window for the feature.
+                MapWidget mw = MapWidget.FindMapWidget(dataSource);
+                foreach (var widget in OperationsDashboard.Instance.Widgets)
+                    if (widget is RangeFanWidget)
+                    {
+                        RangeFanWidget pWidget = (RangeFanWidget)widget;
+                        pWidget.addToList(feature);
+                        return;
+                    }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         #endregion
