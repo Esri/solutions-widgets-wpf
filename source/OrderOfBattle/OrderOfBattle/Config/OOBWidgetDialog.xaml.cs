@@ -93,6 +93,10 @@ namespace OOB.Config
             {
                 listDs.Items.Add(p.Key);
             }
+            tb_dsname.Text = "";
+            tb_dsname.IsEnabled = true;
+            listDs.SelectedIndex = -1;
+
         }
 
         private void lb_label_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -107,42 +111,57 @@ namespace OOB.Config
 
         private void updateCurrentDatasource(object sender, RoutedEventArgs e)
         {
-            String selectedDs = listDs.SelectedItem.ToString();
-            OOBDataSource ods = OOBDataSources[selectedDs];
-            DataSource ds = ods.DataSource;
-            DataSourceSelector.SelectedDataSource = ds;
-            _currentDS = ds;
-            
-            foreach (client.Field f in ds.Fields)
+            if (listDs.SelectedIndex > -1)
             {
-                if (f.Name.Equals(ods.UIDField))
+                if (!listDs.SelectedItem.ToString().Equals("UNITS"))
                 {
-                    UIDComboBox.SelectedItem = f;
-                }
-                if (f.Name.Equals(ods.HFField))
-                {
-                    HFComboBox.SelectedItem = f;
-                }
-            }
-            _currentLabelList = ods.LabelFields;
-            _currentDescList = ods.DescriptionFields;
-            Boolean first = true;
-            curLabelVal = "";
-            foreach (String l in _currentLabelList)
-            {
-                if (!first)
-                {
-                    curLabelVal += " ";
+                    btnRemoveDS.IsEnabled = true;
                 }
                 else
                 {
-                    first = false;
+                    btnRemoveDS.IsEnabled = false;
                 }
-                curLabelVal += "{" + l + "}";
+                String selectedDs = listDs.SelectedItem.ToString();
+                OOBDataSource ods = OOBDataSources[selectedDs];
+                DataSource ds = ods.DataSource;
+                DataSourceSelector.SelectedDataSource = ds;
+                _currentDS = ds;
+
+                foreach (client.Field f in ds.Fields)
+                {
+                    if (f.Name.Equals(ods.UIDField))
+                    {
+                        UIDComboBox.SelectedItem = f;
+                    }
+                    if (f.Name.Equals(ods.HFField))
+                    {
+                        HFComboBox.SelectedItem = f;
+                    }
+                }
+                _currentLabelList = ods.LabelFields;
+                _currentDescList = ods.DescriptionFields;
+                Boolean first = true;
+                curLabelVal = "";
+                foreach (String l in _currentLabelList)
+                {
+                    if (!first)
+                    {
+                        curLabelVal += " ";
+                    }
+                    else
+                    {
+                        first = false;
+                    }
+                    curLabelVal += "{" + l + "}";
+                }
+                first = true;
+                rtDesc.Text = ods.BaseDescription;
+                tbLabel.Text = curLabelVal;
             }
-            first = true;
-            rtDesc.Text = ods.BaseDescription;
-            tbLabel.Text = curLabelVal;
+            else
+            {
+                btnRemoveDS.IsEnabled = false;
+            }
  
         }
         private void setDescriptionType(object sender, RoutedEventArgs e)
@@ -250,7 +269,7 @@ namespace OOB.Config
 
 
 
-        private void addDS(object sender, EventArgs e)
+        private void addDS(object sender, RoutedEventArgs e)
         {
             String key = tb_dsname.Text.ToUpper();
             DataSource ds = DataSourceSelector.SelectedDataSource;
@@ -289,6 +308,14 @@ namespace OOB.Config
             ResetComboBoxes(ds, sender);
             btnAddDS.IsEnabled = false;
         }
+
+        private void RemoveDS(object sender, RoutedEventArgs e)
+        {
+            String key = listDs.SelectedItem.ToString();
+            _datasources.Remove(key);
+            listDs.Items.Remove(key); 
+        }
+
         private void openLabelSelector(object sender, MouseButtonEventArgs e)
         {
             popLabel.IsOpen = true;
@@ -502,6 +529,9 @@ namespace OOB.Config
         {
             _currentBaseDesc = rtDesc.Text;
         }
+
+        
+
         
     }
     // Helper class to compare feature actions based on their type.

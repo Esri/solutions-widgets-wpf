@@ -541,6 +541,7 @@ namespace OOB
 
             
             UpdateControls();
+            dsString = "";
             Boolean first = true;
             foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
             {
@@ -954,7 +955,7 @@ namespace OOB
                     InitLayer(dataSource);
 
                 }
-                if (_dataSources.Count > 0 && _dataSources.Count == numDs)
+                if (OOBDataSources.Count > 0 && OOBDataSources.Count == numDs)
                 {
                     if (!_map.IsLoaded)
                     {
