@@ -67,7 +67,7 @@ namespace OOB.Config
                 OOBName = initialCaption;
                 tb_title.Text = OOBName;
             }
-            if (oobdatasources != null)
+            if (oobdatasources.Count > 0)
             {
                 InitializeDataSources(oobdatasources);
             }

@@ -158,8 +158,12 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Label:" FontSize="10" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
-                        <TextBox x:Name="tbLabel" IsEnabled="false" Grid.Column="3" Grid.Row="0" Margin="0,0,10,0" TextChanged="tbLabel_TextChanged"/>
-                        <Border Name="labelBorder" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4" MouseUp="openLabelSelector"/>
+                        <TextBox x:Name="tbLabel" IsEnabled="true" Grid.Column="3" Grid.Row="0" Margin="0,0,10,0" TextChanged="tbLabel_TextChanged"/>
+                        <Border Name="labelBorder" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4" MouseUp="openLabelSelector">
+                            <StackPanel Height="30" Width="26">
+                                <Image Source="../Images/plus.png" Margin="0,-2,6.5,0" Height="23" RenderTransformOrigin="0.48,0.209" />
+                            </StackPanel>
+                        </Border>
                         <Popup Name="popLabel" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=labelBorder}">
                             <ListBox Name="lb_label" SelectionChanged="lb_label_SelectionChanged"/>
                         </Popup>
@@ -229,7 +233,11 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border Name="desc_Border" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4"  MouseUp="openDescSelector"/>
+                        <Border Name="desc_Border" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4"  MouseUp="openDescSelector">
+                            <StackPanel Height="30" Width="26">
+                                <Image Source="../Images/plus.png" Margin="0,-2,6.5,0" Height="23" RenderTransformOrigin="0.48,0.209" />
+                            </StackPanel>
+                        </Border>
                         <Popup  Name="popDesc" IsOpen="false" StaysOpen="False" PlacementTarget="{Binding ElementName=desc_Border}">
                             <ListBox Name="lb_desc" SelectionChanged="lb_desc_SelectionChanged"/>
                         </Popup>

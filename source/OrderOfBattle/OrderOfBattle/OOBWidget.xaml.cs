@@ -167,6 +167,9 @@ namespace OOB
         private Boolean _blocking = false;
         private Boolean _updating = false;
         private Int16 counter = -1;
+        
+        
+
         public OOBWidget()
         {
             _cm = new ContextMenu();
@@ -2863,7 +2866,7 @@ namespace OOB
             String quote = "\"";
             return quote + axis + quote + ":" + x.ToString();
         }
-    }        
+    }
 }
 
 

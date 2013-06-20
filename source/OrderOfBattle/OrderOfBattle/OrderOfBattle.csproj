@@ -126,7 +126,7 @@
     <Resource Include="Images\infantry.jpg" />
     <Resource Include="Images\map_start.png" />
     <Resource Include="Images\pan_1.bmp" />
-    <Resource Include="Images\plus.bmp" />
+    <Resource Include="Images\plus.png" />
     <Resource Include="Images\selection_2.bmp" />
     <Resource Include="Images\selection_rectangular_up.png" />
     <Resource Include="Images\show.png" />
