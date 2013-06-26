@@ -12,6 +12,14 @@ namespace OOB
     public class OOBCache
     {
         public OOBCache() { }
+        private client.Geometry.PointCollection geoCollection = new client.Geometry.PointCollection();
+        private client.Geometry.Envelope _cacheExtent = null;
+        public client.Geometry.Envelope CacheExtent {
+            get { 
+                client.Geometry.MultiPoint mp = new client.Geometry.MultiPoint(geoCollection);
+                return mp.Extent; 
+            }
+        }
         private Int32 r = 0;
         private Dictionary<String, Dictionary<String, Dictionary<String, object>>> _items = new Dictionary<String, Dictionary<String, Dictionary<String, object>>>();
         //private SymbolCatalog _symcat = new SymbolCatalog();
@@ -27,6 +35,43 @@ namespace OOB
             }
         }
         private Boolean _isDirty = false;
+        private void updateExtent(client.Geometry.MapPoint pt)
+        {
+            double xmin, ymin, xmax, ymax, ptX, ptY;
+            ptX = pt.X;
+            ptY = pt.Y;
+            if (_cacheExtent == null)
+            {
+                xmin = ptX - 1;
+                ymin = ptY - 1;
+                xmax = ptX + 1;
+                ymax = ptY + 1;
+                _cacheExtent = new client.Geometry.Envelope(xmin,ymin,xmax,ymax);
+                _cacheExtent.SpatialReference = pt.SpatialReference;
+            }
+            else
+            {
+                xmin = _cacheExtent.XMin;
+                ymin = _cacheExtent.YMin;
+                xmax = _cacheExtent.XMax;
+                ymax = CacheExtent.YMax;
+
+                if (ptX < xmin)
+                    xmin = ptX;
+                if (ptY < ymin)
+                    ymin = ptY;
+                if (ptX > xmax)
+                    xmax = ptX;
+                if (ptY > ymax)
+                    ymax = ptY;
+
+                _cacheExtent.XMin = xmin;
+                _cacheExtent.YMin = ymin;
+                _cacheExtent.XMax = xmax;
+                _cacheExtent.YMax = ymax;
+            }
+                
+        }
         public void AddFeatuereContainer(String key)
         {
             Dictionary<String, Dictionary<String, object>> fc = new Dictionary<String, Dictionary<String, object>>();
@@ -35,7 +80,7 @@ namespace OOB
             String updates_key = key + "_UPDATE";
             _items[updates_key] = ufc;
         }
-        public void AddFeature(String key, client.Graphic feature, String baseDesc, Dictionary<String, String> fields)
+        public void AddFeature(String key, client.Graphic feature, String baseDesc, String baseLabel, Dictionary<String, String> fields)
         {
             try
             {
@@ -43,9 +88,11 @@ namespace OOB
                 Dictionary<String, object> attributes = new Dictionary<String, object>();
 
                 object uid = null, hf = null, label = null, description = null;
+                client.Geometry.MapPoint pt = feature.Geometry as client.Geometry.MapPoint;
+                
                 uid = feature.Attributes[fields["UID"]];
                 hf = feature.Attributes[fields["HF"]];
-                label = parseLabel(feature, fields["LABELS"]);
+                label = parseLabel(feature, fields["LABELS"], baseLabel);
                 String descFlds = fields["DESCFLDS"];
                 String df = fields["DESCFIELD"];
                 description = createDescriptionString(feature, baseDesc, df, descFlds);
@@ -55,6 +102,13 @@ namespace OOB
                 {
                     if (!fList.ContainsKey(uid.ToString()))
                     {
+                        if (pt != null)
+                        {
+                            String coords = pt.X.ToString() + "," + pt.Y.ToString();
+                            attributes["COORDS"] = coords;
+                            attributes["POINT"] = pt;
+                            geoCollection.Add(pt);
+                        }
                         if (hf != null)
                         {
                             attributes["HF"] = hf.ToString();
@@ -102,23 +156,33 @@ namespace OOB
             }
         }
 
-        private String parseLabel(client.Graphic f, String label)
+        private String parseLabel(client.Graphic f, String label, String baseLabel)
         {
-            if (label == null)
+            if (String.IsNullOrEmpty(label))
                 return null;
-            if (label.Equals(""))
+            if (String.IsNullOrEmpty(baseLabel))
                 return null;
             String[] labelflds = label.Split(',');
             String l = "";
             
             for (Int32 i = 0; i < labelflds.Length; ++i)
             {
-                if(i != 0)
+                /*if(i != 0)
                 {
                     l += " ";
                 }
                 String fld = labelflds[i];
-                l += f.Attributes[fld];
+                l += f.Attributes[fld];*/
+                String fld = labelflds[i];
+                String lstring = "{" + fld + "}";
+                if (f.Attributes[fld] != null)
+                {
+                    l = baseLabel.Replace(lstring, f.Attributes[fld].ToString());
+                }
+                else
+                {
+                    l = baseLabel.Replace(lstring, "");
+                }
             }
             return l;
         }
@@ -172,20 +236,23 @@ namespace OOB
             }
             return d;
         }
-        public Boolean UpdateFeature(String key, String id, String baseDesc, client.Graphic feature, Dictionary<String, String> fields)
+        public Boolean UpdateFeature(String key, String id, String baseDesc, String baseLabel, client.Graphic feature, Dictionary<String, String> fields)
         {
             Boolean featureUpdated = false;
             Dictionary<String, Dictionary<String, object>> fList = _items[key];
-            Dictionary<String, object> attributes = new Dictionary<String, object>();
+            //Dictionary<String, object> attributes = new Dictionary<String, object>();
             Dictionary<String, object> f = fList[id];
+            client.Geometry.MapPoint pt = feature.Geometry as client.Geometry.MapPoint;
+            
             object hf = feature.Attributes[fields["HF"]];
             object currenthf = f["HF"];
-            object labelobj = parseLabel(feature, fields["LABELS"]);
+            object labelobj = parseLabel(feature, fields["LABELS"], baseLabel);
             String df = fields["DESCFIELD"];
             String descFlds = fields["DESCFLDS"];
             object descriptionobj = createDescriptionString(feature, baseDesc, df, descFlds);
             object currentLabel = f["LABEL"];
             object currentDescription = f["DESCRIPTION"];
+            object currentCoords = f["COORDS"];
             //object nameobj = feature.Attributes[fields["NAME"]];
             //object currentName = f["NAME"];
             
@@ -217,6 +284,31 @@ namespace OOB
                 {
                     f["HF"] = null;
                 }
+            }
+
+            if (pt != null)
+            {
+                String coords = pt.X.ToString() + "," + pt.Y.ToString();
+                if (currentCoords != null)
+                {
+                    if (!coords.Equals(currentCoords.ToString()))
+                    {
+                        f["COORDS"] = coords;
+                        client.Geometry.MapPoint cPoint = f["POINT"] as client.Geometry.MapPoint;
+                        geoCollection.Remove(cPoint);
+                        geoCollection.Add(pt);
+                        f["POINT"] = pt;
+                        featureUpdated = true;
+                    }
+                }
+                else
+                {
+                    f["COORDS"] = coords;
+                    f["POINT"] = pt;
+                    geoCollection.Add(pt);
+                    featureUpdated = true;
+                }
+                
             }
 
             if (labelobj != null)

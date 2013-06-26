@@ -53,7 +53,7 @@ namespace OOB.Config
         }
         private Boolean _showIcon = false;
         readonly static IFeatureAction[] _configFeatureActions = { new ZoomToFeatureAction(), new PanToFeatureAction(), new FollowFeatureAction(), new HighlightFeatureAction(), new ShowPopupFeatureAction()};
-        public OOBWidgetDialog(Dictionary<String, OOBDataSource> oobdatasources, string initialCaption,  IEnumerable<IFeatureAction>selectedFeatureActions, Boolean showIcon, OOBCache oobcache)
+        public OOBWidgetDialog(Dictionary<String, OOBDataSource> oobdatasources, string initialCaption,  IEnumerable<IFeatureAction>selectedFeatureActions,  OOBCache oobcache)
         {
             InitializeComponent();
             DataSourceSelector.IsEnabled = true;
@@ -71,17 +71,7 @@ namespace OOB.Config
             {
                 InitializeDataSources(oobdatasources);
             }
-            ShowIcon = showIcon;
-            if (showIcon)
-            {
-                rb_Symbol.IsChecked = true;
-                rb_none.IsChecked = false;
-            }
-            else
-            {
-                rb_Symbol.IsChecked = false;
-                rb_none.IsChecked = true;
-            }
+            
             
             InitializeFeatureActions(selectedFeatureActions);
         }
@@ -104,9 +94,55 @@ namespace OOB.Config
             if (lb_label.SelectedItem == null)
                 return;
             String n = lb_label.SelectedItem.ToString();
+            
+            
             String lval = "{" + n + "} ";
-            tbLabel.Text = curLabelVal += lval;
-            _currentLabelList.Add(n);
+            
+            if (curLabelVal.Length > 0)
+            {
+                curLabelVal += " ";
+            }
+            curLabelVal += lval;
+            tbLabel.Text = curLabelVal;
+            if(!_currentLabelList.Contains(n))
+            {
+                _currentLabelList.Add(n);
+            }
+            if (listDs.SelectedIndex > -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    if (!ods.LabelFields.Contains(n))
+                    {
+                        ods.LabelFields.Add(n);
+                    }
+                    if (ods.UseIcon)
+                    {
+                        rb_Symbol.IsChecked = true;
+                    }
+                    if (ods.DescType != null)
+                    {
+                        setDescType(ods.DescType);
+                    }
+                }
+            }
+        }
+
+        private void setDescType(DescriptionType dtype)
+        {
+            if (dtype == DescriptionType.None)
+            {
+                rb_descNone.IsChecked = true;
+            }
+            else if (dtype == DescriptionType.SingleField)
+            {
+                rb_descSinglefld.IsChecked = true;
+            }
+            else if (dtype == DescriptionType.Custom)
+            {
+                rb_descCustom.IsChecked = true;
+            }
         }
 
         private void updateCurrentDatasource(object sender, RoutedEventArgs e)
@@ -140,23 +176,11 @@ namespace OOB.Config
                 }
                 _currentLabelList = ods.LabelFields;
                 _currentDescList = ods.DescriptionFields;
-                Boolean first = true;
-                curLabelVal = "";
-                foreach (String l in _currentLabelList)
-                {
-                    if (!first)
-                    {
-                        curLabelVal += " ";
-                    }
-                    else
-                    {
-                        first = false;
-                    }
-                    curLabelVal += "{" + l + "}";
-                }
-                first = true;
+                rb_Symbol.IsChecked = ods.UseIcon;
+                setDescType(ods.DescType);
                 rtDesc.Text = ods.BaseDescription;
-                tbLabel.Text = curLabelVal;
+                tbLabel.Text = ods.BaseLabel;
+                //tbLabel.Text = curLabelVal;
             }
             else
             {
@@ -173,6 +197,7 @@ namespace OOB.Config
                 singleFieldGrid.Visibility = System.Windows.Visibility.Collapsed;
                 CustomDescGrid.Visibility = System.Windows.Visibility.Collapsed;
                 rtDesc.IsEnabled = false;
+                
             }
             else if ((Boolean)rb_descSinglefld.IsChecked)
             {
@@ -190,6 +215,14 @@ namespace OOB.Config
                 cbItemDesc.IsEnabled = false;
                 rtDesc.IsEnabled = true;
             }
+            if (listDs.SelectedIndex > -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    ods.DescType = _currentDescType;
+                }
+            }
         }
 
         private void set_ShowIcon(object sender, RoutedEventArgs e)
@@ -201,6 +234,14 @@ namespace OOB.Config
             else if ((Boolean)rb_Symbol.IsChecked)
             {
                 _showIcon = true;
+            }
+            if (listDs.SelectedIndex > -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    ods.UseIcon = _showIcon;
+                }
             }
         }
 
@@ -301,8 +342,8 @@ namespace OOB.Config
             }
             ods.DescType = _currentDescType;
             ods.BaseDescription=_currentBaseDesc;
-            
-
+            ods.BaseLabel = curLabelVal;
+            ods.UseIcon = _showIcon;
             _datasources.Add(ods.Key, ods);
             AddDatasourceToCache(ods);
             ResetComboBoxes(ds, sender);
@@ -465,7 +506,7 @@ namespace OOB.Config
                 //fl.Update();
                 foreach (client.Graphic g in fl.Graphics)
                 {
-                    cache.AddFeature(CacheName, g, ods.BaseDescription, fields);
+                    cache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields);
                 }
                 ods.IsCacheCreated = true;
                 
@@ -498,6 +539,15 @@ namespace OOB.Config
 
         private void tbLabel_TextChanged(object sender, TextChangedEventArgs e)
         {
+            curLabelVal  = tbLabel.Text;
+            if (listDs.SelectedIndex> -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    ods.BaseLabel = curLabelVal;
+                }
+            }
             if (!String.IsNullOrEmpty(tbLabel.Text))
             {
                 ValidateInput(sender, e);
@@ -523,13 +573,32 @@ namespace OOB.Config
             _currentBaseDesc += dval;
             rtDesc.Text = _currentBaseDesc;
             _currentDescList.Add(n);
+            if (listDs.SelectedIndex > -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    if (!ods.DescriptionFields.Contains(n))
+                    {
+                        ods.DescriptionFields.Add(n);
+                    }
+                }
+            }
         }
 
         private void rtDesc_TextChanged(object sender, TextChangedEventArgs e)
         {
             _currentBaseDesc = rtDesc.Text;
+            if (listDs.SelectedIndex > -1)
+            {
+                OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
+                if (ods != null)
+                {
+                    ods.BaseDescription = curLabelVal;
+                }
+            }
         }
-
+       
         
 
         

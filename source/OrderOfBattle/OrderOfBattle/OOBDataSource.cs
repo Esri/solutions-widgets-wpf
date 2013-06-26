@@ -92,6 +92,12 @@ namespace OOB
             get { return _baseDesc; }
             set { _baseDesc = value; }
         }
+        private String _baseLabel = "";
+        public String BaseLabel
+        {
+            get { return _baseLabel; }
+            set { _baseLabel = value; }
+        }
         private String _descField;
         public String DescField
         {
@@ -104,15 +110,19 @@ namespace OOB
                 _descField = value;
             }
         }
-
-        
-        public OOBDataSource(DataSource ds, String key)
+        private Boolean _useIcon;
+        public Boolean UseIcon
         {
-            _ds = ds;
-            _name = ds.Name;
-            _id = ds.Id;
-            _key = key;
+            get
+            {
+                return _useIcon;
+            }
+            set
+            {
+                _useIcon = value;
+            }
         }
+        
         private String _key;
         public String Key
         {
@@ -145,12 +155,22 @@ namespace OOB
                 _isCacheUpdated = value;
             }
         }
+
+        public OOBDataSource(DataSource ds, String key)
+        {
+            _ds = ds;
+            _name = ds.Name;
+            _id = ds.Id;
+            _key = key;
+        }
+
         public String Serialize()
         {
             String val = "";
             val += "KEY:" + _key +",";
             val += "NAME:" + _name + ",";
             val += "ID:" + _id+ ",";
+            val += "USEICON:" + _useIcon.ToString() + ",";
             val += "UIDFLD:" + _uidfld + ",";
             val += "HFFLD:" + _hffld + ",";
             val += "LBLFLDS:";
@@ -169,6 +189,7 @@ namespace OOB
             val += ",";
             val += "DESCFLD:" + _descField + ",";
             val += "BASEDESC:" + _baseDesc + ",";
+            val += "BASELABEL:" + _baseLabel + ",";
             val += "DESCTYPE:" + _dType + ",";
             val += "DESCFLDS:";
             first = true;
@@ -190,10 +211,13 @@ namespace OOB
             String key = null;
             String name = null;
             String id = null;
+            String useiconstring = null;
+            Boolean useicon = false;
             String uid = null;
             String hf = null;
             String df = null;
             String baseDesc = null;
+            String baseLabel = null;
             String dtstring = null;
             String[] lflds = null;
             String[] dflds = null;
@@ -213,6 +237,14 @@ namespace OOB
                 if (vals[0].Equals("ID"))
                 {
                     id = vals[1];
+                }
+                if (vals[0].Equals("USEICON"))
+                {
+                    useiconstring = vals[1];
+                    if(useiconstring.ToLower().Equals("true"))
+                    {
+                        useicon = true;
+                    }
                 }
                 if (vals[0].Equals("UIDFLD"))
                 {
@@ -234,6 +266,10 @@ namespace OOB
                 {
                     baseDesc = vals[1];
                 }
+                if (vals[0].Equals("BASELABEL"))
+                {
+                    baseLabel = vals[1];
+                }
                 if (vals[0].Equals("DESCTYPE"))
                 {
                     dtstring = vals[1];
@@ -248,7 +284,9 @@ namespace OOB
             ods.UIDField = uid;
             ods.HFField = hf;
             ods.DescField = df;
+            ods.UseIcon = useicon;
             ods.BaseDescription = baseDesc;
+            ods.BaseLabel = baseLabel;
             DescriptionType dtype = DescriptionType.None;
             if (dtstring.Equals("None"))
             {

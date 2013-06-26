@@ -145,7 +145,7 @@
                     </Popup>
                     <TextBlock  Name="txtSelectMode" FontSize="10" Text="Selection Mode: Unit only" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,0,0"/>
 
-                    <TreeView x:Name ="tv"  Grid.Row="2" Grid.ColumnSpan="4" Margin="10,10,10,10" BorderThickness="0">
+                    <TreeView x:Name ="tv"  Grid.Row="2" Grid.ColumnSpan="4" Margin="10,10,10,10" BorderThickness="0" SelectedItemChanged="TreeView_OnSelectedItemChanged">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding root.Children}">
                                 <StackPanel Orientation="Horizontal">

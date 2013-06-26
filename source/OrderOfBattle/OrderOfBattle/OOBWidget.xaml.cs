@@ -41,10 +41,14 @@ namespace OOB
         Follow,
         Popup
     }
-
+    public enum extentType
+    {
+        min,
+        max
+    }
     [Export("ESRI.ArcGIS.OperationsDashboard.Widget")]
     [ExportMetadata("DisplayName", "Order of Battle")]
-    [ExportMetadata("Description", "Display features in schema defined hierarchical structure")]
+    [ExportMetadata("Description", "Display features in schema defined hierarchical structure. Version 10.1.1")]
     [ExportMetadata("ImagePath", "/OrderOfBattle;component/Images/infantry.jpg")]
     [ExportMetadata("DataSourceRequired", true)]
     [DataContract]
@@ -127,17 +131,7 @@ namespace OOB
         public string[] _datasourceids { get; set; }
 
         [DataMember(Name = "showIcon")]
-        public Boolean ShowIcon
-        {
-            get
-            {
-                return _showIcon;
-            }
-            set
-            {
-                _showIcon = value;
-            }
-        }
+        
         private Boolean _showIcon = false;
         public Dictionary<String, String> OOBDsStrings = new Dictionary<String, String>();
 
@@ -514,14 +508,14 @@ namespace OOB
 
 
 
-            Config.OOBWidgetDialog dialog = new Config.OOBWidgetDialog(OOBDataSources, Caption, FeatureActions, ShowIcon, oobcache) { Owner = owner };
+            Config.OOBWidgetDialog dialog = new Config.OOBWidgetDialog(OOBDataSources, Caption, FeatureActions, oobcache) { Owner = owner };
             if (dialog.ShowDialog() != true)
                 return false;
             Caption = dialog.OOBName;
             OOBDsStrings = dialog.OOBDsStrings;
             oobDsString = dialog.oobdsstring;
             
-            ShowIcon = dialog.ShowIcon;
+            //ShowIcon = dialog.ShowIcon;
             
             _oobDataSources = dialog.OOBDataSources;
             FeatureActions = dialog.SelectedFeatureActions;
@@ -726,7 +720,7 @@ namespace OOB
                 //fl.Update();
                 foreach (client.Graphic g in fl.Graphics)
                 {
-                    oobcache.AddFeature(CacheName, g, ods.BaseDescription, fields);
+                    oobcache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields);
                 }
                 ods.IsCacheCreated = true;
             }
@@ -789,12 +783,7 @@ namespace OOB
 
                 UpdateTreeView(root, tv.Items);
 
-                CancelShowButton.IsEnabled = false;
-                ShowFeaturesButton.IsEnabled = false;
-                SelectFeaturesButton.IsEnabled = false;
-                ZoomToSelectedButton.IsEnabled = false;
-                PanToSelectedButton.IsEnabled = false;
-                ClearSelectionButton.IsEnabled = false;
+                
 
             }
         }
@@ -1083,13 +1072,13 @@ namespace OOB
                     {
                         if (!featureCache.ContainsKey((g.Attributes[Uid]).ToString()))
                         {
-                            oobcache.AddFeature(key, g, ods.BaseDescription, fields);
+                            oobcache.AddFeature(key, g, ods.BaseDescription, ods.BaseLabel, fields);
                             _cacheDirty = true;
 
                         }
                         else
                         {
-                            if (oobcache.UpdateFeature(key, g.Attributes[Uid].ToString(), ods.BaseDescription, g, fields))
+                            if (oobcache.UpdateFeature(key, g.Attributes[Uid].ToString(), ods.BaseDescription, ods.BaseLabel, g, fields))
                             {
                                 _cacheDirty = true;
                             }
@@ -1159,6 +1148,7 @@ namespace OOB
             String updatekey = updatetype + "_UPDATE";
             Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatekey);
             OOBDataSource ods = OOBDataSources[updatetype];
+            Boolean useIcon = ods.UseIcon;
             DataSource ds = OOBDataSources[updatetype].DataSource;
             String uid = null;
             object hfuidobj = null;
@@ -1231,7 +1221,7 @@ namespace OOB
                 {
                     desclabel = descobject.ToString();
                 }
-                if (ShowIcon)
+                if (useIcon)
                 {
                     if (pair.Value["ICON"] != null)
                     {
@@ -1256,6 +1246,7 @@ namespace OOB
             Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatetype);
             OOBDataSource ods = OOBDataSources[updatetype];
             DataSource ds = OOBDataSources[updatetype].DataSource;
+            Boolean useIcon = ods.UseIcon;
             String uid = null;
             object hfuidobj = null;
             object flabelobj = null;
@@ -1327,7 +1318,7 @@ namespace OOB
                 {
                     desclabel = descobject.ToString();
                 }
-                if (ShowIcon)
+                if (useIcon)
                 {
                     if (pair.Value["ICON"] != null)
                     {
@@ -2242,6 +2233,7 @@ namespace OOB
             {
                 dsList.Add(dataSrc);
             }
+            //q.SpatialFilter = oobcache.CacheExtent;
             QueryResult result = await dataSrc.ExecuteQueryAsync(q);
             if (result.Features.Count > 0)
             {
@@ -2331,6 +2323,7 @@ namespace OOB
             zoomToSelected();
         }
 
+        
         private void zoomToSelected()
         {
             client.Geometry.MultiPoint selFeatGeo = new client.Geometry.MultiPoint(selGeo);
@@ -2340,14 +2333,22 @@ namespace OOB
             if (mapW != null)
             {
                 client.Geometry.Envelope extent = null;
+                double xmin, ymin, xmax, ymax;
                 if (selFeatGeo.Points.Count > 0)
                 {
-                    double xmin = selFeatGeo.Extent.XMin - 1000;
-                    double xmax = selFeatGeo.Extent.XMax + 1000;
-                    double ymin = selFeatGeo.Extent.YMin - 1000;
-                    double ymax = selFeatGeo.Extent.YMax + 1000;
-                    extent = new client.Geometry.Envelope(xmin, ymin, xmax, ymax);
-                    extent.SpatialReference = selFeatGeo.Extent.SpatialReference;
+                    if (selFeatGeo.Points.Count == 1)
+                    {
+                        xmin = CoordinateHelper.expandCoord(selFeatGeo.Extent.XMin, extentType.min);
+                        ymin = CoordinateHelper.expandCoord(selFeatGeo.Extent.YMin, extentType.min);
+                        xmax = CoordinateHelper.expandCoord(selFeatGeo.Extent.XMax, extentType.max);
+                        ymax = CoordinateHelper.expandCoord(selFeatGeo.Extent.YMax, extentType.max);
+                        extent = new client.Geometry.Envelope(xmin, ymin, xmax, ymax);
+                        extent.SpatialReference = selFeatGeo.Extent.SpatialReference;
+                    }
+                    else
+                    {
+                        extent = selFeatGeo.Extent.Expand(1.1);
+                    }
                 }
                 mapW.Map.ZoomTo(extent);
             }
@@ -2865,6 +2866,28 @@ namespace OOB
         {
             String quote = "\"";
             return quote + axis + quote + ":" + x.ToString();
+        }
+    }
+
+    public class CoordinateHelper
+    {
+        public static double expandCoord(double c, extentType t)
+        {
+            if (t == extentType.max)
+            {
+                if (c < 0)
+                    return c * 0.9999;
+                else
+                    return c * 1.0001;
+
+            }
+            else
+            {
+                if (c < 0)
+                    return c * 1.0001;
+                else
+                    return c * 0.9999;
+            }
         }
     }
 }
