@@ -1,0 +1,168 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="OOB.OOBWidget"
+             xmlns:esri="http://schemas.esri.com/arcgis/client/2009"
+             xmlns:esriBehaviors="clr-namespace:ESRI.ArcGIS.Client.Behaviors;assembly=ESRI.ArcGIS.Client.Behaviors"
+             
+             mc:Ignorable="d"
+             d:DesignHeight="620" Width="305">
+
+    <UserControl.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:Microsoft_Windows_Themes= 
+                    "clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Name="OOBResources">
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0" Grid.Row="1"  Grid.ColumnSpan="2"  >
+            <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Margin="5,5,5,5" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Height="20">
+                    <Button Name="btnTools"   Click="openTools" ToolTip="Tools">
+                        <StackPanel Height="20" Width="20">
+                                <Image Source="Images/wrench.png" HorizontalAlignment="Center" Height="12" Width="12" Margin="0,1.5,2,0"/>
+                        </StackPanel>
+                    </Button>
+                     </Grid>
+                        <Popup Name="popTools" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=btnTools}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                                <Button  Name="SelectFeaturesButton" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Click="select" Grid.Column="1" Grid.Row="0" ToolTip="Select Features">
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/selection_rectangular_up.png" Margin="0,0,-0.4,0" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="ShowFeaturesButton" Width="30"  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row ="0" Grid.Column="3" Click="show" ToolTip="Filter features">
+                                    <StackPanel Height="30" Width="26">
+                                        <Image Source="Images/show.png" Margin="0,0,-0.4,0" />
+                                    </StackPanel>
+
+                                </Button>
+                                <Button Name="ClearSelectionButton" Width="30"  Grid.Row ="0" Grid.Column="2" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="clear_selection" ToolTip="Clear selection">
+                                    <StackPanel Height="30" Width="26">
+                                        <Image Source="Images/clear_selection.png" Margin="0,0,-0.4,0" RenderTransformOrigin="0.531,2.594" />
+                                    </StackPanel>
+                                </Button>
+                                <Button  Name="ZoomToSelectedButton" Grid.Row ="0" Grid.Column="5" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="30" Click="zoom_to_selected" IsEnabled="False" ToolTip="Zoom to selected features" >
+                                    <StackPanel Height="30" Width="26">
+                                        <Image Source="Images/gnome_zoom_fit_best.png" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="PanToSelectedButton" Grid.Row ="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30" Click="pan_to_selected" ToolTip="Pan to selected features">
+                                    <StackPanel Height="30" Width="26">
+                                        <Image Source="Images/cursor_hand_select.png" Margin="0,0,-0.4,0" Height="23" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="CancelShowButton" Grid.Row ="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30"  Click="clear_showFeatures" ToolTip="Cancel filter">
+                                    <StackPanel Height="30" Width="26">
+                                        <Image Source="Images/cancel_show.png" Margin="0,0,-0.4,0" Height="23" />
+                                    </StackPanel>
+                                </Button>
+                        </Grid>
+                    </Popup >
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Height="20">
+                    <Button Grid.Row ="0" Grid.Column="0" Name="btnSelectionMode"  Click="openSelectionConfig" ToolTip="Configure selection">
+                            <StackPanel Height="20" Width="20" >
+                                <Image Source="Images/settings.png" Width="10" Height="10" Margin="0,3,3.6,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <Popup Name="popSelect" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=btnSelectionMode}">
+                        <Grid Width="150" Background="White">
+                            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" Background="#fafafc"   CornerRadius="10" Visibility="Visible">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+
+                                        <RowDefinition Height="5"/>
+                                        <RowDefinition Height="70"/>
+
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="5"/>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition Height="15"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Selection"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                        <Separator BorderBrush="Blue" BorderThickness="1" Grid.Row="1" Grid.ColumnSpan="3"/>
+                                        <CheckBox  TextElement.FontSize="10" Click="set_Mode" x:Name="chkUnit" Content="Unit"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column ="0" Grid.Row="2" IsChecked="True"/>
+                                        <CheckBox  TextElement.FontSize="10" Click="set_Mode" x:Name="chkSubordinate" Content="Subordinate"  HorizontalAlignment="Left" VerticalAlignment="Bottom"   Grid.Row="3"/>
+                                        <RadioButton  TextElement.FontSize="10" Click="set_Mode" x:Name="rbImmediate" Content="Immediate"  HorizontalAlignment="Left" VerticalAlignment="Bottom"   Grid.Row="4" Margin="0,0,0,0.2" Width="75" IsEnabled="False"/>
+                                        <RadioButton  TextElement.FontSize="10" Click="set_Mode" x:Name="rbAll" Content="All" HorizontalAlignment="Left"   VerticalAlignment="Bottom" Grid.Row="4" Grid.Column="1" IsEnabled="False"/>
+                                    </Grid>
+
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Popup>
+                    <TextBlock  Name="txtSelectMode" FontSize="10" Text="Selection Mode: Unit only" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,0,0"/>
+
+                    <TreeView x:Name ="tv"  Grid.Row="2" Grid.ColumnSpan="4" Margin="10,10,10,10" BorderThickness="0" SelectedItemChanged="TreeView_OnSelectedItemChanged">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding root.Children}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Name}"/>
+                                    <TextBlock>
+                                <StackPanel>
+                                    <Image Source="{Binding Path=Icon}"/>
+                                </StackPanel>
+                                    </TextBlock>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Grid>
+
+</UserControl>
