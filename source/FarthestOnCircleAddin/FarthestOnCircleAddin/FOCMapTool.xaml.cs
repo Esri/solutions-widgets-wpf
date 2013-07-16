@@ -47,7 +47,7 @@ namespace FarthestOnCircleAddin
         public FOCMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"http://dtcrugmo01.esri.com:6080/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle";
+            ServiceURL = @"https://afmcomstaging.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle";
         }
 
         #region IMapTool
