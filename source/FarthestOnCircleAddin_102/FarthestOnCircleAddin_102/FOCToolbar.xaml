@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="FarthestOnCircleAddin_102.FOCToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             mc:Ignorable="d" 
+             d:DesignHeight="32" d:DesignWidth="400">
+    <Grid HorizontalAlignment="Stretch">
+        <Border MinHeight="32" Padding="5,0,5,0" BorderThickness="0,0,1,0" BorderBrush="LightGray" HorizontalAlignment="Stretch"
+            Background="{DynamicResource ApplicationBackgroundBrush}">
+
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,-408,0">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,5,10,5" Text="Range for Analysis in Nautical Miles:"></TextBlock>
+                <TextBox x:Name="Range" HorizontalAlignment="Center" VerticalAlignment="Center" Width="46" Text="150"></TextBox>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,5,10,5" Text="Average Speed in Knots (kts):"></TextBlock>
+                <TextBox x:Name="Speed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="46" Text="10" Margin="10,5,10,5" TextChanged="Speed_TextChanged"></TextBox>
+
+                <Button x:Name="ClickMapButton" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
+           ToolTip="FOCToolbar Button Tooltip" Click="ClickMapButton_Click_1" Margin="10,5,10,5">
+                    <TextBlock Text="Click Map"/>
+                </Button>
+                <Button x:Name="RunButton" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
+              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1" IsEnabled="False">
+                    <TextBlock Text="Run"/>
+                </Button>
+                <Button x:Name="ClearButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
+              ToolTip="FOCToolbar Button Tooltip" Click="ClearButton_Click_1">
+                    <TextBlock Text="Clear"/>
+                </Button>
+                <Button x:Name="DoneButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5"  Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
+                         ToolTip="Exit Toolbar" Click="DoneButton_Click" Width="37">
+                    <TextBlock Text="X"/>
+                </Button>
+            </WrapPanel>
+
+            <Border.Effect>
+                <DropShadowEffect Color="LightGray" BlurRadius="3" ShadowDepth="3" Direction="270" />
+            </Border.Effect>
+        </Border>
+
+    </Grid>
+</UserControl>
