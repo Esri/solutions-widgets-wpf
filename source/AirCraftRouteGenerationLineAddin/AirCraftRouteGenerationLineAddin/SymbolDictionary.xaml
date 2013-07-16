@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
+    <esri:PictureMarkerSymbol x:Key="RedPin" OffsetY="10" OffsetX="10" Source="Images/RedPin1LargeB.png" Height="20" Width="20"/>
+    <esri:LineSymbol x:Key="BasicLineSymbol_Green_3" Color="Green" Width="3" />
+
+    <esri:SimpleRenderer x:Key="RouteRenderer">
+        <esri:SimpleRenderer.Symbol>
+            <esri:LineSymbol>
+                <esri:LineSymbol.ControlTemplate>
+                    <ControlTemplate>
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation BeginTime="0:0:0" Storyboard.TargetName="Element" 
+                                                                                 Storyboard.TargetProperty="StrokeDashOffset" 
+                                                                                 To="1000" Duration="0:3:0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <!--For polyline and polygon template, a Path 
+                                                    element with the name "Element" is required-->
+                            <Path x:Name="Element" StrokeDashArray="2,1" StrokeDashOffset="0"
+                                                     Stroke="Green" StrokeThickness="5" />
+                        </Grid>
+                    </ControlTemplate>
+                </esri:LineSymbol.ControlTemplate>
+            </esri:LineSymbol>
+        </esri:SimpleRenderer.Symbol>
+    </esri:SimpleRenderer>
+</ResourceDictionary>
