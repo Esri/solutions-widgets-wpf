@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BF5BDA98-9901-4267-949D-A518EA02D638}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SatelliteEphemerisGenerationAddin_102</RootNamespace>
+    <AssemblyName>SatelliteEphemerisGenerationAddin_102</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
+    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
+    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
+    <!--set ReferenceFolder depending on 32bit or 64bit machine-->
+    <ReferenceFolder Condition="Exists('$(ReferenceFolder32)')">$(ReferenceFolder32)</ReferenceFolder>
+    <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ESRI.ArcGIS.Client">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.OperationsDashboard">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\SatelliteConfig.xaml.cs">
+      <DependentUpon>SatelliteConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SatelliteEphemerisGenerationsMapTool.xaml.cs">
+      <DependentUpon>SatelliteEphemerisGenerationsMapTool.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SatelliteEphemerisGenerationToolbar.xaml.cs">
+      <DependentUpon>SatelliteEphemerisGenerationToolbar.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Config\SatelliteConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SatelliteEphemerisGenerationsMapTool.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SatelliteEphemerisGenerationToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SymbolDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\BluePin1LargeB.png" />
+    <Resource Include="Images\RedPin1LargeB.png" />
+    <Resource Include="Images\Satellite.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
+    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
+    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
+    <!--set IDEIntegrationFolder depending on 32bit or 64bit machine-->
+    <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder32)')">$(IDEIntegrationFolder32)</IDEIntegrationFolder>
+    <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder64)')">$(IDEIntegrationFolder64)</IDEIntegrationFolder>
+  </PropertyGroup>
+  <Import Project="$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets" Condition="Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')" />
+  <Target Name="BeforeBuild" Condition="!Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')">
+    <Error Text="The Esri WPF SDK is not correctly installed - 'ESRI.ArcGIS.OperationsDashboard.targets' not found (IDEIntegrationFolder='$(IDEIntegrationFolder)')." />
+  </Target>
+  <Target Name="AfterBuild">
+    <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
+  </Target>
+</Project>

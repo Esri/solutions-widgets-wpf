@@ -1,4 +1,5 @@
-﻿/* Copyright 2013 Esri
+﻿
+/* Copyright 2013 Esri
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ using System.Runtime.Serialization;
 using ESRI.ArcGIS.OperationsDashboard;
 using client = ESRI.ArcGIS.Client;
 
-namespace FarthestOnCircleAddin
+namespace FarthestOnCircleAddin_102
 {
     /// <summary>
     /// A MapTool is an extension to Operations Dashboard for ArcGIS which can be configured to appear in the toolbar 
@@ -35,7 +35,7 @@ namespace FarthestOnCircleAddin
     [Export("ESRI.ArcGIS.OperationsDashboard.MapTool")]
     [ExportMetadata("DisplayName", "Farthest On Circle Map Tool")]
     [ExportMetadata("Description", "The Farthest on Circle tool runs by allowing the user to input the last known position, the range that the user wants the analysis to run, and the speed for the unknown vessel. What the tool will do is buffer the position of the last known location by the range and breaks the range into hour increments dependent on the speed of the unknown vessel.")]
-    [ExportMetadata("ImagePath", "/FarthestOnCircleAddin;component/Images/FarthestOnCircleTool.png")]
+    [ExportMetadata("ImagePath", "/FarthestOnCircleAddin_102;component/Images/FarthestOnCircleTool.png")]
     [DataContract]
     public partial class FOCMapTool : UserControl, IMapTool
     {
@@ -93,7 +93,7 @@ namespace FarthestOnCircleAddin
         /// <returns>True if the user clicks ok, otherwise false.</returns>
         public bool Configure(System.Windows.Window owner)
         {
-            Config.FarthestonCircleDialog dialog = new Config.FarthestonCircleDialog();
+            Config.FarthestOnCircleDialog dialog = new Config.FarthestOnCircleDialog();
             if (dialog.ShowDialog() != true)
                 return false;
 

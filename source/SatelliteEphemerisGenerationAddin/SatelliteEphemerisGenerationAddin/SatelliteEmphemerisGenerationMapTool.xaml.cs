@@ -1,19 +1,4 @@
-﻿/* Copyright 2013 Esri
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,28 +11,29 @@ using System.Runtime.Serialization;
 using ESRI.ArcGIS.OperationsDashboard;
 using client = ESRI.ArcGIS.Client;
 
-namespace FarthestOnCircleAddin
+namespace SatelliteEphemerisGenerationAddin
 {
     /// <summary>
     /// A MapTool is an extension to Operations Dashboard for ArcGIS which can be configured to appear in the toolbar 
     /// of the map widget, providing a custom map tool.
     /// </summary>
     [Export("ESRI.ArcGIS.OperationsDashboard.MapTool")]
-    [ExportMetadata("DisplayName", "Farthest On Circle Map Tool")]
-    [ExportMetadata("Description", "The Farthest on Circle tool runs by allowing the user to input the last known position, the range that the user wants the analysis to run, and the speed for the unknown vessel. What the tool will do is buffer the position of the last known location by the range and breaks the range into hour increments dependent on the speed of the unknown vessel.")]
-    [ExportMetadata("ImagePath", "/FarthestOnCircleAddin;component/Images/FarthestOnCircleTool.png")]
+    [ExportMetadata("DisplayName", "Satellite Ephemeris Generation Map Tool")]
+    [ExportMetadata("Description", "Generates the ephemeris for a satellite using the AGI application server. Also generates the corresponding sensor swath.")]
+    [ExportMetadata("ImagePath", "/SatelliteEphemerisGenerationAddin;component/Images/Satellite.png")]
     [DataContract]
-    public partial class FOCMapTool : UserControl, IMapTool
+    public partial class SatelliteEmphemerisGenerationMapTool : UserControl, IMapTool
     {
-        private FOCToolbar _focToolbar = null;
+        private SatelliteEphemerisGenerationToolbar _segToolbar = null;
 
         [DataMember(Name = "serviceUrl")]
         public string ServiceURL { get; set; }
 
-        public FOCMapTool()
+        public SatelliteEmphemerisGenerationMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"https://afmcomstaging.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle";
+            ServiceURL = @"http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/SatelliteEphemerisGeneration/GPServer/Satellite%20Ephemeris%20Generation";
+
         }
 
         #region IMapTool
@@ -93,7 +79,7 @@ namespace FarthestOnCircleAddin
         /// <returns>True if the user clicks ok, otherwise false.</returns>
         public bool Configure(System.Windows.Window owner)
         {
-            Config.FarthestonCircleDialog dialog = new Config.FarthestonCircleDialog();
+            Config.SatelliteConfig dialog = new Config.SatelliteConfig();
             if (dialog.ShowDialog() != true)
                 return false;
 
@@ -111,10 +97,15 @@ namespace FarthestOnCircleAddin
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // Provide map tool behaviour, for example, add mouse handling to the Map, 
+            // or install a custom toolbar using MapWidget.SetToolbar
+            // MapWidget.SetToolbar(new MyMapToolbar(MapWidget));
+
+            // Set the Checked property of the ToggleButton to false after work is complete.
             if ((MapWidget != null) && (MapWidget.Map != null))
             {
-                _focToolbar = new FOCToolbar(MapWidget, ServiceURL);
-                MapWidget.SetToolbar(_focToolbar);
+                _segToolbar = new SatelliteEphemerisGenerationToolbar(MapWidget, ServiceURL);
+                MapWidget.SetToolbar(_segToolbar);
             }
         }
 
