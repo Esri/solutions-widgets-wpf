@@ -134,8 +134,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)SatelliteEphemerisGenerationAddin_102.opdashboardAddin" "C:\MyData\GitHub\solutions-widgets-wpf\application\SatelliteEphemerisGenerationAddin.opdashboardAddin"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->

@@ -523,8 +523,10 @@ namespace RangeFanAddin_102
                     System.Diagnostics.Debug.WriteLine("Refresh:  " + oIds[count].ToString());
                     count++;
                 }
+                Query q = new Query();
+                q.ReturnGeometry = true;
 
-                var result = await dataSource.ExecuteQueryObjectIdsAsync(oIds, new Query());
+                var result = await dataSource.ExecuteQueryObjectIdsAsync(oIds, q);
                 if (result == null || result.Features == null)
                     return;
 

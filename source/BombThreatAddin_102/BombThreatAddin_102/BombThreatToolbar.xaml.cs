@@ -413,7 +413,7 @@ namespace BombThreatAddin_102
                     graphic.Geometry = location;
 
                     GeometryService geometryTask = new GeometryService();
-                    geometryTask.Url = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer";
+                    geometryTask.Url = "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer";
                     geometryTask.BufferCompleted += GeometryService_BufferCompleted;
                     geometryTask.Failed += GeometryService_Failed;
 

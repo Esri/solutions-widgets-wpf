@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BombThreatAddin", "BombThreatAddin\BombThreatAddin.csproj", "{6777F764-A042-46A6-A2DC-8A8DB2978A22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTestProject2\UnitTestProject2.csproj", "{DFA4AF4C-070C-4006-844F-47E4127D6580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{6777F764-A042-46A6-A2DC-8A8DB2978A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6777F764-A042-46A6-A2DC-8A8DB2978A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6777F764-A042-46A6-A2DC-8A8DB2978A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA4AF4C-070C-4006-844F-47E4127D6580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA4AF4C-070C-4006-844F-47E4127D6580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA4AF4C-070C-4006-844F-47E4127D6580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA4AF4C-070C-4006-844F-47E4127D6580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

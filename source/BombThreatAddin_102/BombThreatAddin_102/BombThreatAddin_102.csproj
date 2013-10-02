@@ -45,13 +45,13 @@
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Client">
+    <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <HintPath>..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -118,14 +118,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)BombThreatAddin_102.opDashboardAddin" "C:\MyData\GitHub\solutions-widgets-wpf\application\BombThreatAddin.opDashboardAddin"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
