@@ -1,14 +1,14 @@
-# Range Fan Addin
+# Order of Battle Addin
 
-  The main function of this addin is to create range fans for features from the bearing, traversal, and range specified in the configuration of the widget. The addin also allows for managing the fans that are created with a widget containing of list of the features that have fans.  You can remove a range fan from the widget using the feature action remove fan.  This addin is contains a widget and two feature actions for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  If the datasource is dynamic the range fan will update as the features location changes.
+  The Order of Battle Widget organizes data layers (units and equipment) into hierarchical structures using a schema defined for military features.  While the tool is designed to represent military units and equipment, any features adhering to the military features schema for units and equipment may be represented in the Order of Battle widget.
 
 ![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
 ## Features
 
 * Configure the widget when you add it to an operation view.  
-* Use the Create Range Fan Feature Action on a feature to create the range fan and it will get added to the widget list.  
-* Use the Remove Range Fan feature action to remove the range fan from the widget list. 
+* Select A Units feature layer to represent the parent hierarchical structure
+* Add layers to represent equipment or items owned by the Units
 
 ## Instructions
 
@@ -20,16 +20,21 @@
 * Open, build, and add the addin to the Operations Dashboard
 * Add the widget to an Operational View
 * Configure the widget:
-	1. **Title**: This is the title of the widget which is your list of range fans that you have created
-	2. **Data Source**:  This is the datasource that you are using to create range fans on.
-	3. **Field**:  A unique identifier that you want to show in the range fan widget list to help you know what unit you have created a range fan
-	4. **Feature Actions**: These are the features actions that will work with the list of range fans in the widget. One in particular that you will want to add is the Remove Range Fan feature action to allow you to remove the graphics.
-	5. **Bearing**: Bearing to use when creating range fan
-	6. **Traversal**: Traversal to use when creating range fan
-	7. **Range**:  Range to use when creating range fan
-	8. **Map Widget**:  The widget that the fans will be added too
-* The Create Range Fan Feature Action and the Remove Range Fan Feature Action can be added as a capability on the map or any where you can add a feature action.
-* When you click on a feature that has the create range fan feature action available.  A range fan will be created and the feature will be added to the widget list.  Use the Remove range fan feature action to remove it from the list.
+
+1.	Type a title for your Order of Battle
+2.	Add an optional description
+3.	Select a datasource from the list of layers in the webmap.  
+4.	Type a name representing the datasource.  The first data source added to the Order of Battle should represent units or forces.  Its name, ‘Units’ is not editable.
+5.	Select the unique identifier (UID) field (for military features  this is ‘Unique Designation’)
+6.	Select the higher formation field (for military feature force elements the Higher formation field is ‘Higher Formation’ for equipment it is ‘Owning Unit’).
+7.	Select a field or type a label for features that will be displayed for features in that data source in the Order of Battle tree view.
+8.	Use the radio button to select whether the feature’s symbol is displayed in the Order of Battle tree view.
+9.	Use the radio buttons to select whether a description will be displayed in the tree view.  The user may choose to display no description, a single field or a custom description.
+10.	Click the ‘Add’ button to add the datasource to the order of battle.  
+11.	The user may optionally configure additional datasources to the Order of Battle by repeating steps 3 – 
+12.	Click on the Feature Actions Tab and select feature actions accessible from the context 
+13.     Add Feature Actions actions to items in the Order of Battle
+14.	Click OK to create the Order of Battle	
 
 ## Requirements
 
