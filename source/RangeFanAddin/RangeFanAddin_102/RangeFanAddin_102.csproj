@@ -72,9 +72,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\RangeFanWidDialog.xaml.cs">
-      <DependentUpon>RangeFanWidDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Config\RangeFanWidgetDialog.xaml.cs">
       <DependentUpon>RangeFanWidgetDialog.xaml</DependentUpon>
     </Compile>
@@ -107,10 +104,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Config\RangeFanWidDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Config\RangeFanWidgetDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
