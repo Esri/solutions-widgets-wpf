@@ -1,19 +1,12 @@
-# solutions-widgets-wpf
+# Satellite Ephemeris Generation Addin
 
-The Solutions widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are 8 Addins available to use as is or take and modify to meet your needs.
+The Satellite Ephemeris  generates the ephemeris for a satellite using the AGI application server. Also generates the corresponding sensor swath.  This addin is built as a Map Tool with a Toolbar for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  The addin can be added as a Map Tool on a Map Widget.  No data is required to run the tool.
 
-![Image of Operations Dashboard]( OpsDash.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
 ## Features
 
-* Aircraft Communication Coverage Addin 
-* Aircraft Route Generation Line Addin
-* Bomb Threat Addin
-* Farthest On Circle Addin
-* Ground Communication Coverage Addin
-* Order of Battle Addin
-* Range Fan Addin
-* Satellite Ephemeris Generation Addin
+* Shows the ephemeris for a satellite.
 
 ## Instructions
 
@@ -21,9 +14,10 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
-### Getting Started with the Solution Widgets (WPF)
-* Open, build, and add one of the addins to the Operations Dashboard
-* Check the readme for each addin to get more details about what each one does.
+### Getting Started with this addin
+* Open, build, and add the addin to the Operations Dashboard
+* Add as a Map tool to a Map Widget
+* For this map tool, you will enter the SSC number for the satellite you are interested in, timestep, and date/time and it will generate the ephemeris for that satellite.
 
 ## Requirements
 
@@ -32,7 +26,8 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
  
 ### Services
 
-* There are several services that the addins depend on to function.  You can open, build, and run the TestDependentServices solution to check which services may not be available.
+* A service is required and is provided by AGI: [Satellite Ephemeris Generation](http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/SatelliteEphemerisGeneration/GPServer/Satellite%20Ephemeris%20Generation)
+* If this service is not available please contact Todd Smith at AGI: tsmith@agi.com
 
 ## Resources
 
@@ -40,6 +35,8 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
 * These widgets use [Esri's ArcGIS Runtime SDK for WPF](http://resources.arcgis.com/en/communities/runtime-wpf/);
 see the site for concepts, samples, and references for using the API to create mapping applications.
+* Learn more about [AGI](http://www.agi.com/default.aspx)
+
 
 ## Issues
 

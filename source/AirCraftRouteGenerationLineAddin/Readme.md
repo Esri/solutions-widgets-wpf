@@ -1,19 +1,12 @@
-# solutions-widgets-wpf
+# Aircraft Route Generation Line Addin
 
-The Solutions widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are 8 Addins available to use as is or take and modify to meet your needs.
+The Aircraft Route Generation Line calculates the route an aircraft would take to collect the points that you click on the ground.  This addin is built as a Map Tool with a Toolbar for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  The addin can be added as a Map Tool on a Map Widget.  No data is required to run the tool.
 
-![Image of Operations Dashboard]( OpsDash.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
 ## Features
 
-* Aircraft Communication Coverage Addin 
-* Aircraft Route Generation Line Addin
-* Bomb Threat Addin
-* Farthest On Circle Addin
-* Ground Communication Coverage Addin
-* Order of Battle Addin
-* Range Fan Addin
-* Satellite Ephemeris Generation Addin
+* Shows the aircraft route that would be flown to collect the points you place on the ground.
 
 ## Instructions
 
@@ -21,9 +14,10 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
-### Getting Started with the Solution Widgets (WPF)
-* Open, build, and add one of the addins to the Operations Dashboard
-* Check the readme for each addin to get more details about what each one does.
+### Getting Started with this addin
+* Open, build, and add the addin to the Operations Dashboard
+* Add as a Map tool to a Map Widget
+* When you click the map tool it will open the toolbar for you to add the points you want collected and additional information about date and time period.  The only aircraft model that it currently works with is a Basic UAV.
 
 ## Requirements
 
@@ -32,7 +26,8 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
  
 ### Services
 
-* There are several services that the addins depend on to function.  You can open, build, and run the TestDependentServices solution to check which services may not be available.
+* A service is required and is provided by AGI: [Aircraft Route Generation Line](http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftRouteGenerationToLine/GPServer/Aircraft%20Route%20Generation%20To%20Line)
+* If this service is not available please contact Todd Smith at AGI: tsmith@agi.com
 
 ## Resources
 
@@ -40,6 +35,7 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
 * These widgets use [Esri's ArcGIS Runtime SDK for WPF](http://resources.arcgis.com/en/communities/runtime-wpf/);
 see the site for concepts, samples, and references for using the API to create mapping applications.
+* Learn more about [AGI](http://www.agi.com/default.aspx)
 
 ## Issues
 

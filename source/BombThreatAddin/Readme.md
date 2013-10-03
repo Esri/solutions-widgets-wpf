@@ -1,19 +1,12 @@
-# solutions-widgets-wpf
+# Bomb Threat Addin
 
-The Solutions widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are 8 Addins available to use as is or take and modify to meet your needs.
+The Bomb Threat generates the bomb threat stand-off distance based on the document from [NCTC](http://www.nctc.gov/site/technical/bomb_threat.html).  This addin is built as a Map Tool with a Toolbar for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  The addin can be added as a Map Tool on a Map Widget.  No data is required to run the tool.
 
-![Image of Operations Dashboard]( OpsDash.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
 ## Features
 
-* Aircraft Communication Coverage Addin 
-* Aircraft Route Generation Line Addin
-* Bomb Threat Addin
-* Farthest On Circle Addin
-* Ground Communication Coverage Addin
-* Order of Battle Addin
-* Range Fan Addin
-* Satellite Ephemeris Generation Addin
+* Create the bomb threat stand-off distances based on the type of bomb for indoor and outdoor evacuations.  
 
 ## Instructions
 
@@ -21,9 +14,10 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
-### Getting Started with the Solution Widgets (WPF)
-* Open, build, and add one of the addins to the Operations Dashboard
-* Check the readme for each addin to get more details about what each one does.
+### Getting Started with this addin
+* Open, build, and add the addin to the Operations Dashboard
+* Add as a Map tool to a Map Widget
+* For this map tool, you either click on the map or type in an address and also select the type of bomb and click run and the stand-off distances are created.
 
 ## Requirements
 
@@ -32,7 +26,8 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
  
 ### Services
 
-* There are several services that the addins depend on to function.  You can open, build, and run the TestDependentServices solution to check which services may not be available.
+* A geometry service is required and is provided by ArcGIS Online: [Geometry Service](http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer)
+* If you are using your own portal behind the firewall and cannot reach ArcGIS Online you will need to modify the service url to point to your own service.
 
 ## Resources
 
@@ -40,6 +35,8 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 * Learn more about Esri's [ArcGIS for the Military](http://solutions.arcgis.com/military/).
 * These widgets use [Esri's ArcGIS Runtime SDK for WPF](http://resources.arcgis.com/en/communities/runtime-wpf/);
 see the site for concepts, samples, and references for using the API to create mapping applications.
+* Learn more about threat stand-off distances from [NCTC](http://www.nctc.gov/site/technical/bomb_threat.html)
+
 
 ## Issues
 

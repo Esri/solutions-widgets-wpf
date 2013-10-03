@@ -1,5 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
-    <esri:PictureMarkerSymbol x:Key="RedPin" OffsetY="10" OffsetX="10" Source="Images/RedPin1LargeB.png" Height="20" Width="20"/>
-</ResourceDictionary>

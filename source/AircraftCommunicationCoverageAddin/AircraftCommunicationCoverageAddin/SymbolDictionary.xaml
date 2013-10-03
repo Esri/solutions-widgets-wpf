@@ -1,7 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
-    <esri:PictureMarkerSymbol x:Key="RedPin" OffsetY="10" OffsetX="10" Source="Images/RedPin1LargeB.png" Height="20" Width="20"/>
-    <esri:SimpleFillSymbol x:Key="BasicFillSymbol_Yellow_Trans_6" Fill="#33FFFF00" BorderBrush="Black" BorderThickness="1" />
-
-</ResourceDictionary>
