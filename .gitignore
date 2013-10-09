@@ -1,5 +1,5 @@
 # Defense Template specific ignores
-application/
+application/*addin
 data/
 maps/
 scratch/
