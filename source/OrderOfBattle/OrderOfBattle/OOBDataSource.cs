@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -122,7 +135,7 @@ namespace OOB
                 _useIcon = value;
             }
         }
-        
+
         private String _key;
         public String Key
         {
@@ -156,25 +169,35 @@ namespace OOB
             }
         }
 
+        private Dictionary<String, String> _tokens = new Dictionary<String, String>();
+        public Dictionary<String, String> Tokens
+        {
+            get { return _tokens; }
+        }
+
         public OOBDataSource(DataSource ds, String key)
         {
+            _tokens.Add("@sc", ";");
+            _tokens.Add("@cln", ":");
+            _tokens.Add("@l", "|");
+            _tokens.Add("@c", ",");
             _ds = ds;
             _name = ds.Name;
             _id = ds.Id;
-            _key = key;
+            _key = key; 
         }
 
         public String Serialize()
         {
             String val = "";
-            val += "KEY:" + _key +",";
+            val += "KEY:" + _key + ",";
             val += "NAME:" + _name + ",";
-            val += "ID:" + _id+ ",";
+            val += "ID:" + _id + ",";
             val += "USEICON:" + _useIcon.ToString() + ",";
             val += "UIDFLD:" + _uidfld + ",";
             val += "HFFLD:" + _hffld + ",";
             val += "LBLFLDS:";
-            
+
 
             Boolean first = true;
             foreach (String l in _lblflds)
@@ -188,8 +211,18 @@ namespace OOB
             }
             val += ",";
             val += "DESCFLD:" + _descField + ",";
-            val += "BASEDESC:" + _baseDesc + ",";
-            val += "BASELABEL:" + _baseLabel + ",";
+            String baseDescription = _baseDesc;
+            foreach (KeyValuePair<String, String>p in _tokens)
+            {
+                baseDescription = baseDescription.Replace(p.Value, p.Key);
+            }
+            val += "BASEDESC:" + baseDescription + ",";
+            String baseLabel = _baseLabel;
+            foreach (KeyValuePair<String, String> p in _tokens)
+            {
+                baseLabel = baseLabel.Replace(p.Value, p.Key);
+            }
+            val += "BASELABEL:" + baseLabel + ",";
             val += "DESCTYPE:" + _dType + ",";
             val += "DESCFLDS:";
             first = true;
@@ -202,7 +235,7 @@ namespace OOB
                 val += l;
                 first = false;
             }
-            
+
             return val;
         }
         public static OOBDataSource marshalODS(DataSource ds, String odsString)
@@ -241,7 +274,7 @@ namespace OOB
                 if (vals[0].Equals("USEICON"))
                 {
                     useiconstring = vals[1];
-                    if(useiconstring.ToLower().Equals("true"))
+                    if (useiconstring.ToLower().Equals("true"))
                     {
                         useicon = true;
                     }
@@ -285,7 +318,15 @@ namespace OOB
             ods.HFField = hf;
             ods.DescField = df;
             ods.UseIcon = useicon;
+            foreach (KeyValuePair<String, String> p in ods.Tokens)
+            {
+                baseDesc = baseDesc.Replace(p.Key, p.Value);
+            }
             ods.BaseDescription = baseDesc;
+            foreach (KeyValuePair<String, String> p in ods.Tokens)
+            {
+                baseLabel = baseLabel.Replace(p.Key, p.Value);
+            }
             ods.BaseLabel = baseLabel;
             DescriptionType dtype = DescriptionType.None;
             if (dtstring.Equals("None"))
@@ -315,7 +356,7 @@ namespace OOB
                     ods.DescriptionFields.Add(l);
                 }
             }
-            
+
             return ods;
         }
     }

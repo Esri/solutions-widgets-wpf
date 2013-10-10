@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -12,20 +25,20 @@ using client = ESRI.ArcGIS.Client;
 namespace OOB
 {
     [Serializable]
-    public enum updatestate {New = 0, Update = 1, Clean= 2 }
-    class OOBNode: SortedDictionary<String, OOBNode>
+    public enum updatestate { New = 0, Update = 1, Clean = 2 }
+    public class OOBNode : SortedDictionary<String, OOBNode>
     {
         public OOBNode(String uid, String name, OOBDataSource ods, String ntype)
         {
             _children = new SortedDictionary<String, OOBNode>();
             _ctype = childtype.NONE;
             setNtype(ntype);
-             _key = uid;
+            _key = uid;
             _name = name;
             _parent = null;
             _desc = null;
             ds = ods;
-            
+
         }
         public OOBNode(String uid, String name, String desc, OOBDataSource ods, String ntype)
         {
@@ -37,9 +50,9 @@ namespace OOB
             _parent = null;
             ds = ods;
             _desc = desc;
-            
+
         }
-        public OOBNode(String uid, String name, String desc, OOBDataSource ods, String ntype,  ImageSource imgsrc)
+        public OOBNode(String uid, String name, String desc, OOBDataSource ods, String ntype, ImageSource imgsrc)
         {
             _children = new SortedDictionary<String, OOBNode>();
             _ctype = childtype.NONE;
@@ -50,7 +63,7 @@ namespace OOB
             _is = imgsrc;
             ds = ods;
             _desc = desc;
-            
+
         }
         /*public OOBNode(String uid, String name, OOBDataSource ods, String ntype, ImageSource imgsrc, OOBNode p)
         {
@@ -65,16 +78,20 @@ namespace OOB
         }*/
         private enum childtype { NONE = 0, UNITS = 1, DEPENDANTS = 2, BOTH = 3 };
         private childtype _ctype;
-        private enum nodetype { UNITS=0, OTHER=1, TREEROOT=3 };
+        private enum nodetype { UNITS = 0, OTHER = 1, TREEROOT = 3 };
         private nodetype _ntype;
-        private updatestate _state;
-        
+//        private updatestate _state;
+
         private ImageSource _is;
         public ImageSource Icon
         {
             get
             {
                 return _is;
+            }
+            set
+            {
+                _is = value;
             }
         }
         public String NType
@@ -85,7 +102,7 @@ namespace OOB
                 {
                     if (_ntype == nodetype.UNITS)
                     {
-                        ntype= "UNITS";
+                        ntype = "UNITS";
                     }
                     else if (_ntype == nodetype.TREEROOT)
                     {
@@ -105,7 +122,7 @@ namespace OOB
             {
                 _ntype = nodetype.UNITS;
             }
-            else if(ntype.Equals("TREEROOT"))
+            else if (ntype.Equals("TREEROOT"))
             {
                 _ntype = nodetype.TREEROOT;
             }
@@ -187,6 +204,10 @@ namespace OOB
             {
                 return _name;
             }
+            set
+            {
+                _name = value;
+            }
         }
         private String _uuid;
         public String UUID
@@ -231,15 +252,15 @@ namespace OOB
                 return _children;
             }
         }
-        public int numChildren 
-        { 
-            get 
+        public int numChildren
+        {
+            get
             {
                 return Children.Count;
-            } 
+            }
         }
         public Boolean IsRoot
-        { 
+        {
             get
             {
                 if (this.Parent == null)
@@ -255,9 +276,11 @@ namespace OOB
             if (!this.Children.ContainsKey(n.Key))
             {
                 this.Children.Add(n.Key, n);
+                n.Parent = this;
+                n.ParentName = this.Name;
                 updatectype(n);
             }
-            
+
         }
 
         private void updatectype(OOBNode n)
@@ -267,7 +290,7 @@ namespace OOB
                 if (n.numChildren > 0) //node not leaf -- must be ntype->UNIT
                 {
                     //node is UNIT parent previously only had equipment etc.
-                    if (n.Parent.CType.Equals("DEPENDANTS")) 
+                    if (n.Parent.CType.Equals("DEPENDANTS"))
                     {
                         n.Parent._ctype = childtype.BOTH;
                         propagateCtype(n.Parent);
@@ -277,7 +300,7 @@ namespace OOB
                     {
                         propagateCtype(n.Parent);
                     }
-                    else if(n.Parent.CType.Equals("UNITS"))
+                    else if (n.Parent.CType.Equals("UNITS"))
                     {
                         if (n.CType.Equals("DEPENDANTS"))
                         {
@@ -378,3 +401,4 @@ namespace OOB
         }
     }
 }
+

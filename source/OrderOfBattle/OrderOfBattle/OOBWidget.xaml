@@ -28,7 +28,7 @@
             <ColumnDefinition/>
 
         </Grid.ColumnDefinitions>
-        
+
         <Grid Grid.Column="0" Grid.Row="1"  Grid.ColumnSpan="2"  >
             <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Margin="5,5,5,5" >
                 <Grid>
@@ -44,13 +44,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Height="20">
-                    <Button Name="btnTools"   Click="openTools" ToolTip="Tools">
-                        <StackPanel Height="20" Width="20">
+                        <Button Name="btnTools"   Click="openTools" ToolTip="Tools">
+                            <StackPanel Height="20" Width="20">
                                 <Image Source="Images/wrench.png" HorizontalAlignment="Center" Height="12" Width="12" Margin="0,1.5,2,0"/>
-                        </StackPanel>
-                    </Button>
-                     </Grid>
-                        <Popup Name="popTools" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=btnTools}">
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <Popup Name="popTools" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=btnTools}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -62,41 +62,41 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                                <Button  Name="SelectFeaturesButton" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Click="select" Grid.Column="1" Grid.Row="0" ToolTip="Select Features">
+                            <Button  Name="SelectFeaturesButton" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Click="select" Grid.Column="1" Grid.Row="0" ToolTip="Select Features">
                                 <StackPanel Height="30" Width="26">
                                     <Image Source="Images/selection_rectangular_up.png" Margin="0,0,-0.4,0" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="ShowFeaturesButton" Width="30"  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row ="0" Grid.Column="3" Click="show" ToolTip="Filter features">
-                                    <StackPanel Height="30" Width="26">
-                                        <Image Source="Images/show.png" Margin="0,0,-0.4,0" />
-                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+                            <Button Name="ShowFeaturesButton" Width="30"  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row ="0" Grid.Column="3" Click="show" ToolTip="Filter features">
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/show.png" Margin="0,0,-0.4,0" />
+                                </StackPanel>
 
-                                </Button>
-                                <Button Name="ClearSelectionButton" Width="30"  Grid.Row ="0" Grid.Column="2" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="clear_selection" ToolTip="Clear selection">
-                                    <StackPanel Height="30" Width="26">
-                                        <Image Source="Images/clear_selection.png" Margin="0,0,-0.4,0" RenderTransformOrigin="0.531,2.594" />
-                                    </StackPanel>
-                                </Button>
-                                <Button  Name="ZoomToSelectedButton" Grid.Row ="0" Grid.Column="5" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="30" Click="zoom_to_selected" IsEnabled="False" ToolTip="Zoom to selected features" >
-                                    <StackPanel Height="30" Width="26">
-                                        <Image Source="Images/gnome_zoom_fit_best.png" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="PanToSelectedButton" Grid.Row ="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30" Click="pan_to_selected" ToolTip="Pan to selected features">
-                                    <StackPanel Height="30" Width="26">
-                                        <Image Source="Images/cursor_hand_select.png" Margin="0,0,-0.4,0" Height="23" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="CancelShowButton" Grid.Row ="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30"  Click="clear_showFeatures" ToolTip="Cancel filter">
-                                    <StackPanel Height="30" Width="26">
-                                        <Image Source="Images/cancel_show.png" Margin="0,0,-0.4,0" Height="23" />
-                                    </StackPanel>
-                                </Button>
+                            </Button>
+                            <Button Name="ClearSelectionButton" Width="30"  Grid.Row ="0" Grid.Column="2" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="clear_selection" ToolTip="Clear selection">
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/clear_selection.png" Margin="0,0,-0.4,0" RenderTransformOrigin="0.531,2.594" />
+                                </StackPanel>
+                            </Button>
+                            <Button  Name="ZoomToSelectedButton" Grid.Row ="0" Grid.Column="5" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="30" Click="zoom_to_selected" IsEnabled="False" ToolTip="Zoom to selected features" >
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/gnome_zoom_fit_best.png" />
+                                </StackPanel>
+                            </Button>
+                            <Button Name="PanToSelectedButton" Grid.Row ="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30" Click="pan_to_selected" ToolTip="Pan to selected features">
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/cursor_hand_select.png" Margin="0,0,-0.4,0" Height="23" />
+                                </StackPanel>
+                            </Button>
+                            <Button Name="CancelShowButton" Grid.Row ="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30"  Click="clear_showFeatures" ToolTip="Cancel filter">
+                                <StackPanel Height="30" Width="26">
+                                    <Image Source="Images/cancel_show.png" Margin="0,0,-0.4,0" Height="23" />
+                                </StackPanel>
+                            </Button>
                         </Grid>
                     </Popup >
                     <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Height="20">
-                    <Button Grid.Row ="0" Grid.Column="0" Name="btnSelectionMode"  Click="openSelectionConfig" ToolTip="Configure selection">
+                        <Button Grid.Row ="0" Grid.Column="0" Name="btnSelectionMode"  Click="openSelectionConfig" ToolTip="Configure selection">
                             <StackPanel Height="20" Width="20" >
                                 <Image Source="Images/settings.png" Width="10" Height="10" Margin="0,3,3.6,0"/>
                             </StackPanel>

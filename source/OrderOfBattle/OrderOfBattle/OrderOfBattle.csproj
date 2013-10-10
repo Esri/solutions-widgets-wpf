@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B05E8071-9EFE-49DD-A2AB-033C23708617}</ProjectGuid>
+    <ProjectGuid>{80FF1DBF-4826-489A-8B87-4EC54F9BEEC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrderOfBattle</RootNamespace>
@@ -38,8 +38,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
-    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
-    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
+    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
+    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
     <!--set ReferenceFolder depending on 32bit or 64bit machine-->
     <ReferenceFolder Condition="Exists('$(ReferenceFolder32)')">$(ReferenceFolder32)</ReferenceFolder>
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
@@ -50,7 +50,7 @@
       <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.Client.Behaviors, Version=10.1.1.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL" />
+    <Reference Include="ESRI.ArcGIS.Client.Behaviors, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
@@ -81,7 +81,9 @@
     <Compile Include="OOBDataSource.cs" />
     <Compile Include="OOBNode.cs" />
     <Compile Include="OOBTree.cs" />
-    <Compile Include="OOBWidget.xaml.cs" />
+    <Compile Include="OOBWidget.xaml.cs">
+      <DependentUpon>OOBWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,39 +109,35 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Config\OOBWidgetDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OOBWidget.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\infantry.jpg" />
+    <Resource Include="Images\infantrySymbol.jpg" />
+    <Resource Include="Images\Widget32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cancel_show.png" />
     <Resource Include="Images\clear_selection.png" />
-    <Resource Include="Images\clear_selectionold.png" />
-    <Resource Include="Images\cursor_hand_icon.png" />
     <Resource Include="Images\cursor_hand_select.png" />
     <Resource Include="Images\eye_inv.png" />
     <Resource Include="Images\gnome_zoom_fit_best.png" />
-    <Resource Include="Images\infantry.jpg" />
-    <Resource Include="Images\map_start.png" />
-    <Resource Include="Images\pan_1.bmp" />
-    <Resource Include="Images\plus.png" />
-    <Resource Include="Images\selection_2.bmp" />
     <Resource Include="Images\selection_rectangular_up.png" />
     <Resource Include="Images\show.png" />
-    <Resource Include="Images\Widget32.png" />
     <Resource Include="Images\zoom_in_256.png" />
-    <Resource Include="Images\zoom_in_tool_1.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\settings.png" />
-    <Resource Include="Images\tools.png" />
+    <Resource Include="Images\wrench.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\wrench.png" />
+    <Resource Include="Images\plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -152,8 +150,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
-    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
-    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
+    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
+    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
     <!--set IDEIntegrationFolder depending on 32bit or 64bit machine-->
     <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder32)')">$(IDEIntegrationFolder32)</IDEIntegrationFolder>
     <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder64)')">$(IDEIntegrationFolder64)</IDEIntegrationFolder>
@@ -164,5 +162,7 @@
   </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
+    <Copy SourceFiles="$(TargetDir)OrderOfBattle.opdashboardAddin" 
+          DestinationFolder="$(ProjectDir)..\..\..\application" />
   </Target>
 </Project>

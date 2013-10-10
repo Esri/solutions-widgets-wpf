@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,9 +34,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media.Media3D;
 using System.Net;
 using System.Web;
-
-
-
 
 namespace OOB
 {
@@ -48,12 +58,12 @@ namespace OOB
     }
     [Export("ESRI.ArcGIS.OperationsDashboard.Widget")]
     [ExportMetadata("DisplayName", "Order of Battle")]
-    [ExportMetadata("Description", "Display features in schema defined hierarchical structure. Version 10.1.1")]
+    [ExportMetadata("Description", "Display features in schema defined hierarchical structure. Version 10.2")]
     [ExportMetadata("ImagePath", "/OrderOfBattle;component/Images/infantry.jpg")]
     [ExportMetadata("DataSourceRequired", true)]
     [DataContract]
     [Serializable]
-    
+
     public partial class OOBWidget : UserControl, IWidget, IDataSourceConsumer, IMapWidgetConsumer
     {
         /// <summary>
@@ -67,7 +77,7 @@ namespace OOB
         [DataMember(Name = "dsstring")]
         public String dsString { get; set; }
 
-        public Dictionary<String, String> DataSources = new Dictionary<string,string>();
+        public Dictionary<String, String> DataSources = new Dictionary<string, string>();
         /// <summary>
         /// The name of a field within the selected data source. This property is set during widget configuration.
         /// </summary>
@@ -131,8 +141,7 @@ namespace OOB
         public string[] _datasourceids { get; set; }
 
         [DataMember(Name = "showIcon")]
-        
-        private Boolean _showIcon = false;
+
         public Dictionary<String, String> OOBDsStrings = new Dictionary<String, String>();
 
         private Dictionary<String, Query> _queries = null;
@@ -147,12 +156,11 @@ namespace OOB
         private TreeViewItem draggedItem;
         private TreeViewItem _target;
         private string QueryValue { get; set; }
-        //private ContextMenu cm = null;
-        private enum selectionmode {None=0, Unit=1, Child=2, UnitChild=3, Dep=4, UnitDep=5, Leaf=6, All=7};
+        private enum selectionmode { None = 0, Unit = 1, Child = 2, UnitChild = 3, Dep = 4, UnitDep = 5, Leaf = 6, All = 7 };
         private selectionmode mode = selectionmode.None;
         private client.Map _map = null;
         private ContextMenu _cm;
-        
+
         private MapWidget _mapw;
         private String _currentflname = null;
         public client.FeatureLayer _currentFLyr;
@@ -161,16 +169,13 @@ namespace OOB
         private Boolean _blocking = false;
         private Boolean _updating = false;
         private Int16 counter = -1;
-        
-        
 
         public OOBWidget()
         {
             _cm = new ContextMenu();
-            
 
             InitializeComponent();
-            
+
             Value = "0";
             Caption = "Order Of Battle";
 
@@ -179,11 +184,8 @@ namespace OOB
         private client.Geometry.PointCollection selGeo = new client.Geometry.PointCollection();
         private void UpdateControls()
         {
-            //DataSourceBox.Text = DataSourceId;
-            //UIDFieldBox.Text = ForceUIDFieldName;
-            //HFFieldBox.Text = ForceHigherFormationFieldName;
+
         }
-        //private Boolean _isFollowing = false;
         private FollowFeatureAction followAction = null;
         #region IWidget Members
 
@@ -293,11 +295,11 @@ namespace OOB
                         item.Header = "Show Popup";
                         item.Click += show_popup_selected;
                         break;
-                    
+
                     default:
                         throw new NotImplementedException(string.Format("Cannot create feature action of type: {0}", persistedFeatureAction.ToString()));
                 }
-                if(!ContextMenuContains(_cm, item))
+                if (!ContextMenuContains(_cm, item))
                 {
                     _cm.Items.Add(item);
                 }
@@ -414,7 +416,7 @@ namespace OOB
             zfa.Execute(d, feature);
         }
 
-        private async void  pan_to_feature(object sender, RoutedEventArgs e)
+        private async void pan_to_feature(object sender, RoutedEventArgs e)
         {
             if (tv.SelectedItem == null)
             {
@@ -463,7 +465,7 @@ namespace OOB
 
         private async void follow_selected(object sender, RoutedEventArgs e)
         {
-            if(tv.SelectedItem == null)
+            if (tv.SelectedItem == null)
             {
                 return;
             }
@@ -514,29 +516,29 @@ namespace OOB
             Caption = dialog.OOBName;
             OOBDsStrings = dialog.OOBDsStrings;
             oobDsString = dialog.oobdsstring;
-            
+
             //ShowIcon = dialog.ShowIcon;
-            
+
             _oobDataSources = dialog.OOBDataSources;
             FeatureActions = dialog.SelectedFeatureActions;
             InitializePersistedFeatureActions();
             numDs = OOBDataSources.Count;
             SetDSIds();
             oobcache = dialog.cache;
-            
+
             _mapw = MapWidget.FindMapWidget(OOBDataSources["UNITS"].DataSource);
             MapWidgetId = _mapw.Id;
             // Retrieve the selected values for the properties from the configuration dialog.
             //Caption = dialog.Caption;
             oobname = _caption;
 
-            
+
             if (this.tv.Items.Count > 0)
             {
                 this.tv.Items.Clear();
             }
 
-            
+
             UpdateControls();
             dsString = "";
             Boolean first = true;
@@ -552,12 +554,12 @@ namespace OOB
                 }
                 dsString += p.Key + ":" + p.Value.ID;
             }
-            
+
             _isInitialized = false;
 
 
             return true;
-            
+
         }
 
         #endregion
@@ -586,7 +588,7 @@ namespace OOB
 
         private void InitOOBDataSource(DataSource ds, String odsstring)
         {
-            
+
             OOBDataSource ods = OOBDataSource.marshalODS(ds, odsstring);
             OOBDataSources.Add(ods.Key, ods);
         }
@@ -594,7 +596,7 @@ namespace OOB
         private void InitLayer(DataSource ds)
         {
             //DataSources.
-            
+
             if (!string.IsNullOrEmpty(dsString))
             {
                 String[] dspairs = dsString.Split(';');
@@ -611,12 +613,12 @@ namespace OOB
                             parseOobDsStrings();
                             return;
                         }
-                        if(!OOBDataSources.ContainsKey(key))
+                        if (!OOBDataSources.ContainsKey(key))
                         {
                             String odsstring = OOBDsStrings[key];
                             InitOOBDataSource(ds, odsstring);
                         }
-                        
+
                         if (!_dataSources.ContainsKey(key))
                         {
                             _dataSources.Add(key, ds);
@@ -624,7 +626,7 @@ namespace OOB
                             _currentFLyr.Refresh();
                         }
                     }
-                
+
                 }
             }
         }
@@ -639,7 +641,7 @@ namespace OOB
             }
         }
 
-        private async void AddDatasourceToCache(OOBDataSource ods)
+        private void AddDatasourceToCache(OOBDataSource ods)
         {
             try
             {
@@ -683,7 +685,7 @@ namespace OOB
                     Labels += f;
                     qfields[c] = f;
                     ++c;
-                    
+
                 }
                 first = true;
                 foreach (String f in ods.DescriptionFields)
@@ -700,24 +702,31 @@ namespace OOB
                     qfields[c] = f;
                     ++c;
                 }
-
-
+               //client.Tasks.OutFields of = new client.Tasks.OutFields();
+               //foreach (String s in qfields)
+               //{
+               //  of.Add(s);
+               //}
+                
                 fields["LABELS"] = Labels;
                 fields["DESCFLDS"] = DescFlds;
-                Query q = new Query();
+                //client.Tasks.Query q = new client.Tasks.Query();
 
 
 
-                q.Fields = qfields;
-                q.ReturnGeometry = true;
+                //q.OutFields= of;
+                //q.ReturnGeometry = true;
                 oobcache.AddFeatuereContainer(CacheName);
 
                 DataSource ds = ods.DataSource;
-                QueryResult res = await ds.ExecuteQueryAsync(q);
-                var resultOids = from feature in res.Features select System.Convert.ToInt32(feature.Attributes[ds.ObjectIdFieldName]);
+                //QueryResult res = await ds.ExecuteQueryAsync(q);
+                //var resultOids = from feature in res.Features select System.Convert.ToInt32(feature.Attributes[ds.ObjectIdFieldName]);
                 MapWidget mw = MapWidget.FindMapWidget(ds);
                 client.FeatureLayer fl = mw.FindFeatureLayer(ds);
-                //fl.Update();
+                //fl.Mode = client.FeatureLayer.QueryMode.OnDemand;
+                //q.Where = ds.ObjectIdFieldName + " > 0";
+                //client.Tasks.QueryTask qt = new client.Tasks.QueryTask(fl.Url);
+                //client.Tasks.FeatureSet fset = qt.Execute(q);
                 foreach (client.Graphic g in fl.Graphics)
                 {
                     oobcache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields);
@@ -733,36 +742,113 @@ namespace OOB
 
         private void Update()
         {
-            if (oobcache == null)
+            try
             {
-                oobcache = new OOBCache();
-                foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                if (oobcache == null)
                 {
-                    AddDatasourceToCache(p.Value);
-                }
-                return;
-            }
-            else
-            {
-                _isInitialized = AllCachesCreated();
-                if (!_isInitialized)
-                {
+                    oobcache = new OOBCache();
+                    foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                    {
+                        AddDatasourceToCache(p.Value);
+                    }
                     return;
                 }
+                else
+                {
+                    _isInitialized = AllCachesCreated();
+                    if (!_isInitialized)
+                    {
+                        return;
+                    }
 
-                OOBTree tree = tv.Tag as OOBTree;
+                    OOBTree tree = tv.Tag as OOBTree;
+                    OOBNode root = tree.Root;
+                    //nodes = tree.Nodes();
+                    //tv.Items.Add(root);
+                    if (!_updating)
+                    {
+                        _updating = true;
+
+                        foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                        {
+                            String type = p.Value.Key;
+                            root = UpdateOrderOfBattle(type, root);
+                        }
+                        List<String> keys = new List<String>();
+                        foreach (KeyValuePair<String, OOBNode> p in root.Children)
+                        {
+                            String pName = p.Value.ParentName;
+                            OOBNode found = root.GetDescendant(pName);
+                            if (found != null)
+                            {
+                                keys.Add(p.Value.Key);
+                                found.addChild(p.Value);
+                            }
+                        }
+                        foreach (String k in keys)
+                        {
+                            root.removeChild(k);
+                        }
+                        _updating = false;
+                    }
+
+                    UpdateTreeView(root, tv.Items);
+
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
+            }
+        }
+        private void Initialize()
+        {
+            try
+            {
+                if (oobcache == null)
+                {
+                    oobcache = new OOBCache();
+                    foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                    {
+                        AddDatasourceToCache(p.Value);
+                    }
+                    return;
+                }
+                else
+                {
+                    _isInitialized = AllCachesCreated();
+                    if (!_isInitialized)
+                    {
+                        return;
+                    }
+
+                }
+                //OOBNode root = new OOBNode("ROOT", oobname, null, OOBDataSources["UNITS"], "UNITS", null);
+                //List<OOBNode> nodes = new List<OOBNode>();
+                //nodes.Add(root);
+                OOBTree tree = new OOBTree();
+                this.tv.Tag = tree;
+                if (tv.Items.Count > 0)
+                {
+                    tv.Items.Clear();
+                }
                 OOBNode root = tree.Root;
-                //nodes = tree.Nodes();
                 //tv.Items.Add(root);
                 if (!_updating)
                 {
                     _updating = true;
-
                     foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                     {
                         String type = p.Value.Key;
-                        root = UpdateOrderOfBattle(type, root);
+                        tree.AddDataSource(p.Value.ID, p.Value.DataSource, type);
+                        root = CreateOrderOfBattle(type, root);
+
+                        //root = UpdateOrderOfBattle("Equipment", root);
                     }
+
                     List<String> keys = new List<String>();
                     foreach (KeyValuePair<String, OOBNode> p in root.Children)
                     {
@@ -783,80 +869,18 @@ namespace OOB
 
                 UpdateTreeView(root, tv.Items);
 
-                
-
+                CancelShowButton.IsEnabled = false;
+                ShowFeaturesButton.IsEnabled = false;
+                SelectFeaturesButton.IsEnabled = false;
+                ZoomToSelectedButton.IsEnabled = false;
+                PanToSelectedButton.IsEnabled = false;
+                ClearSelectionButton.IsEnabled = false;
             }
-        }
-        private void Initialize()
-        {
-
-            if (oobcache == null)
+            catch (Exception e)
             {
-                oobcache = new OOBCache();
-                foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
-                {
-                    AddDatasourceToCache(p.Value);
-                }
-                return;
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
             }
-            else
-            {
-                _isInitialized = AllCachesCreated();
-                if (!_isInitialized)
-                {
-                    return;
-                }
-             
-            }
-            //OOBNode root = new OOBNode("ROOT", oobname, null, OOBDataSources["UNITS"], "UNITS", null);
-            //List<OOBNode> nodes = new List<OOBNode>();
-            //nodes.Add(root);
-            OOBTree tree = new OOBTree();
-            this.tv.Tag = tree;
-            if (tv.Items.Count > 0)
-            {
-                tv.Items.Clear();
-            }
-            OOBNode root = tree.Root;
-            //tv.Items.Add(root);
-            if (!_updating)
-            {
-                _updating = true;
-                foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
-                {
-                    String type = p.Value.Key;
-                    tree.AddDataSource(p.Value.ID, p.Value.DataSource, type);
-                    root = CreateOrderOfBattle(type, root);
-
-                    //root = UpdateOrderOfBattle("Equipment", root);
-                }
-
-                List<String> keys = new List<String>();
-                foreach (KeyValuePair<String, OOBNode> p in root.Children)
-                {
-                    String pName = p.Value.ParentName;
-                    OOBNode found = root.GetDescendant(pName);
-                    if (found != null)
-                    {
-                        keys.Add(p.Value.Key);
-                        found.addChild(p.Value);
-                    }
-                }
-                foreach (String k in keys)
-                {
-                    root.removeChild(k);
-                }
-                _updating = false;
-            }
-            
-            UpdateTreeView(root, tv.Items);
-
-            CancelShowButton.IsEnabled = false;
-            ShowFeaturesButton.IsEnabled = false;
-            SelectFeaturesButton.IsEnabled = false;
-            ZoomToSelectedButton.IsEnabled = false;
-            PanToSelectedButton.IsEnabled = false;
-            ClearSelectionButton.IsEnabled = false;
         }
 
         private void SetDSIds()
@@ -871,7 +895,7 @@ namespace OOB
         }
         private Boolean AllCachesCreated()
         {
-            foreach (KeyValuePair <String, OOBDataSource> p in OOBDataSources)
+            foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
             {
                 if (!p.Value.IsCacheCreated)
                 {
@@ -902,7 +926,7 @@ namespace OOB
 
         private void fl_Initialized(object sender, EventArgs e)
         {
-            if(_currentflname.Equals("UNITS"))
+            if (_currentflname.Equals("UNITS"))
             {
                 //_forcesInitialized = true;
             }
@@ -910,86 +934,95 @@ namespace OOB
             {
                 //_equipmentInitialized = true;
             }
-            
+
         }
-        
+
         /// <summary>
         /// Called when a DataSource found in the DataSourceIds property is updated.
         /// </summary>
         /// <param name="dataSource">The DataSource being updated.</param>
         public void OnRefresh(DataSource dataSource)
         {
-            if (counter > -1)
+            try
             {
-                if (counter == 10)
+                if (counter > -1)
                 {
+
                     client.AcceleratedDisplayLayers aclyrs = _map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
                     foreach (client.FeatureLayer fl in aclyrs.ChildLayers.OfType<client.FeatureLayer>())
                     {
                         fl.Update();
-                        
+
                     }
                     refreshSelections();
                     counter = -1;
+                    //oobcache.RefreshSymbols = false;
+
                 }
                 else
                 {
-                    ++counter;
-                }
-            }
-            if (!_isInitialized)
-            {
-                Boolean mapInit = MapInitialized();
-                if (mapInit)
-                {
-
-                    //client.AcceleratedDisplayLayers aclyrs = _mapw.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
-                    InitLayer(dataSource);
-
-                }
-                if (OOBDataSources.Count > 0 && OOBDataSources.Count == numDs)
-                {
-                    if (!_map.IsLoaded)
+                    if (!_isInitialized)
                     {
-                        _map.Loaded += _map_Loaded;
-                        
+                        Boolean mapInit = MapInitialized();
+                        if (mapInit)
+                        {
+
+                            //client.AcceleratedDisplayLayers aclyrs = _mapw.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
+                            InitLayer(dataSource);
+
+                        }
+                        if (OOBDataSources.Count > 0 && OOBDataSources.Count == numDs)
+                        {
+                            if (!_map.IsLoaded)
+                            {
+                                _map.Loaded += _map_Loaded;
+
+                            }
+                            else
+                            {
+                                Initialize();
+                            }
+                        }
                     }
                     else
                     {
-                        Initialize();
+                        if (!_blocking)
+                        {
+                            //_blocking = true;
+                            foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                            {
+                                UpdateCache(p.Value);
+                            }
+
+                            if (_cacheDirty && AllCachesUpdated())
+                            {
+
+                                //Initialize();
+                                Update();
+                                _cacheDirty = false;
+                                InvalidateCaches();
+
+                            }
+                            //_blocking = false;
+                        }
                     }
                 }
             }
-            else
+            catch (Exception e)
             {
-                if (!_blocking)
-                {
-                    //_blocking = true;
-                    foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
-                    {
-                        UpdateCache(p.Value);
-                    }
-                    
-                    if (_cacheDirty && AllCachesUpdated())
-                    {
-                        
-                        //Initialize();
-                        Update();
-                        _cacheDirty = false;
-                        InvalidateCaches();
-                        
-                    }
-                    //_blocking = false;
-                }
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
             }
         }
+
 
         void _map_ExtentChanged(object sender, client.ExtentEventArgs e)
         {
             counter = 0;
+            
         }
 
-        private async void UpdateCache(OOBDataSource ods)
+        private void UpdateCache(OOBDataSource ods)
         {
             try
             {
@@ -1055,22 +1088,32 @@ namespace OOB
                 }
                 fields["LABELS"] = Labels;
                 fields["DESCFLDS"] = DescFlds;
-
-                Query q = new Query();
-                q.ReturnGeometry = true;
-                q.Fields = qfields;
+                //client.Tasks.OutFields of = new client.Tasks.OutFields();
+                //foreach (String s in qfields)
+                //{
+                    //of.Add(s);
+                //}
+                //client.Tasks.Query q = new client.Tasks.Query();
+                
+                //q.ReturnGeometry = true;
+                //q.OutFields = of;
+                //q.Where = ds.ObjectIdFieldName + " > 0";
                 Dictionary<String, Dictionary<String, object>> featureCache = oobcache.RetrieveFeatureCache(key);
 
-                QueryResult res = await ds.ExecuteQueryAsync(q);
-                var resultOids = from feature in res.Features select System.Convert.ToInt32(feature.Attributes[ds.ObjectIdFieldName]);
+                //QueryResult res = await ds.ExecuteQueryAsync(q);
+                //var resultOids = from feature in res.Features select System.Convert.ToInt32(feature.Attributes[ds.ObjectIdFieldName]);
                 MapWidget mw = MapWidget.FindMapWidget(ds);
                 client.FeatureLayer fl = mw.FindFeatureLayer(ds);
+                fl.Mode = client.FeatureLayer.QueryMode.OnDemand;
+                //client.Tasks.QueryTask qt = new client.Tasks.QueryTask(fl.Url);
+                //client.Tasks.FeatureSet fset = qt.Execute(q);
                 //fl.Update();
                 foreach (client.Graphic g in fl.Graphics)
                 {
                     if (g.Attributes[Uid] != null)
                     {
-                        if (!featureCache.ContainsKey((g.Attributes[Uid]).ToString()))
+                        String uidval = g.Attributes[Uid].ToString();
+                        if (!featureCache.ContainsKey(uidval))
                         {
                             oobcache.AddFeature(key, g, ods.BaseDescription, ods.BaseLabel, fields);
                             _cacheDirty = true;
@@ -1078,7 +1121,7 @@ namespace OOB
                         }
                         else
                         {
-                            if (oobcache.UpdateFeature(key, g.Attributes[Uid].ToString(), ods.BaseDescription, ods.BaseLabel, g, fields))
+                            if (oobcache.UpdateFeature(key, uidval, ods.BaseDescription, ods.BaseLabel, g, fields))
                             {
                                 _cacheDirty = true;
                             }
@@ -1104,7 +1147,7 @@ namespace OOB
             Boolean mapinit = false;
             if (!string.IsNullOrEmpty(MapWidgetId))
             {
-                
+
                 _mapw = OperationsDashboard.Instance.Widgets.Where(w => w.Id == MapWidgetId).FirstOrDefault() as MapWidget;
                 if (_mapw != null)
                 {
@@ -1125,7 +1168,7 @@ namespace OOB
                     }
                 }
             }
-            
+
 
             return mapinit;
         }
@@ -1138,248 +1181,295 @@ namespace OOB
             // Respond to the update from the selected data source using an async method to perform the query.
             //Initialize(dataSource);
         }
-        
+
 
         #endregion
         private OOBNode UpdateOrderOfBattle(String updatetype, OOBNode root)
         {
-            
-            Dictionary<String, Dictionary<String, object>> fFeatures = oobcache.RetrieveFeatureCache("UNITS");
-            String updatekey = updatetype + "_UPDATE";
-            Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatekey);
-            OOBDataSource ods = OOBDataSources[updatetype];
-            Boolean useIcon = ods.UseIcon;
-            DataSource ds = OOBDataSources[updatetype].DataSource;
-            String uid = null;
-            object hfuidobj = null;
-            object flabelobj = null;
-            object hflabelobj = null;
-            object descobject = null;
-            object hfdescobject = null;
-            ImageSource uidimgsrc = null;
-            ImageSource hfimgsrc = null;
-            
-            
-            foreach (KeyValuePair<String, Dictionary<String, object>> pair in updatefeatures)
+            try
             {
-                String hfuid = null;
-                String flabel = null;
-                String hflabel = null;
-                String desclabel = null;
-                String hfdesclabel = null;
-                uidimgsrc = null;
-                hfimgsrc = null;
-                uid = pair.Key;
-                hfuidobj = pair.Value["HF"];
-                flabelobj = pair.Value["LABEL"];
-                descobject = pair.Value["DESCRIPTION"];
-                if (hfuidobj != null)
+                Dictionary<String, Dictionary<String, object>> fFeatures = oobcache.RetrieveFeatureCache("UNITS");
+                String updatekey = updatetype + "_UPDATE";
+                Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatekey);
+                OOBDataSource ods = OOBDataSources[updatetype];
+                Boolean useIcon = ods.UseIcon;
+                DataSource ds = OOBDataSources[updatetype].DataSource;
+                String uid = null;
+                object hfuidobj = null;
+                object flabelobj = null;
+                object hflabelobj = null;
+                object descobject = null;
+                object hfdescobject = null;
+                ImageSource uidimgsrc = null;
+                ImageSource hfimgsrc = null;
+
+
+                foreach (KeyValuePair<String, Dictionary<String, object>> pair in updatefeatures)
                 {
-                    hfuid = hfuidobj.ToString();
-                    if (fFeatures.ContainsKey(hfuid))
+                    String hfuid = null;
+                    String flabel = null;
+                    String hflabel = null;
+                    String desclabel = null;
+                    String hfdesclabel = null;
+                    uidimgsrc = null;
+                    hfimgsrc = null;
+                    uid = pair.Key;
+                    hfuidobj = pair.Value["HF"];
+                    flabelobj = pair.Value["LABEL"];
+                    descobject = pair.Value["DESCRIPTION"];
+                    if (hfuidobj != null)
                     {
-                        hflabelobj = fFeatures[hfuid]["LABEL"];
-                        hfdescobject = fFeatures[hfuid]["DESCRIPTION"];
-                        if (hflabelobj != null)
+                        hfuid = hfuidobj.ToString();
+                        if (fFeatures.ContainsKey(hfuid))
                         {
-                            hflabel = hflabelobj.ToString();
-                            
+                            hflabelobj = fFeatures[hfuid]["LABEL"];
+                            hfdescobject = fFeatures[hfuid]["DESCRIPTION"];
+                            if (hflabelobj != null)
+                            {
+                                hflabel = hflabelobj.ToString();
+
+                            }
+                            else
+                            {
+                                hflabel = hfuid;
+                            }
+                            if (hfdescobject != null)
+                            {
+                                hfdesclabel = hfdescobject.ToString();
+                            }
+                            else
+                            {
+                                hfdesclabel = null;
+                            }
+                            if (fFeatures[hfuid]["ICON"] != null)
+                            {
+                                hfimgsrc = fFeatures[hfuid]["ICON"] as ImageSource;
+                            }
                         }
                         else
                         {
-                            hflabel = hfuid;
+                            hflabel = "No feature (" + hfuid + ") found in Units Datasource";
                         }
-                        if (hfdescobject != null)
+
+                    }
+                    else
+                    {
+                        hfuid = "no_higher_formation";
+                    }
+
+                    if (flabelobj != null)
+                    {
+                        flabel = flabelobj.ToString();
+                    }
+                    if (descobject != null)
+                    {
+                        desclabel = descobject.ToString();
+                    }
+                    if (useIcon)
+                    {
+                        if (pair.Value["ICON"] != null)
                         {
-                            hfdesclabel = hfdescobject.ToString();
-                        }
-                        else
-                        {
-                            hfdesclabel = null;
-                        }
-                        if (fFeatures[hfuid]["ICON"] != null)
-                        {
-                            hfimgsrc = fFeatures[hfuid]["ICON"] as ImageSource;
+                            uidimgsrc = pair.Value["ICON"] as ImageSource;
                         }
                     }
                     else
                     {
-                        hflabel = "No feature (" + hfuid + ") found in Units Datasource";
+                        uidimgsrc = null;
                     }
-                    
-                }
-                else
-                {
-                    hfuid = "no_higher_formation";
-                }
 
-                if (flabelobj != null)
-                {
-                    flabel = flabelobj.ToString();
+                    root = this.AddNode(uid, flabel, desclabel, uidimgsrc, hfuid, hflabel, hfdesclabel, hfimgsrc, ods, root);
                 }
-                if (descobject != null)
-                {
-                    desclabel = descobject.ToString();
-                }
-                if (useIcon)
-                {
-                    if (pair.Value["ICON"] != null)
-                    {
-                        uidimgsrc = pair.Value["ICON"] as ImageSource;
-                    }
-                }
-                else
-                {
-                    uidimgsrc = null;
-                }
-
-                root = this.AddNode(uid, flabel, desclabel, uidimgsrc, hfuid, hflabel, hfdesclabel, hfimgsrc, ods, root);
+                updatefeatures.Clear();
+                return root;
             }
-            updatefeatures.Clear();
-            return root;
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
+                return null;
+            }
         }
 
         private OOBNode CreateOrderOfBattle(String updatetype, OOBNode root)
         {
-
-            Dictionary<String, Dictionary<String, object>> fFeatures = oobcache.RetrieveFeatureCache("UNITS");
-            Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatetype);
-            OOBDataSource ods = OOBDataSources[updatetype];
-            DataSource ds = OOBDataSources[updatetype].DataSource;
-            Boolean useIcon = ods.UseIcon;
-            String uid = null;
-            object hfuidobj = null;
-            object flabelobj = null;
-            object hflabelobj = null;
-            object descobject = null;
-            object hfdescobject = null;
-            ImageSource uidimgsrc = null;
-            ImageSource hfimgsrc = null;
-
-
-            foreach (KeyValuePair<String, Dictionary<String, object>> pair in updatefeatures)
+            try
             {
-                String hfuid = null;
-                String flabel = null;
-                String hflabel = null;
-                String desclabel = null;
-                String hfdesclabel = null;
-                uidimgsrc = null;
-                hfimgsrc = null;
-                uid = pair.Key;
-                hfuidobj = pair.Value["HF"];
-                flabelobj = pair.Value["LABEL"];
-                descobject = pair.Value["DESCRIPTION"];
-                if (hfuidobj != null)
-                {
-                    hfuid = hfuidobj.ToString();
-                    if (fFeatures.ContainsKey(hfuid))
-                    {
-                        hflabelobj = fFeatures[hfuid]["LABEL"];
-                        hfdescobject = fFeatures[hfuid]["DESCRIPTION"];
-                        if (hflabelobj != null)
-                        {
-                            hflabel = hflabelobj.ToString();
+                Dictionary<String, Dictionary<String, object>> fFeatures = oobcache.RetrieveFeatureCache("UNITS");
+                Dictionary<String, Dictionary<String, object>> updatefeatures = oobcache.RetrieveFeatureCache(updatetype);
+                OOBDataSource ods = OOBDataSources[updatetype];
+                DataSource ds = OOBDataSources[updatetype].DataSource;
+                Boolean useIcon = ods.UseIcon;
+                String uid = null;
+                object hfuidobj = null;
+                object flabelobj = null;
+                object hflabelobj = null;
+                object descobject = null;
+                object hfdescobject = null;
+                ImageSource uidimgsrc = null;
+                ImageSource hfimgsrc = null;
 
+
+                foreach (KeyValuePair<String, Dictionary<String, object>> pair in updatefeatures)
+                {
+                    String hfuid = null;
+                    String flabel = null;
+                    String hflabel = null;
+                    String desclabel = null;
+                    String hfdesclabel = null;
+                    uidimgsrc = null;
+                    hfimgsrc = null;
+                    uid = pair.Key;
+                    hfuidobj = pair.Value["HF"];
+                    flabelobj = pair.Value["LABEL"];
+                    descobject = pair.Value["DESCRIPTION"];
+                    if (hfuidobj != null)
+                    {
+                        hfuid = hfuidobj.ToString();
+                        if (fFeatures.ContainsKey(hfuid))
+                        {
+                            hflabelobj = fFeatures[hfuid]["LABEL"];
+                            hfdescobject = fFeatures[hfuid]["DESCRIPTION"];
+                            if (hflabelobj != null)
+                            {
+                                hflabel = hflabelobj.ToString();
+
+                            }
+                            else
+                            {
+                                hflabel = hfuid;
+                            }
+                            if (hfdescobject != null)
+                            {
+                                hfdesclabel = hfdescobject.ToString();
+                            }
+                            else
+                            {
+                                hfdesclabel = null;
+                            }
+                            if (fFeatures[hfuid]["ICON"] != null)
+                            {
+                                hfimgsrc = fFeatures[hfuid]["ICON"] as ImageSource;
+                            }
                         }
                         else
                         {
-                            hflabel = hfuid;
+                            hflabel = "No feature (" + hfuid + ") found in Units Datasource";
                         }
-                        if (hfdescobject != null)
+
+                    }
+                    else
+                    {
+                        hfuid = "no_higher_formation";
+                    }
+
+                    if (flabelobj != null)
+                    {
+                        flabel = flabelobj.ToString();
+                    }
+                    if (descobject != null)
+                    {
+                        desclabel = descobject.ToString();
+                    }
+                    if (useIcon)
+                    {
+                        if (pair.Value["ICON"] != null)
                         {
-                            hfdesclabel = hfdescobject.ToString();
-                        }
-                        else
-                        {
-                            hfdesclabel = null;
-                        }
-                        if (fFeatures[hfuid]["ICON"] != null)
-                        {
-                            hfimgsrc = fFeatures[hfuid]["ICON"] as ImageSource;
+                            uidimgsrc = pair.Value["ICON"] as ImageSource;
                         }
                     }
                     else
                     {
-                        hflabel = "No feature (" + hfuid + ") found in Units Datasource";
+                        uidimgsrc = null;
                     }
 
+                    root = this.AddNode(uid, flabel, desclabel, uidimgsrc, hfuid, hflabel, hfdesclabel, hfimgsrc, ods, root);
                 }
-                else
-                {
-                    hfuid = "no_higher_formation";
-                }
-
-                if (flabelobj != null)
-                {
-                    flabel = flabelobj.ToString();
-                }
-                if (descobject != null)
-                {
-                    desclabel = descobject.ToString();
-                }
-                if (useIcon)
-                {
-                    if (pair.Value["ICON"] != null)
-                    {
-                        uidimgsrc = pair.Value["ICON"] as ImageSource;
-                    }
-                }
-                else
-                {
-                    uidimgsrc = null;
-                }
-
-                root = this.AddNode(uid, flabel, desclabel, uidimgsrc, hfuid, hflabel, hfdesclabel, hfimgsrc, ods, root);
+                return root;
             }
-            return root;
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
+                return null;
+            }
         }
-        
+
 
         OOBNode AddNode(String uid, String label, String desc, ImageSource uidis, String hfuid, String hflabel, String hfdesc, ImageSource hfis, OOBDataSource ods, OOBNode root)
         {
-            OOBTree tree = tv.Tag as OOBTree;
-            DataSource ds = ods.DataSource;
-            String dstype = ods.Key;
-            OOBNode uidnode = root.GetDescendant(uid);
-            OOBNode hfnode = root.GetDescendant(hfuid);
+            try
+            {
+                OOBTree tree = tv.Tag as OOBTree;
+                DataSource ds = ods.DataSource;
+                String dstype = ods.Key;
+                OOBNode uidnode = root.GetDescendant(uid);
+                OOBNode hfnode = root.GetDescendant(hfuid);
 
-            if (uidnode == null && hfnode == null)
-            {
-                uidnode = new OOBNode(uid, label, desc, ods, dstype,  uidis);
-                hfnode = new OOBNode(hfuid, hflabel, hfdesc, OOBDataSources["UNITS"], "UNITS",  hfis);
-                uidnode.UUID = GenerateId();
-                hfnode.UUID = GenerateId();
-                uidnode.Parent = hfnode;
-                uidnode.ParentName = hfuid;
-                hfnode.addChild(uidnode);
-                root.addChild(hfnode);
-            }
-            else if (uidnode == null && hfnode != null)
-            {
-                uidnode = new OOBNode(uid, label, desc, ods, dstype,  uidis);
-                uidnode.UUID = GenerateId();
-                uidnode.Parent = hfnode;
-                uidnode.ParentName = hfuid;
-                hfnode.addChild(uidnode);
-            }
-            else if (uidnode != null && hfnode == null)
-            {
-                hfnode = new OOBNode(hfuid, hflabel, hfdesc, OOBDataSources["UNITS"], "UNITS", hfis);
-                hfnode.UUID = GenerateId();
-                uidnode.Parent = hfnode;
-                uidnode.ParentName = hfuid;
-                hfnode.addChild(uidnode);
-                root.addChild(hfnode);
-                root.removeChild(uidnode.Key);
+                if (uidnode == null && hfnode == null)
+                {
+                    uidnode = new OOBNode(uid, label, desc, ods, dstype, uidis);
+                    uidnode.Parent = hfnode;
+                    uidnode.ParentName = hfuid;
+                    uidnode.UUID = GenerateId();
+                    if (hfuid.Equals("no_higher_formation"))
+                    {
+                        root.addChild(uidnode);
+                    }
+                    else
+                    {
+                        hfnode = new OOBNode(hfuid, hflabel, hfdesc, OOBDataSources["UNITS"], "UNITS", hfis);
+                        hfnode.UUID = GenerateId();
+                        hfnode.addChild(uidnode);
+                        root.addChild(hfnode);
+                    }
+                }
+                else if (uidnode == null && hfnode != null)
+                {
+                    uidnode = new OOBNode(uid, label, desc, ods, dstype, uidis);
+                    uidnode.UUID = GenerateId();
+                    uidnode.Parent = hfnode;
+                    uidnode.ParentName = hfuid;
+                    hfnode.Description = hfdesc;
+                    hfnode.Name = hflabel;
+                    hfnode.Icon = hfis;
+                    hfnode.addChild(uidnode);
+                }
+                else if (uidnode != null && hfnode == null)
+                {
 
+                    uidnode.Parent = hfnode;
+                    uidnode.ParentName = hfuid;
+                    uidnode.Icon = uidis;
+                    uidnode.Description = desc;
+                    if (!hfuid.Equals("no_higher_formation"))
+                    {
+                        hfnode = new OOBNode(hfuid, hflabel, hfdesc, OOBDataSources["UNITS"], "UNITS", hfis);
+                        hfnode.UUID = GenerateId();
+                        hfnode.addChild(uidnode);
+                        root.addChild(hfnode);
+                        root.removeChild(uidnode.Key);
+                    }
+
+                }
+                else if (uidnode != null && hfnode != null)
+                {
+                    uidnode.Icon = uidis;
+                    uidnode.Description = desc;
+                    uidnode.Name = label;
+                    hfnode.Name = hflabel;
+                    hfnode.Description = hfdesc;
+                    hfnode.Icon = hfis;
+                    uidnode.ParentName = hfuid;
+                    uidnode.Parent = hfnode;
+                }
+                return root;
             }
-            else if (uidnode != null && hfnode != null)
+            catch (Exception e)
             {
-                uidnode.ParentName = hfuid;
-                uidnode.Parent = hfnode;
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
+                return null;
             }
-            return root;
         }
         private String GenerateId()
         {
@@ -1426,7 +1516,7 @@ namespace OOB
 
         private void UpdateTreeViewItem(TreeViewItem item, OOBNode n)
         {
-            item.IsExpanded = true;
+            //Boolean isExpanded = item.IsExpanded;
             item.ContextMenu = _cm;
             item.Selected += set_Mode;
             StackPanel stack = new StackPanel();
@@ -1456,12 +1546,12 @@ namespace OOB
 
         private ItemCollection UpdateTreeView(OOBNode root, ItemCollection ic)
         {
-            
+
             foreach (KeyValuePair<String, OOBNode> pair in root.Children)
             {
                 OOBNode n = pair.Value;
                 TreeViewItem item = GetItemFromTreeView(n.UUID, ic);
-                
+
                 if (item == null)
                 {
                     item = CreateTreeViewItem(n);
@@ -1471,7 +1561,7 @@ namespace OOB
                 {
                     UpdateTreeViewItem(item, n);
                 }
-                
+
                 if (pair.Value.numChildren > 0)
                 {
                     this.UpdateTreeView(n, item.Items);
@@ -1496,7 +1586,7 @@ namespace OOB
                     {
                         tvitem = GetItemFromTreeView(UUID, i.Items);
                     }
-                    
+
                 }
             }
             return tvitem;
@@ -1504,7 +1594,7 @@ namespace OOB
 
         private void DataSourceBox_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
 
@@ -1515,16 +1605,16 @@ namespace OOB
             if (mw != null)
             {
                 var dataSourceFromSameWidget = OperationsDashboard.Instance.DataSources.Select((datasrc) =>
-                    {
-                        client.FeatureLayer flyr = mw.FindFeatureLayer(datasrc);
-                        return ((flyr != null) && (datasrc.IsSelectable)) ? flyr : null;
-                    });
+                {
+                    client.FeatureLayer flyr = mw.FindFeatureLayer(datasrc);
+                    return ((flyr != null) && (datasrc.IsSelectable)) ? flyr : null;
+                });
                 if (!dataSourceFromSameWidget.Contains(fl))
                     return null;
-                
+
             }
             return fl;
-            
+
         }
         private void show(object sender, RoutedEventArgs e)
         {
@@ -1539,7 +1629,7 @@ namespace OOB
             switch (mode)
             {
                 case selectionmode.Unit:
-                     
+
                     String uidfld = ods.UIDField;
                     wc = uidfld + "= '" + n.Key + "'";
                     whereclauses.Add(n.NodeDataSource.Key, wc);
@@ -1577,7 +1667,7 @@ namespace OOB
                                     wc = p.Value.HFField + "= '" + n.Key + "'";
                                     whereclauses.Add(p.Key, wc);
                                 }
-                                
+
                             }
                         }
                         else if (n.CType.Equals("UNITS"))
@@ -1601,25 +1691,25 @@ namespace OOB
                         {
                             foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                             {
-	                            wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
+                                wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
                                 whereclauses.Add(p.Value.Key, wc);
                             }
                         }
-                        if(n.CType.Equals("DEPENDANTS"))
+                        if (n.CType.Equals("DEPENDANTS"))
                         {
                             wc = n.NodeDataSource.UIDField + " = 'NO_FEATURE_SELECTED'";
                             whereclauses.Add(n.NodeDataSource.Key, wc);
                             foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                             {
-	                            if (!p.Key.Equals("UNITS"))
-	                            {
-		                            wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
+                                if (!p.Key.Equals("UNITS"))
+                                {
+                                    wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
                                     whereclauses.Add(p.Key, wc);
-	                            }
+                                }
                                 //wc2 = OtherUIDFieldName + " = 'NO_FEATURE_SELECTED'";
                             }
                         }
-                        if(n.CType.Equals("UNITS"))
+                        if (n.CType.Equals("UNITS"))
                         {
                             wc = ConstructDescendantWhereClause(n, "", "UNITS", true);
                             whereclauses.Add(n.NodeDataSource.Key, wc);
@@ -1640,9 +1730,9 @@ namespace OOB
                             whereclauses.Add(n.NodeDataSource.Key, wc);
                             foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                             {
-	                            if (!p.Key.Equals("UNITS"))
-                                {               
-		                            wc = p.Value.HFField + "= '" + n.Key + "'";
+                                if (!p.Key.Equals("UNITS"))
+                                {
+                                    wc = p.Value.HFField + "= '" + n.Key + "'";
                                     whereclauses.Add(p.Key, wc);
                                 }
                             }
@@ -1653,9 +1743,9 @@ namespace OOB
                             whereclauses.Add(n.NodeDataSource.Key, wc);
                             foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                             {
-	                            if (!p.Key.Equals("UNITS"))
-                                {               
-		                            wc = p.Value.UIDField + " = 'NO_FEATURE_SELECTED'";
+                                if (!p.Key.Equals("UNITS"))
+                                {
+                                    wc = p.Value.UIDField + " = 'NO_FEATURE_SELECTED'";
                                     whereclauses.Add(p.Key, wc);
                                 }
                             }
@@ -1688,9 +1778,9 @@ namespace OOB
                             {
                                 if (!p.Key.Equals("UNITS"))
                                 {
-		                            wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
+                                    wc = ConstructDescendantWhereClause(n, "", p.Value.Key, true);
                                     whereclauses.Add(p.Value.Key, wc);
-	                            }
+                                }
                             }
                         }
                         if (n.CType.Equals("UNITS"))
@@ -1700,7 +1790,7 @@ namespace OOB
                             whereclauses.Add(n.NodeDataSource.Key, wc);
                         }
 
-                        if(n.CType.Equals("DEPENDANTS"))
+                        if (n.CType.Equals("DEPENDANTS"))
                         {
                             wc = ods.UIDField + "= '" + n.Key + "'";
                             whereclauses.Add(n.NodeDataSource.Key, wc);
@@ -1713,7 +1803,7 @@ namespace OOB
                                 }
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -1723,7 +1813,7 @@ namespace OOB
                     }
                     break;
                 case selectionmode.All:
-                    
+
                     if (OOBDataSources.Count > 1)
                     {
                         foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
@@ -1734,11 +1824,11 @@ namespace OOB
                     }
                     break;
             }
-            
+
             showFeatures(whereclauses);
         }
         private void clear_selection(object sender, RoutedEventArgs e)
-        {       
+        {
             clearSelection();
             ZoomToSelectedButton.IsEnabled = false;
             PanToSelectedButton.IsEnabled = false;
@@ -1758,7 +1848,7 @@ namespace OOB
                 case selectionmode.Child:
                     if (n.numChildren < 1)
                         return;
-                    queries=queryChildren(n);
+                    queries = queryChildren(n);
                     break;
                 case selectionmode.Dep:
                     if (n.numChildren < 1)
@@ -1843,6 +1933,7 @@ namespace OOB
 
             String qtype = node.NodeDataSource.Key;
             Query q = new Query();
+            q.ReturnGeometry = true;
             String oidfld = ods.DataSource.ObjectIdFieldName;
             String uidfld = ods.UIDField;
             String hffld = ods.HFField;
@@ -1855,7 +1946,7 @@ namespace OOB
 
             return queries;
         }
-        
+
         private Dictionary<String, Query> queryChildren(OOBNode node)
         {
             OOBDataSource ods = node.NodeDataSource;
@@ -1867,11 +1958,12 @@ namespace OOB
             String uidfld = null;
             String hffld = null;
             String wc = null;
-            
+
             switch (ctype)
             {
                 case "UNITS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -1886,6 +1978,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -1900,6 +1993,7 @@ namespace OOB
                     foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                     {
                         q = new Query();
+                        q.ReturnGeometry = true;
                         oidfld = p.Value.DataSource.ObjectIdFieldName;
                         uidfld = p.Value.UIDField;
                         hffld = p.Value.HFField;
@@ -1919,7 +2013,7 @@ namespace OOB
 
         private Dictionary<String, Query> queryUnitChildren(OOBNode node)
         {
-            OOBDataSource ods= node.NodeDataSource;
+            OOBDataSource ods = node.NodeDataSource;
             String ctype = node.CType;
             OOBTree tree = tv.Tag as OOBTree;
             Dictionary<String, Query> queries = new Dictionary<String, Query>();
@@ -1932,6 +2026,7 @@ namespace OOB
             {
                 case "UNITS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -1942,6 +2037,7 @@ namespace OOB
                     break;
                 case "DEPENDANTS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -1954,6 +2050,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -1966,6 +2063,7 @@ namespace OOB
                     break;
                 case "BOTH":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -1978,6 +2076,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -1989,7 +2088,7 @@ namespace OOB
                     }
                     break;
             }
-            
+
             return queries;
         }
 
@@ -2008,6 +2107,7 @@ namespace OOB
             {
                 case "UNITS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -2022,6 +2122,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -2036,6 +2137,7 @@ namespace OOB
                     foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
                     {
                         q = new Query();
+                        q.ReturnGeometry = true;
                         oidfld = p.Value.DataSource.ObjectIdFieldName;
                         uidfld = p.Value.UIDField;
                         hffld = p.Value.HFField;
@@ -2079,7 +2181,7 @@ namespace OOB
                     wc = ConstructDescendantWhereClause(pair.Value, wc, ntype, false);
                 }
             }
-            
+
 
             return wc;
         }
@@ -2099,6 +2201,7 @@ namespace OOB
             {
                 case "UNITS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -2110,6 +2213,7 @@ namespace OOB
                     break;
                 case "DEPENDANTS":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -2122,6 +2226,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -2134,6 +2239,7 @@ namespace OOB
                     break;
                 case "BOTH":
                     q = new Query();
+                    q.ReturnGeometry = true;
                     oidfld = ods.DataSource.ObjectIdFieldName;
                     uidfld = ods.UIDField;
                     hffld = ods.HFField;
@@ -2147,6 +2253,7 @@ namespace OOB
                         if (!p.Key.Equals("UNITS"))
                         {
                             q = new Query();
+                            q.ReturnGeometry = true;
                             oidfld = p.Value.DataSource.ObjectIdFieldName;
                             uidfld = p.Value.UIDField;
                             hffld = p.Value.HFField;
@@ -2190,34 +2297,75 @@ namespace OOB
                     wc = ConstructUnitDescendantWhereClause(pair.Value, wc, ntype);
                 }
             }
-            
+
 
             return wc;
         }
 
+        /*private void showFeatures(Dictionary<String, String> whereclauses)
+        {
+            try
+            {
+                
+                foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
+                {
+                    OOBDataSource ods = p.Value;
+                    DataSource ds = ods.DataSource;
+                    MapWidget mapW = MapWidget.FindMapWidget(ds);
+                    if (mapW != null)
+                    {
+                        // Get the feature layer in the map for the data source.
+                        client.FeatureLayer fl = mapW.FindFeatureLayer(ds);
+                        
+                        client.LayerDefinition lyrDef = new client.LayerDefinition();
+                        lyrDef.LayerID = fl.LayerInfo.Id;
+                        lyrDef.Definition = whereclauses[ods.Key];
+                        ObservableCollection<client.LayerDefinition> obsColl = new ObservableCollection<client.LayerDefinition>();
+                        obsColl.Add(lyrDef);
+                        //aclyrs.LayerDefinitions = obsColl;
+                        fl.Refresh();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message + "/n" + e.Source
+                    + "/n" + e.StackTrace);
+            }
+        }*/
         private void showFeatures(Dictionary<String, String> whereclauses)
         {
-            CancelShowButton.IsEnabled = true; 
+            CancelShowButton.IsEnabled = true;
             OOBTree tree = tv.Tag as OOBTree;
             Dictionary<String, String> keys = tree.Keys;
             Dictionary<String, DataSource> datasources = tree.DataSources;
-            foreach (KeyValuePair<String, String> pair in keys)
+            foreach (KeyValuePair<String, OOBDataSource> p in OOBDataSources)
             {
-                MapWidget mapW = MapWidget.FindMapWidget(datasources[pair.Value]);
-
+                OOBDataSource ods = p.Value;
+                DataSource ds = ods.DataSource;
+                MapWidget mapW = MapWidget.FindMapWidget(ds);
                 if (mapW != null)
                 {
                     // Get the feature layer in the map for the data source.
-                    client.FeatureLayer fl = mapW.FindFeatureLayer(datasources[pair.Value]);
-                    if(whereclauses.ContainsKey(pair.Value))
-                        fl.Where = whereclauses[pair.Value];
+                    client.FeatureLayer fl = mapW.FindFeatureLayer(ds);
+                    foreach (client.Field f in ds.Fields)
+                    {
+                        fl.OutFields.Add(f.Name);
+                    }
+                    
+                    if (whereclauses.ContainsKey(ods.Key))
+                    {
+                        fl.Where = whereclauses[ods.Key];
+                        fl.Update();
+                    }
                 }
             }
+            
         }
         private void clear_showFeatures(object sender, RoutedEventArgs e)
         {
             OOBTree tree = tv.Tag as OOBTree;
-            
+
             foreach (KeyValuePair<String, DataSource> pair in tree.DataSources)
             {
                 MapWidget mw = MapWidget.FindMapWidget(pair.Value);
@@ -2245,6 +2393,9 @@ namespace OOB
             // Get the array of IDs from the query results.
             var resultOids = from feature in result.Features select System.Convert.ToInt32(feature.Attributes[dataSrc.ObjectIdFieldName]);
             
+            IEnumerable<client.Geometry.MapPoint> ptcoll = from feature in result.Features select feature.Geometry as client.Geometry.MapPoint;
+
+            selGeo = new client.Geometry.PointCollection(ptcoll);
             // Find the map layer in the map widget that contains the data source.
             MapWidget mapW = MapWidget.FindMapWidget(dataSrc);
 
@@ -2254,12 +2405,12 @@ namespace OOB
                 client.FeatureLayer featureL = mapW.FindFeatureLayer(dataSrc);
                 //featureL.Mode = client.FeatureLayer.QueryMode.SelectionOnly;
                 featureL.ClearSelection();
-                selGeo.Clear();
+                //selGeo.Clear();
 
                 // NOTE: Can check here if the feature layer is selectable, using code shown above.
 
                 // For each result feature, find the corresponding graphic in the map by OID and select it.
-                
+
                 foreach (client.Graphic feature in featureL.Graphics)
                 {
                     int featureOid;
@@ -2275,9 +2426,9 @@ namespace OOB
                         {
                             PanToSelectedButton.IsEnabled = true;
                         }
-                        
+
                         feature.Select();
-                        selGeo.Add(feature.Geometry as client.Geometry.MapPoint);
+                        //selGeo.Add(feature.Geometry as client.Geometry.MapPoint);
                     }
                 }
             }
@@ -2323,7 +2474,7 @@ namespace OOB
             zoomToSelected();
         }
 
-        
+
         private void zoomToSelected()
         {
             client.Geometry.MultiPoint selFeatGeo = new client.Geometry.MultiPoint(selGeo);
@@ -2352,7 +2503,7 @@ namespace OOB
                 }
                 mapW.Map.ZoomTo(extent);
             }
-            
+
         }
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -2390,7 +2541,7 @@ namespace OOB
             }
             Boolean u = (Boolean)chkUnit.IsChecked;
             Boolean c = false;
-            Boolean d = false; 
+            Boolean d = false;
             if ((Boolean)chkSubordinate.IsChecked)
             {
                 c = (Boolean)rbImmediate.IsChecked;
@@ -2463,9 +2614,9 @@ namespace OOB
 
         }
 
-        
+
         //
-        private void treeView_DragOver(object sender, DragEventArgs e) 
+        private void treeView_DragOver(object sender, DragEventArgs e)
         {
             Point currentPosition = e.GetPosition(tv);
 
@@ -2485,7 +2636,7 @@ namespace OOB
             }
             e.Handled = true;
         }
-        private void treeView_Drop(object sender, DragEventArgs e) 
+        private void treeView_Drop(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.None;
             e.Handled = true;
@@ -2499,7 +2650,7 @@ namespace OOB
                 e.Effects = DragDropEffects.Move;
             }
         }
-        private void treeView_MouseMove(object sender, MouseEventArgs e) 
+        private void treeView_MouseMove(object sender, MouseEventArgs e)
         {
             if (IsMouseOverScrollbar(sender, e.GetPosition(sender as IInputElement)))
             {
@@ -2507,12 +2658,12 @@ namespace OOB
             }
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                
+
                 System.Windows.Point currentPos = e.GetPosition(tv);
-                if((Math.Abs(currentPos.X - _lastMouseDown.X) > 10.0) || (Math.Abs(currentPos.Y - _lastMouseDown.Y) > 10.0))
+                if ((Math.Abs(currentPos.X - _lastMouseDown.X) > 10.0) || (Math.Abs(currentPos.Y - _lastMouseDown.Y) > 10.0))
                 {
                     draggedItem = (TreeViewItem)tv.SelectedItem;
-                    if(draggedItem != null)
+                    if (draggedItem != null)
                     {
                         DragDropEffects finalDropEffect = DragDrop.DoDragDrop(tv, tv.SelectedValue, DragDropEffects.Move);
                         if ((finalDropEffect == DragDropEffects.Move) && (_target != null))
@@ -2525,9 +2676,9 @@ namespace OOB
                             }
                         }
                     }
-                    
+
                 }
-            }         
+            }
         }
 
         private void treeView_MouseDown(object sender, MouseButtonEventArgs e)
@@ -2574,7 +2725,7 @@ namespace OOB
         private String GetNameFromHeader(TreeViewItem item)
         {
             StackPanel stack = item.Header as StackPanel;
-            
+
             if (item == null)
                 return null;
             foreach (object o in stack.Children)
@@ -2601,22 +2752,22 @@ namespace OOB
         {
 
             //Asking user wether he want to drop the dragged TreeViewItem here or not
-            
-                    //adding dragged TreeViewItem in target TreeViewItem
-                    addChild(_sourceItem, _targetItem);
 
-                    //finding Parent TreeViewItem of dragged TreeViewItem 
-                    TreeViewItem ParentItem = FindVisualParent<TreeViewItem>(_sourceItem);
-                    // if parent is null then remove from TreeView else remove from Parent TreeViewItem
-                    if (ParentItem == null)
-                    {
-                        tv.Items.Remove(_sourceItem);
-                    }
-                    else
-                    {
-                        ParentItem.Items.Remove(_sourceItem);
-                    }
-                
+            //adding dragged TreeViewItem in target TreeViewItem
+            addChild(_sourceItem, _targetItem);
+
+            //finding Parent TreeViewItem of dragged TreeViewItem 
+            TreeViewItem ParentItem = FindVisualParent<TreeViewItem>(_sourceItem);
+            // if parent is null then remove from TreeView else remove from Parent TreeViewItem
+            if (ParentItem == null)
+            {
+                tv.Items.Remove(_sourceItem);
+            }
+            else
+            {
+                ParentItem.Items.Remove(_sourceItem);
+            }
+
 
         }
         public void addChild(TreeViewItem _sourceItem, TreeViewItem _targetItem)
@@ -2768,7 +2919,7 @@ namespace OOB
 
         private String GenerateToken(String serviceurl, String user, String pw)
         {
-            
+
             int i = serviceurl.IndexOf("arcgis") + 7;
             String baseurl = serviceurl.Substring(0, serviceurl.Length - i);
             //IEnumerable<client.IdentityManager.Credential> credentials = client.IdentityManager.Current.Credentials;
@@ -2784,7 +2935,7 @@ namespace OOB
             String token = response.ToString();
             token = token.Substring(0, token.Length - 1);
             return token;*/
-            
+
         }
         private void parseResponse(string response)
         {
@@ -2808,7 +2959,7 @@ namespace OOB
 
         }
 
-        private String parseToString(client.Geometry.MapPoint p, Dictionary<String, Dictionary <String, String>> parameters)
+        private String parseToString(client.Geometry.MapPoint p, Dictionary<String, Dictionary<String, String>> parameters)
         {
             String jsonstring = "[{";
             jsonstring += parsePointToString(p) + ", ";
@@ -2818,10 +2969,10 @@ namespace OOB
             return jsonstring;
         }
 
-        private String parseattributes(Dictionary<String, Dictionary <String, String>> parameters)
+        private String parseattributes(Dictionary<String, Dictionary<String, String>> parameters)
         {
             String jsonstring = "\"attributes\": {";
-            
+
             Boolean firstit = true;
             foreach (KeyValuePair<String, Dictionary<String, String>> pair in parameters)
             {
@@ -2830,7 +2981,7 @@ namespace OOB
                 String val = pair.Value["value"];
                 String typeDilineators = null;
                 String quote = "\"";
-                
+
                 if (type.Equals("STRING"))
                 {
                     typeDilineators = quote;
@@ -2891,5 +3042,3 @@ namespace OOB
         }
     }
 }
-
-

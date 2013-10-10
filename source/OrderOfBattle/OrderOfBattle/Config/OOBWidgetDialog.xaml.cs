@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,24 +23,17 @@ using client = ESRI.ArcGIS.Client;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 
-
 namespace OOB.Config
 {
     /// <summary>
     /// Interaction logic for OOBWidgetDialog.xaml
     /// </summary>
-    
+
     public partial class OOBWidgetDialog : Window
     {
         public OOBCache cache = new OOBCache();
         public List<DataSource> DataSources { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceUIDField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceHFField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceLabelField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentUIDField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentHFField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentLabelField { get; private set; }
-        public String OOBName {get; private set;}
+        public String OOBName { get; private set; }
         public string Caption { get; private set; }
         private Dictionary<String, OOBDataSource> _datasources = new Dictionary<String, OOBDataSource>();
         public Dictionary<String, OOBDataSource> OOBDataSources { get { return _datasources; } }
@@ -37,23 +43,23 @@ namespace OOB.Config
         private DataSource _currentDS;
         private List<String> _currentLabelList = new List<String>();
         private List<String> _currentDescList = new List<String>();
-        private String curDescVal = "";
-        private String _currentDescFied;
         public Dictionary<String, String> OOBDsStrings = null;
         public String oobdsstring = null;
         public IEnumerable<IFeatureAction> SelectedFeatureActions { get; private set; }
-        public Boolean ShowIcon {
+        public Boolean ShowIcon
+        {
             get
-            { 
-                return _showIcon; 
+            {
+                return _showIcon;
             }
-            set {
-                _showIcon = value; 
+            set
+            {
+                _showIcon = value;
             }
         }
         private Boolean _showIcon = false;
-        readonly static IFeatureAction[] _configFeatureActions = { new ZoomToFeatureAction(), new PanToFeatureAction(), new FollowFeatureAction(), new HighlightFeatureAction(), new ShowPopupFeatureAction()};
-        public OOBWidgetDialog(Dictionary<String, OOBDataSource> oobdatasources, string initialCaption,  IEnumerable<IFeatureAction>selectedFeatureActions,  OOBCache oobcache)
+        readonly static IFeatureAction[] _configFeatureActions = { new ZoomToFeatureAction(), new PanToFeatureAction(), new FollowFeatureAction(), new HighlightFeatureAction(), new ShowPopupFeatureAction() };
+        public OOBWidgetDialog(Dictionary<String, OOBDataSource> oobdatasources, string initialCaption, IEnumerable<IFeatureAction> selectedFeatureActions, OOBCache oobcache)
         {
             InitializeComponent();
             DataSourceSelector.IsEnabled = true;
@@ -71,8 +77,8 @@ namespace OOB.Config
             {
                 InitializeDataSources(oobdatasources);
             }
-            
-            
+
+
             InitializeFeatureActions(selectedFeatureActions);
         }
 
@@ -94,17 +100,17 @@ namespace OOB.Config
             if (lb_label.SelectedItem == null)
                 return;
             String n = lb_label.SelectedItem.ToString();
-            
-            
+
+
             String lval = "{" + n + "} ";
-            
+
             if (curLabelVal.Length > 0)
             {
                 curLabelVal += " ";
             }
             curLabelVal += lval;
             tbLabel.Text = curLabelVal;
-            if(!_currentLabelList.Contains(n))
+            if (!_currentLabelList.Contains(n))
             {
                 _currentLabelList.Add(n);
             }
@@ -121,10 +127,7 @@ namespace OOB.Config
                     {
                         rb_Symbol.IsChecked = true;
                     }
-                    if (ods.DescType != null)
-                    {
-                        setDescType(ods.DescType);
-                    }
+                    setDescType(ods.DescType);
                 }
             }
         }
@@ -186,7 +189,7 @@ namespace OOB.Config
             {
                 btnRemoveDS.IsEnabled = false;
             }
- 
+
         }
         private void setDescriptionType(object sender, RoutedEventArgs e)
         {
@@ -197,7 +200,7 @@ namespace OOB.Config
                 singleFieldGrid.Visibility = System.Windows.Visibility.Collapsed;
                 CustomDescGrid.Visibility = System.Windows.Visibility.Collapsed;
                 rtDesc.IsEnabled = false;
-                
+
             }
             else if ((Boolean)rb_descSinglefld.IsChecked)
             {
@@ -250,7 +253,7 @@ namespace OOB.Config
             OOBDsStrings = new Dictionary<String, String>();
             oobdsstring = "";
             Boolean first = true;
-            foreach(KeyValuePair<String, OOBDataSource> p in _datasources)
+            foreach (KeyValuePair<String, OOBDataSource> p in _datasources)
             {
                 if (!first)
                 {
@@ -308,13 +311,11 @@ namespace OOB.Config
             }
         }
 
-
-
         private void addDS(object sender, RoutedEventArgs e)
         {
             String key = tb_dsname.Text.ToUpper();
             DataSource ds = DataSourceSelector.SelectedDataSource;
-            
+
             listDs.Items.Add(key);
             if (!tb_dsname.IsEnabled)
             {
@@ -341,7 +342,7 @@ namespace OOB.Config
                 ods.DescriptionFields.Add(d);
             }
             ods.DescType = _currentDescType;
-            ods.BaseDescription=_currentBaseDesc;
+            ods.BaseDescription = _currentBaseDesc;
             ods.BaseLabel = curLabelVal;
             ods.UseIcon = _showIcon;
             _datasources.Add(ods.Key, ods);
@@ -354,7 +355,7 @@ namespace OOB.Config
         {
             String key = listDs.SelectedItem.ToString();
             _datasources.Remove(key);
-            listDs.Items.Remove(key); 
+            listDs.Items.Remove(key);
         }
 
         private void openLabelSelector(object sender, MouseButtonEventArgs e)
@@ -362,7 +363,6 @@ namespace OOB.Config
             popLabel.IsOpen = true;
         }
 
-        
         private void ResetComboBoxes(DataSource dataSource, object sender)
         {
             UIDComboBox.ItemsSource = dataSource.Fields;
@@ -385,9 +385,6 @@ namespace OOB.Config
 
         }
 
-
-
-
         private void ValidateInput(object sender, TextChangedEventArgs e)
         {
             if (tbLabel == null || tb_dsname == null || tb_title == null)
@@ -405,28 +402,6 @@ namespace OOB.Config
             }
         }
 
-        /*private void set_equipment(object sender, RoutedEventArgs e)
-        {
-            if ((Boolean)((CheckBox)sender).IsChecked)
-            {
-                DataSourceSelectorEquipment.IsEnabled = true;
-                //EquipmentUIDComboBox.IsEnabled = true;
-                //EquipmentHFComboBox.IsEnabled = true;
-                //EquipmentLabelComboBox.IsEnabled = true;
-            }
-            else
-            {
-                if (DataSources.Count > 1)
-                {
-                    DataSources.Remove(DataSources[1]);
-                }
-                DataSourceSelectorEquipment.IsEnabled = false;
-                //EquipmentUIDComboBox.IsEnabled = false;
-                //EquipmentHFComboBox.IsEnabled = false;
-                //EquipmentLabelComboBox.IsEnabled = false;
-            }
-        }*/
-
         private async void AddDatasourceToCache(OOBDataSource ods)
         {
             try
@@ -440,14 +415,14 @@ namespace OOB.Config
                 Dictionary<String, String> fields = new Dictionary<String, String>();
                 fields["UID"] = Uid;
                 fields["HF"] = HF;
-                
+
                 Int32 numBaseFlds = 2;
                 if (DF != null)
                 {
                     fields["DESCFIELD"] = DF;
                     numBaseFlds = 3;
                 }
-                
+
                 Int32 arraySize = ods.LabelFields.Count + ods.DescriptionFields.Count + numBaseFlds;
                 string[] qfields = new string[arraySize];
                 qfields[0] = Uid;
@@ -492,8 +467,6 @@ namespace OOB.Config
                 fields["DESCFLDS"] = DescFlds;
                 Query q = new Query();
 
-
-
                 q.Fields = qfields;
                 cache.AddFeatuereContainer(CacheName);
 
@@ -509,7 +482,7 @@ namespace OOB.Config
                     cache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields);
                 }
                 ods.IsCacheCreated = true;
-                
+
                 //cache.AddFeature
             }
             catch (Exception e)
@@ -535,12 +508,10 @@ namespace OOB.Config
             }
         }
 
-        
-
         private void tbLabel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            curLabelVal  = tbLabel.Text;
-            if (listDs.SelectedIndex> -1)
+            curLabelVal = tbLabel.Text;
+            if (listDs.SelectedIndex > -1)
             {
                 OOBDataSource ods = OOBDataSources[listDs.SelectedItem.ToString()];
                 if (ods != null)
@@ -598,11 +569,13 @@ namespace OOB.Config
                 }
             }
         }
-       
-        
 
-        
+        private void UIDComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
+
     // Helper class to compare feature actions based on their type.
     class FeatureActionComparer : IEqualityComparer<IFeatureAction>
     {
@@ -617,3 +590,4 @@ namespace OOB.Config
         }
     }
 }
+

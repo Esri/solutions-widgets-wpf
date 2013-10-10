@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +26,13 @@ namespace OOB
     {
         public OOBCache() { }
         private client.Geometry.PointCollection geoCollection = new client.Geometry.PointCollection();
-        private client.Geometry.Envelope _cacheExtent = null;
-        public client.Geometry.Envelope CacheExtent {
-            get { 
+//        private client.Geometry.Envelope _cacheExtent = null;
+        public client.Geometry.Envelope CacheExtent
+        {
+            get
+            {
                 client.Geometry.MultiPoint mp = new client.Geometry.MultiPoint(geoCollection);
-                return mp.Extent; 
+                return mp.Extent;
             }
         }
         private Int32 r = 0;
@@ -35,7 +50,13 @@ namespace OOB
             }
         }
         private Boolean _isDirty = false;
-        private void updateExtent(client.Geometry.MapPoint pt)
+        private Boolean _refreshSymbols = false;
+        public Boolean RefreshSymbols
+        {
+            get { return _refreshSymbols; }
+            set { _refreshSymbols = value; }
+        }
+        /*private void updateExtent(client.Geometry.MapPoint pt)
         {
             double xmin, ymin, xmax, ymax, ptX, ptY;
             ptX = pt.X;
@@ -46,7 +67,7 @@ namespace OOB
                 ymin = ptY - 1;
                 xmax = ptX + 1;
                 ymax = ptY + 1;
-                _cacheExtent = new client.Geometry.Envelope(xmin,ymin,xmax,ymax);
+                _cacheExtent = new client.Geometry.Envelope(xmin, ymin, xmax, ymax);
                 _cacheExtent.SpatialReference = pt.SpatialReference;
             }
             else
@@ -70,8 +91,8 @@ namespace OOB
                 _cacheExtent.XMax = xmax;
                 _cacheExtent.YMax = ymax;
             }
-                
-        }
+
+        }*/
         public void AddFeatuereContainer(String key)
         {
             Dictionary<String, Dictionary<String, object>> fc = new Dictionary<String, Dictionary<String, object>>();
@@ -89,7 +110,7 @@ namespace OOB
 
                 object uid = null, hf = null, label = null, description = null;
                 client.Geometry.MapPoint pt = feature.Geometry as client.Geometry.MapPoint;
-                
+
                 uid = feature.Attributes[fields["UID"]];
                 hf = feature.Attributes[fields["HF"]];
                 label = parseLabel(feature, fields["LABELS"], baseLabel);
@@ -98,6 +119,7 @@ namespace OOB
                 description = createDescriptionString(feature, baseDesc, df, descFlds);
                 client.FeatureService.Symbols.PictureMarkerSymbol sym = feature.Symbol as client.FeatureService.Symbols.PictureMarkerSymbol;
                 ImageSource isrc = null;
+                
                 if (uid != null)
                 {
                     if (!fList.ContainsKey(uid.ToString()))
@@ -135,7 +157,7 @@ namespace OOB
                         }
                         if (sym != null)
                         {
-                            
+
                             attributes["ICON"] = sym.Source;
                         }
                         else
@@ -143,6 +165,7 @@ namespace OOB
                             attributes["ICON"] = isrc;
                         }
                         fList.Add(uid.ToString(), attributes);
+                        _refreshSymbols = true;
                         _isDirty = true;
                     }
                     else
@@ -163,8 +186,8 @@ namespace OOB
             if (String.IsNullOrEmpty(baseLabel))
                 return null;
             String[] labelflds = label.Split(',');
-            String l = "";
-            
+            String l = baseLabel;
+
             for (Int32 i = 0; i < labelflds.Length; ++i)
             {
                 /*if(i != 0)
@@ -177,11 +200,11 @@ namespace OOB
                 String lstring = "{" + fld + "}";
                 if (f.Attributes[fld] != null)
                 {
-                    l = baseLabel.Replace(lstring, f.Attributes[fld].ToString());
+                    l = l.Replace(lstring, f.Attributes[fld].ToString());
                 }
                 else
                 {
-                    l = baseLabel.Replace(lstring, "");
+                    l = l.Replace(lstring, "");
                 }
             }
             return l;
@@ -197,7 +220,7 @@ namespace OOB
                     d = null;
                     return d;
                 }
-                
+
                 desc = f.Attributes[descfield].ToString();
                 if (!String.IsNullOrEmpty(basedesc))
                 {
@@ -243,7 +266,7 @@ namespace OOB
             //Dictionary<String, object> attributes = new Dictionary<String, object>();
             Dictionary<String, object> f = fList[id];
             client.Geometry.MapPoint pt = feature.Geometry as client.Geometry.MapPoint;
-            
+
             object hf = feature.Attributes[fields["HF"]];
             object currenthf = f["HF"];
             object labelobj = parseLabel(feature, fields["LABELS"], baseLabel);
@@ -255,7 +278,7 @@ namespace OOB
             object currentCoords = f["COORDS"];
             //object nameobj = feature.Attributes[fields["NAME"]];
             //object currentName = f["NAME"];
-            
+
             client.FeatureService.Symbols.PictureMarkerSymbol sym = feature.Symbol as client.FeatureService.Symbols.PictureMarkerSymbol;
             object currentsym = f["ICON"];
 
@@ -308,7 +331,7 @@ namespace OOB
                     geoCollection.Add(pt);
                     featureUpdated = true;
                 }
-                
+
             }
 
             if (labelobj != null)
@@ -375,13 +398,27 @@ namespace OOB
             }
             else
             {
-                //_symcat.Search();
-
+                _refreshSymbols = true;
             }
             if (featureUpdated)
             {
                 String updates_key = key + "_UPDATE";
-                _items[updates_key].Add(id, f);
+                if (!_items[updates_key].ContainsKey(id))
+                {
+                    _items[updates_key].Add(id, f);
+                }
+                else
+                {
+                    _items[updates_key][id] =  f;
+                }
+                if (!_items[key].ContainsKey(id))
+                {
+                    _items[key].Add(id, f);
+                }
+                else
+                {
+                    _items[key][id] = f;
+                }
             }
             return featureUpdated;
 

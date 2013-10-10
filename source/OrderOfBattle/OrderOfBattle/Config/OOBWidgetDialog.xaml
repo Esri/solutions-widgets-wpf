@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
         xmlns:opsDashCtl="clr-namespace:ESRI.ArcGIS.OperationsDashboard.Controls;assembly=ESRI.ArcGIS.OperationsDashboard"
-        xmlns:esri="http://schemas.esri.com/arcgis/client/2009" xmlns:OOB="clr-namespace:OOB" x:Class="OOB.Config.OOBWidgetDialog"
+        xmlns:esri="http://schemas.esri.com/arcgis/client/2009" x:Class="OOB.Config.OOBWidgetDialog"
         WindowStartupLocation="CenterOwner"
         Width="470"
         Height="570"
@@ -17,7 +17,7 @@
 
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Grid>
-                            <Border x:Name="Border" BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="5,30, 0, 0">
+                            <Border Name="Border" BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="5,30, 0, 0">
                                 <Border.Background>
                                     <LinearGradientBrush>
                                         <GradientStop Color="LightGray" Offset="0" />
@@ -75,17 +75,17 @@
 
 
             <TextBlock Text="Title:" FontSize="10" HorizontalAlignment="Right"   Grid.Row="1" Grid.Column="1" />
-            <TextBox x:Name="tb_title"  FontSize="10" Text="Order of Battle Widget" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="3" Background="#fcfafa" TextChanged="tb_title_TextChanged"/>
+            <TextBox Name="tb_title"  FontSize="10" Text="Order of Battle Widget" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="3" Background="#fcfafa" TextChanged="tb_title_TextChanged"/>
 
 
 
             <TextBlock Text="Description:" FontSize="10" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1"/>
-            <TextBox x:Name="tb_Desc" FontSize="10" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3"  Grid.RowSpan="3" Background="#fcfafa" Margin="0,0,0,5"/>
+            <TextBox Name="tb_Desc" FontSize="10" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3"  Grid.RowSpan="3" Background="#fcfafa" Margin="0,0,0,5"/>
 
         </Grid>
 
         <TabControl Grid.Row ="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,10,10,10"  VerticalAlignment="Top">
-            <TabItem x:Name="tiDs" Height="20" Margin="-2,-2,-5.6,0" VerticalAlignment="Top" Header="Data">
+            <TabItem Name="tiDs" Height="20" Margin="-2,-2,-5.6,0" VerticalAlignment="Top" Header="Data">
                 <Grid Margin="0,0,-0.4,-0.2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -109,7 +109,9 @@
 
                     </Grid.RowDefinitions>
                     <Border Margin="2,5,2,5" Grid.Row ="1" Grid.Column="1" Grid.RowSpan="7" Background ="White" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
-                        <ListBox x:Name="listDs" FontSize="10"  BorderThickness="0" Margin="5,5,5,5"  SelectionChanged="updateCurrentDatasource"/>
+                        <ListBox Name="listDs" FontSize="10"  BorderThickness="0" Margin="5,5,5,5"  SelectionChanged="updateCurrentDatasource">
+
+                        </ListBox>
                     </Border>
                     <Grid Grid.Row="0" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
@@ -123,19 +125,19 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnAddDS" Click="addDS" FontSize="10" Content="Add"  Grid.Column="0"  Margin="2,0,2,0" IsEnabled="False"/>
-                            <Button x:Name="btnRemoveDS" Click="RemoveDS" FontSize="10" Content="Remove"  Grid.Column="1"  Margin="2,0,2,0" IsEnabled="False"/>
+                            <Button Name="btnAddDS" Click="addDS" FontSize="10" Content="Add"  Grid.Column="0"  Margin="2,0,2,0" IsEnabled="False"/>
+                            <Button Name="btnRemoveDS" Click="RemoveDS" FontSize="10" Content="Remove"  Grid.Column="1"  Margin="2,0,2,0" IsEnabled="False"/>
                         </Grid>
 
                     </Grid>
-                    <opsDashCtl:DataSourceSelector x:Name="DataSourceSelector" Grid.Row="3" Grid.Column="0" Margin="0,0,10,0" SelectionChanged="DataSourceSelector_SelectionChanged"/>
+                    <opsDashCtl:DataSourceSelector Name="DataSourceSelector" Grid.Row="3" Grid.Column="0" Margin="0,0,10,0" SelectionChanged="DataSourceSelector_SelectionChanged"/>
                     <TextBlock FontSize="10" Text="Datasource:"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  Grid.Column="0" Grid.Row="2" Height="16"/>
-                    <TextBox x:Name="tb_dsname" Grid.Row ="1" FontSize="10" IsEnabled="False" Text="Units" TextChanged="tb_dsname_TextChanged" Background="#fcfafa" Margin="0,0,10,0"/>
+                    <TextBox Name="tb_dsname" Grid.Row ="1" FontSize="10" IsEnabled="False" Text="Units" TextChanged="tb_dsname_TextChanged" Background="#fcfafa" Margin="0,0,10,0"/>
 
                     <TextBlock Text="UID Field" FontSize="10"  VerticalAlignment ="Bottom" HorizontalAlignment="Left" Grid.Row="4" Height="14" Width="43"/>
-                    <ComboBox x:Name="UIDComboBox" FontSize="10" Grid.Row="5" Grid.Column="0" DisplayMemberPath="Alias"  Margin="0,0,10,0"   />
+                    <ComboBox Name="UIDComboBox" FontSize="10" Grid.Row="5" Grid.Column="0" DisplayMemberPath="Alias"  Margin="0,0,10,0" SelectionChanged="UIDComboBox_SelectionChanged"   />
                     <TextBlock Text="Higher Formation:"  Grid.ColumnSpan="3" FontSize="10" VerticalAlignment="Bottom"  Grid.Row="6"/>
-                    <ComboBox x:Name="HFComboBox" Grid.Row="7" FontSize="10" Grid.Column="0" DisplayMemberPath="Alias"  Margin="0,0,10,0"/>
+                    <ComboBox Name="HFComboBox" Grid.Row="7" FontSize="10" Grid.Column="0" DisplayMemberPath="Alias"  Margin="0,0,10,0"/>
                     <Grid Grid.Row="8" Grid.ColumnSpan="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="7"/>
@@ -157,13 +159,13 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Label:" FontSize="10" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
                         <TextBox x:Name="tbLabel" IsEnabled="true" Grid.Column="3" Grid.Row="0" Margin="0,0,10,0" TextChanged="tbLabel_TextChanged"/>
-                        <Border x:Name="labelBorder" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4" MouseUp="openLabelSelector">
+                        <Border Name="labelBorder" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4" MouseUp="openLabelSelector">
                             <StackPanel Height="30" Width="26">
                                 <Image Source="../Images/plus.png" Margin="0,-2,6.5,0" Height="23" RenderTransformOrigin="0.48,0.209" />
                             </StackPanel>
                         </Border>
-                        <Popup x:Name="popLabel" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=labelBorder}">
-                            <ListBox x:Name="lb_label" SelectionChanged="lb_label_SelectionChanged"/>
+                        <Popup Name="popLabel" StaysOpen="False" IsOpen="false" PlacementTarget="{Binding ElementName=labelBorder}">
+                            <ListBox Name="lb_label" SelectionChanged="lb_label_SelectionChanged"/>
                         </Popup>
                     </Grid>
 
@@ -177,8 +179,8 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Icon:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="10" Grid.Column ="2" Margin="0,0,10,0"/>
-                        <RadioButton  IsChecked="True"  x:Name="rb_none" VerticalAlignment="Center" Grid.Column="3" Content="None" FontSize="10" Click="set_ShowIcon"/>
-                        <RadioButton x:Name="rb_Symbol" VerticalAlignment="Center" Grid.Column="4" Content="Symbol" FontSize="10" Click="set_ShowIcon"/>
+                        <RadioButton  IsChecked="True"  Name="rb_none" VerticalAlignment="Center" Grid.Column="3" Content="None" FontSize="10" Click="set_ShowIcon"/>
+                        <RadioButton Name="rb_Symbol" VerticalAlignment="Center" Grid.Column="4" Content="Symbol" FontSize="10" Click="set_ShowIcon"/>
                     </Grid>
                     <Grid Grid.Row="11" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
@@ -200,12 +202,12 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Description:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="10" Grid.Column ="0" Grid.ColumnSpan="3"/>
-                        <RadioButton x:Name="rb_descNone" VerticalAlignment="Center" Grid.Column="3" Content="None" FontSize="10" IsChecked="true" Click="setDescriptionType"/>
-                        <RadioButton x:Name="rb_descSinglefld" VerticalAlignment="Center" Grid.Column="4" Content="Single field" FontSize="10" Click="setDescriptionType"/>
-                        <RadioButton x:Name="rb_descCustom" VerticalAlignment="Center" Grid.Column="5" Content="Custom" FontSize="10" Click="setDescriptionType"/>
+                        <RadioButton Name="rb_descNone" VerticalAlignment="Center" Grid.Column="3" Content="None" FontSize="10" IsChecked="true" Click="setDescriptionType"/>
+                        <RadioButton Name="rb_descSinglefld" VerticalAlignment="Center" Grid.Column="4" Content="Single field" FontSize="10" Click="setDescriptionType"/>
+                        <RadioButton Name="rb_descCustom" VerticalAlignment="Center" Grid.Column="5" Content="Custom" FontSize="10" Click="setDescriptionType"/>
 
                     </Grid>
-                    <Grid Grid.Row="12" x:Name="singleFieldGrid" Visibility="Collapsed" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="12" Name="singleFieldGrid" Visibility="Collapsed" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="30"/>
@@ -219,9 +221,9 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ComboBox x:Name="cbItemDesc" Grid.Column="3" Grid.Row="0" DisplayMemberPath="Alias"  Margin="0.2,0,9.8,0" IsEnabled="False" Grid.ColumnSpan="3"/>
+                        <ComboBox Name="cbItemDesc" Grid.Column="3" Grid.Row="0" DisplayMemberPath="Alias"  Margin="0.2,0,9.8,0" IsEnabled="False" Grid.ColumnSpan="3"/>
                     </Grid>
-                    <Grid Grid.Row="12"  x:Name="CustomDescGrid" Visibility="Collapsed" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="12"  Name="CustomDescGrid" Visibility="Collapsed" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="90"/>
                             <ColumnDefinition/>
@@ -231,20 +233,20 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border x:Name="desc_Border" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4"  MouseUp="openDescSelector">
+                        <Border Name="desc_Border" CornerRadius="90,90,90,90" Background="Blue" BorderBrush="White" BorderThickness="1" Grid.Column="4"  MouseUp="openDescSelector">
                             <StackPanel Height="30" Width="26">
                                 <Image Source="../Images/plus.png" Margin="0,-2,6.5,0" Height="23" RenderTransformOrigin="0.48,0.209" />
                             </StackPanel>
                         </Border>
-                        <Popup  x:Name="popDesc" IsOpen="false" StaysOpen="False" PlacementTarget="{Binding ElementName=desc_Border}">
-                            <ListBox x:Name="lb_desc" SelectionChanged="lb_desc_SelectionChanged"/>
+                        <Popup  Name="popDesc" IsOpen="false" StaysOpen="False" PlacementTarget="{Binding ElementName=desc_Border}">
+                            <ListBox Name="lb_desc" SelectionChanged="lb_desc_SelectionChanged"/>
                         </Popup>
-                        <TextBox x:Name="rtDesc" Grid.Column="1" Grid.RowSpan="2" TextChanged="rtDesc_TextChanged"/>
+                        <TextBox Name="rtDesc" Grid.Column="1" Grid.RowSpan="2" TextChanged="rtDesc_TextChanged"/>
                     </Grid>
 
 
                 </Grid>
-            </TabItem>
+            </TabItem >
             <TabItem Height="20" Margin="-2,-2,-5.6,0" VerticalAlignment="Top" Header="Feature Actions">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -253,7 +255,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <opsDashCtl:FeatureActionList x:Name="FeatureActionList" />
+                    <opsDashCtl:FeatureActionList Name="FeatureActionList" />
 
 
                 </Grid>
@@ -270,8 +272,6 @@
             <Button x:Name="OKButton" Padding="5,0" Width="65" Height="25" HorizontalAlignment ="Center" Content="OK" Click="OKButton_Click" Grid.Column="2"/>
             <Button  Padding="5,0" Content="Cancel" Width="65" Height="25" HorizontalAlignment ="Center" IsCancel="True" Grid.Column="1"/>
         </Grid>
-
-        <OOB:OOBWidget Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="-153,101.8,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>
 
