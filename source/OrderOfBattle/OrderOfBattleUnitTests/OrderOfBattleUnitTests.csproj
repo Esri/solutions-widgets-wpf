@@ -34,14 +34,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
+    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
+    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
+    <!--set ReferenceFolder depending on 32bit or 64bit machine-->
+    <ReferenceFolder Condition="Exists('$(ReferenceFolder32)')">$(ReferenceFolder32)</ReferenceFolder>
+    <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.Client.10.2.0.0.Fakes">
       <HintPath>FakesAssemblies\ESRI.ArcGIS.Client.10.2.0.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard.10.2.0.0.Fakes">
       <HintPath>FakesAssemblies\ESRI.ArcGIS.OperationsDashboard.10.2.0.0.Fakes.dll</HintPath>
@@ -111,11 +119,18 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <PropertyGroup>
+    <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
+    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
+    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
+    <!--set IDEIntegrationFolder depending on 32bit or 64bit machine-->
+    <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder32)')">$(IDEIntegrationFolder32)</IDEIntegrationFolder>
+    <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder64)')">$(IDEIntegrationFolder64)</IDEIntegrationFolder>
+  </PropertyGroup>
+  <Import Project="$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets" Condition="Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')" />
+  <Target Name="BeforeBuild" Condition="!Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')">
+    <Error Text="The Esri WPF SDK is not correctly installed - 'ESRI.ArcGIS.OperationsDashboard.targets' not found (IDEIntegrationFolder='$(IDEIntegrationFolder)')." />
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
 </Project>

@@ -4015,33 +4015,6 @@
         <member name="T:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDirectionsToFeatureAction.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
-        <member name="T:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction">
-            <summary>Shim type of ESRI.ArcGIS.OperationsDashboard.DriveTimeFeatureAction</summary>
-        </member>
-        <member name="M:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.#ctor">
-            <summary>Initializes a new shim instance</summary>
-        </member>
-        <member name="M:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.#ctor(ESRI.ArcGIS.OperationsDashboard.DriveTimeFeatureAction)">
-            <summary>Initializes a new shim for the given instance</summary>
-        </member>
-        <member name="M:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.BehaveAsCurrent">
-            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
-        </member>
-        <member name="M:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
-        </member>
-        <member name="M:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.Bind(ESRI.ArcGIS.OperationsDashboard.IFeatureAction)">
-            <summary>Binds the members of the interface to the shim.</summary>
-        </member>
-        <member name="P:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.Behavior">
-            <summary>Assigns the behavior for all methods of the shimmed type</summary>
-        </member>
-        <member name="P:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.Constructor">
-            <summary>Sets the shim of DriveTimeFeatureAction.DriveTimeFeatureAction()</summary>
-        </member>
-        <member name="T:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimDriveTimeFeatureAction.AllInstances">
-            <summary>Define shims for all instances members</summary>
-        </member>
         <member name="T:ESRI.ArcGIS.OperationsDashboard.Fakes.ShimFeatureAction">
             <summary>Shim type of ESRI.ArcGIS.OperationsDashboard.FeatureAction</summary>
         </member>

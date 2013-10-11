@@ -256,7 +256,7 @@ namespace GroundCommunicationCoverageAddin
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.WriteLine("error in gpGroundComCov_JobCompleted: " + ex.Message);
             }
         }
         void pWin_Closed(object sender, EventArgs e)

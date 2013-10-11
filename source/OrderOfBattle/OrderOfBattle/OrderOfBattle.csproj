@@ -145,8 +145,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetFileName)" "$(ProjectDir)..\..\..\application"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
@@ -162,7 +161,6 @@
   </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
-    <Copy SourceFiles="$(TargetDir)OrderOfBattle.opdashboardAddin" 
-          DestinationFolder="$(ProjectDir)..\..\..\application" />
+    <Copy SourceFiles="$(TargetDir)OrderOfBattle.opdashboardAddin" DestinationFolder="$(ProjectDir)..\..\..\application" />
   </Target>
 </Project>

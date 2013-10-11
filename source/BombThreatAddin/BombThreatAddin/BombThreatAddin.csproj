@@ -47,11 +47,11 @@
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.Client.dll</HintPath>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -127,8 +127,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetFileName)" "$(ProjectDir)..\..\..\application"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
@@ -144,7 +143,6 @@
   </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
-    <Copy SourceFiles="$(TargetDir)BombThreatAddin.opdashboardAddin" 
-          DestinationFolder="$(ProjectDir)..\..\..\application" />
+    <Copy SourceFiles="$(TargetDir)BombThreatAddin.opdashboardAddin" DestinationFolder="$(ProjectDir)..\..\..\application" />
   </Target>
 </Project>

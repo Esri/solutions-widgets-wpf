@@ -1,13 +1,10 @@
 # Test Dependent Services
 
- This is a simple console application to test the services that some of the widgets depend on.
-
-
+This is a simple test application to test the services that some of the widgets depend on.
 
 ## Features
 
 * Test availability of services.
-
 
 ## Instructions
 
@@ -26,9 +23,6 @@
 
 * No services are needed for this widget.
 
-## Resources
-
-
 ## Issues
 
 Find a bug or want to request a new feature?  Please let us know by submitting an issue.
@@ -39,7 +33,7 @@ Anyone and everyone is welcome to contribute.
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -56,6 +50,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
 
-
-[](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF 10.2)
+[](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF)
 [](Esri Language: C#)

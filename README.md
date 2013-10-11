@@ -1,19 +1,34 @@
 # solutions-widgets-wpf
 
-The Solutions widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are 8 Addins available to use as is or take and modify to meet your needs.
+The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are multiple Addins available to use as is or to take and modify to meet your needs.
 
-![Image of Operations Dashboard]( OpsDash.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( ScreenShot.PNG "solutions-widgets-wpf")
 
 ## Features
 
-* Aircraft Communication Coverage Addin 
-* Aircraft Route Generation Line Addin
-* Bomb Threat Addin
-* Farthest On Circle Addin
-* Ground Communication Coverage Addin
-* Order of Battle Addin
-* Range Fan Addin
-* Satellite Ephemeris Generation Addin
+* [Aircraft Communication Coverage Addin](source/AircraftCommunicationCoverageAddin/Readme.md)
+* [Aircraft Route Generation Line Addin](source/AirCraftRouteGenerationLineAddin/Readme.md)
+* [Bomb Threat Addin](source/BombThreatAddin/Readme.md)
+* [Farthest On Circle Addin](source/FarthestOnCircleAddin/Readme.md)
+* [Ground Communication Coverage Addin](source/GroundCommunicationCoverageAddin/Readme.md)
+* [Order of Battle Addin](source/OrderOfBattle/Readme.md)
+* [Range Fan Addin](source/RangeFanAddin/Readme.md)
+* [Satellite Ephemeris Generation Addin](source/SatelliteEphemerisGenerationAddin/Readme.md)
+
+## Sections
+
+* [Requirements](#requirements)
+* [Instructions](#instructions)
+* [Resources](#resources)
+* [Issues](#issues)
+* [Contributing](#contributing)
+* [Licensing](#licensing)
+
+## Requirements
+
+* Visual Studio 2012
+* ArcGIS Runtime SDK for WPF 10.2
+    * included in the SDK is a copy of the Operations Dashboard
 
 ## Instructions
 
@@ -22,17 +37,33 @@ The Solutions widgets (WPF) are examples of how to extend the [Operations Dashbo
 * [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
 ### Getting Started with the Solution Widgets (WPF)
-* Open, build, and add one of the addins to the Operations Dashboard
-* Check the readme for each addin to get more details about what each one does.
 
-## Requirements
+* Building
+    * To Build Using Visual Studio
+        * Open, build, and add one of the addins to the Operations Dashboard
+    *  To use MSBuild to build the solution
+        * Open a Visual Studio Command Prompt: Start Menu | Microsoft Visual Studio 2012 | Visual Studio Tools | Developer Command Prompt for VS 2012
+        * `cd solutions-widgets-wpf\source\AllSolutionsWidgets`
+        * `msbuild AllSolutionsWidgets.sln /property:Configuration=Release`
+* Running Units Test to Verify Your Solution
+    * Important Note: Visual Studio 2012 Update 2 is required to run the Unit Tests provided with the repository
+    * Open and run the test solution at source\AllSolutionsWidgetsWithTests with the Visual Studio Test Explorer
+    * See the Readme in the [Unit Test Solution](source/AllSolutionsWidgetsWithTests/Readme.md) for more information
+* Running
+    * Check the readme for each addin for more details about what each one does.
+    * To run from Visual Studio:
+        * Update Project Debug properties to correctly locate add-in build path in /addinpath command line argument. 
+        * E.g. Command Line Arguments: `/addinpath:"{FULLY QUALIFIED PATH TO}\solutions-widgets-wpf\applications"`
+    * To run from a command prompt:
+        * `> cd solutions-widgets-wpf\applications`
+        * `> C:\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\OperationsDashboard.exe /addinpath:"{LOCAL PATH TO}\solutions-widgets-wpf\applications"`
+    * When Operations Dashboard application starts, edit an Operation View settings to choose one of the addins
+    * When ready to test the deployment to ArcGIS Online
+        * Upload one or more of the .opdashboardaddin files from the solutions-widgets-wpf\applications directory to ArcGIS Online, and then download using Manage Add-Ins in Operations Dashboard
 
-* Visual Studio 2012
-* ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
- 
 ### Services
 
-* There are several services that the addins depend on to function.  You can open, build, and run the TestDependentServices solution to check which services may not be available.
+* There are several services that the addins depend on to function.  You can open, build, and run the test project TestDependentServices solution to check which services may not be available.
 
 ## Resources
 
@@ -47,11 +78,11 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2012-2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -68,6 +99,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
 
-
-[](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF 10.2)
+[](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF Military)
 [](Esri Language: C#)

@@ -277,7 +277,8 @@ namespace SatelliteEphemerisGenerationAddin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in GetResultDataCompleted: " + e.UserState.ToString());
+                MessageBox.Show("Error in GetResultDataCompleted, UserState: " + e.UserState.ToString());
+                MessageBox.Show("Error in GetResultDataCompleted, Exception: " + ex.Message);
             }
         }
     }

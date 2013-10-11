@@ -1,5 +1,6 @@
 # Defense Template specific ignores
 application/*addin
+application/*dll
 data/
 maps/
 scratch/
@@ -10,6 +11,7 @@ arc.dir
 *-old.*
 *-old
 *-sav
+*-sav.*
 
 #############
 ## Python

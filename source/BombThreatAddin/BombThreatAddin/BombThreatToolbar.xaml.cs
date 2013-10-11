@@ -243,7 +243,7 @@ namespace BombThreatAddin
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error in mouseclick");
+                System.Diagnostics.Debug.WriteLine("Error in mouseclick: " + ex.Message);
             }
         }
         void locatorTask_Failed(object sender, TaskFailedEventArgs e)
@@ -449,7 +449,7 @@ namespace BombThreatAddin
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("error in run");
+                System.Diagnostics.Debug.WriteLine("error in run: " + ex.Message);
             }
         }
         private void ClearButton_Click_1(object sender, RoutedEventArgs e)
@@ -511,7 +511,7 @@ namespace BombThreatAddin
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("error in find address");
+                System.Diagnostics.Debug.WriteLine("error in find address: " + ex.Message);
             }
         }
         void locatorTaskFindAddress_Failed(object sender, TaskFailedEventArgs e)
