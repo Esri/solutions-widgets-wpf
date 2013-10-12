@@ -26,14 +26,17 @@ namespace TestDependentServices
         Dictionary<string, string> PublicServicesUrlToName = new Dictionary<string, string>()
         {
             { "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer", 
-                "Bomb Threat Addin - Geometry Service" },
-            // TODO: Not sure if this next one is public or private - todo - test 
-            { "https://afmcomstaging.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle", 
-                "Farthest On Circle Addin - geoprocessing service" }            
+                "Bomb Threat Addin - Geometry Service" }
         };
 
+        // TODO: Need to get services hosted publicly - Issue: https://github.com/ArcGIS/solutions-widgets-wpf/issues/10
         Dictionary<string, string> PrivateServicesUrlToName = new Dictionary<string, string>()
         {
+            // Staging Portal:
+            { "https://afmcomstaging.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle", 
+                "Farthest On Circle Addin - geoprocessing service" },           
+
+            // AGI:
             { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftCommunicationCoverage/GPServer/AircraftCommunicationCoverage", 
                 "Aircraft Communication Coverage Addin: Aircraft Communication Coverage Service" },
             { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftRouteGenerationToLine/GPServer/Aircraft%20Route%20Generation%20To%20Line", 
@@ -56,6 +59,7 @@ namespace TestDependentServices
                 if (!available)
                 {
                     Console.WriteLine("SERVICE NOT AVAILABLE: " + name);
+                    Console.WriteLine("Failing URL: " + serviceUrl);
                 }
 
                 Assert.IsTrue(available);
@@ -74,6 +78,7 @@ namespace TestDependentServices
                 if (!available)
                 {
                     Console.WriteLine("SERVICE NOT AVAILABLE: " + name);
+                    Console.WriteLine("Failing URL: " + serviceUrl);
                 }
 
                 Assert.IsTrue(available);
