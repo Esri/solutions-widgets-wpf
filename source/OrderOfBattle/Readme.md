@@ -24,14 +24,14 @@ The Order of Battle Widget organizes data layers (units and equipment) into hier
 1.	Type a title for your Order of Battle
 2.	Add an optional description
 3.	Select a datasource from the list of layers in the webmap.  
-4.	Type a name representing the datasource.  The first data source added to the Order of Battle should represent units or forces.  Its name, ‘Units’ is not editable.
-5.	Select the unique identifier (UID) field (for military features  this is ‘Unique Designation’)
-6.	Select the higher formation field (for military feature force elements the Higher formation field is ‘Higher Formation’ for equipment it is ‘Owning Unit’).
+4.	Type a name representing the datasource.  The first data source added to the Order of Battle should represent units or forces.  Its name, ï¿½Unitsï¿½ is not editable.
+5.	Select the unique identifier (UID) field (for military features  this is ï¿½Unique Designationï¿½)
+6.	Select the higher formation field (for military feature force elements the Higher formation field is ï¿½Higher Formationï¿½ for equipment it is ï¿½Owning Unitï¿½).
 7.	Select a field or type a label for features that will be displayed for features in that data source in the Order of Battle tree view.
-8.	Use the radio button to select whether the feature’s symbol is displayed in the Order of Battle tree view.
+8.	Use the radio button to select whether the featureï¿½s symbol is displayed in the Order of Battle tree view.
 9.	Use the radio buttons to select whether a description will be displayed in the tree view.  The user may choose to display no description, a single field or a custom description.
-10.	Click the ‘Add’ button to add the datasource to the order of battle.  
-11.	The user may optionally configure additional datasources to the Order of Battle by repeating steps 3 – 
+10.	Click the ï¿½Addï¿½ button to add the datasource to the order of battle.  
+11.	The user may optionally configure additional datasources to the Order of Battle by repeating steps 3 ï¿½ 
 12.	Click on the Feature Actions Tab and select feature actions accessible from the context 
 13.     Add Feature Actions actions to items in the Order of Battle
 14.	Click OK to create the Order of Battle	
@@ -40,6 +40,10 @@ The Order of Battle Widget organizes data layers (units and equipment) into hier
 
 * Visual Studio 2012
 * ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
+
+## Schema Requirements
+Force elements must have a field with a unique identifier (in Esri military features unit feature classes this is the uniquedesignation field) and a second field that points to the unique identifier of another feature that represents the next higher unit in the hierarchy (in Esri military features unit feature classes this is the higherformation field).
+Dependent feature classes such as equipment owned by units is represented by a unique identifier (in Esri military features equipment feature classes this field is uniquedesignatiom) and the owning unit in the units feature class (in Esri military features equipment feature classes this field is owningunit).
  
 ### Services
 
