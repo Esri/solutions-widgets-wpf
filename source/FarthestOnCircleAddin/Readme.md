@@ -27,7 +27,7 @@ Calculates the farthest on circle for a vessel. The farthest on circle allows an
  
 ### Services
 
-* A geoprocessing service is required and and running at: [Farthest On Circle Service](https://afmcomstaging.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle)
+* A geoprocessing service is required, currently this service is running at: [Farthest On Circle Service](http://afmcloud.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle)
 * If you are unable to reach the above service.  You can download the geoprocessing package from ArcGIS Online [here](http://www.arcgis.com/home/item.html?id=04e865ad157f4f3f9b1cdc37a6c0f0bf) and stand up your own Farthest On Circle geoprocessing service.
 
 ## Resources
@@ -37,18 +37,17 @@ Calculates the farthest on circle for a vessel. The farthest on circle allows an
 * These widgets use [Esri's ArcGIS Runtime SDK for WPF](http://resources.arcgis.com/en/communities/runtime-wpf/);
 see the site for concepts, samples, and references for using the API to create mapping applications.
 
-
 ## Issues
 
 Find a bug or want to request a new feature?  Please let us know by submitting an issue.
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2012-2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -64,7 +63,6 @@ limitations under the License.
 
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
-
 
 [](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF 10.2)
 [](Esri Language: C#)

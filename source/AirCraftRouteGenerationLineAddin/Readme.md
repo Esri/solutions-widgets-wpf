@@ -26,8 +26,7 @@ The Aircraft Route Generation Line calculates the route an aircraft would take t
  
 ### Services
 
-* A service is required and is provided by AGI: [Aircraft Route Generation Line](http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftRouteGenerationToLine/GPServer/Aircraft%20Route%20Generation%20To%20Line)
-* If this service is not available please contact Todd Smith at AGI: tsmith@agi.com
+* A web service is required: Aircraft Route Generation Line. See the source for more information.
 
 ## Resources
 
@@ -43,7 +42,7 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 

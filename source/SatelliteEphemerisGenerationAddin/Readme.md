@@ -26,8 +26,7 @@ The Satellite Ephemeris  generates the ephemeris for a satellite using the AGI a
  
 ### Services
 
-* A service is required and is provided by AGI: [Satellite Ephemeris Generation](http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/SatelliteEphemerisGeneration/GPServer/Satellite%20Ephemeris%20Generation)
-* If this service is not available please contact Todd Smith at AGI: tsmith@agi.com
+* A dependent web service is required: : Satellite Ephemeris Generation. See the source for more information.
 
 ## Resources
 
@@ -44,7 +43,7 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 

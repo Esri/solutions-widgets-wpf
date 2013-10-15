@@ -1,6 +1,6 @@
 # Order of Battle Addin
 
-  The Order of Battle Widget organizes data layers (units and equipment) into hierarchical structures using a schema defined for military features.  While the tool is designed to represent military units and equipment, any features adhering to the military features schema for units and equipment may be represented in the Order of Battle widget.
+The Order of Battle Widget organizes data layers (units and equipment) into hierarchical structures using a schema defined for military features.  While the tool is designed to represent military units and equipment, any features adhering to the military features schema for units and equipment may be represented in the Order of Battle widget.
 
 ![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
@@ -52,18 +52,17 @@
 * These widgets use [Esri's ArcGIS Runtime SDK for WPF](http://resources.arcgis.com/en/communities/runtime-wpf/);
 see the site for concepts, samples, and references for using the API to create mapping applications.
 
-
 ## Issues
 
 Find a bug or want to request a new feature?  Please let us know by submitting an issue.
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2012-2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

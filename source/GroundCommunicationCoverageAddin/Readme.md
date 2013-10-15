@@ -26,8 +26,7 @@ The Ground Communication Coverage calculates the ground communication coverage f
  
 ### Services
 
-* A service is required and is provided by AGI: [Ground Communication Coverage](http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/GroundCommunicationCoverage_Power/GPServer/GroundCommunicationCoverage)
-* If this service is not available please contact Todd Smith at AGI: tsmith@agi.com
+* A service is required: Ground Communication Coverage. See the source for more information.
 
 ## Resources
 
@@ -44,11 +43,11 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2012-2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

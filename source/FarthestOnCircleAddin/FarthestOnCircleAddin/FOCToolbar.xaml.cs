@@ -335,22 +335,6 @@ namespace FarthestOnCircleAddin
 
     }
 
-    public class Layer
-    {
-        int layerid;
-        string layername;
-        string layertype;
-        int minscale;
-        int maxscale;
-
-        List<legend> legend;
-        public int Layerid { get; set; }
-        public string Layername { get; set; }
-        public int Minscale { get; set; }
-        public int Maxscale { get; set; }
-        public List<legend> Legend { get; set; }
-    }
-
     public class legend
     {
         public string label { get; set; }

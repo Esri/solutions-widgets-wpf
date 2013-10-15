@@ -1,6 +1,6 @@
 # Range Fan Addin
 
-  The main function of this addin is to create range fans for features from the bearing, traversal, and range specified in the configuration of the widget. The addin also allows for managing the fans that are created with a widget containing of list of the features that have fans.  You can remove a range fan from the widget using the feature action remove fan.  This addin is contains a widget and two feature actions for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  If the datasource is dynamic the range fan will update as the features location changes.
+The main function of this addin is to create range fans for features from the bearing, traversal, and range specified in the configuration of the widget. The addin also allows for managing the fans that are created with a widget containing of list of the features that have fans.  You can remove a range fan from the widget using the feature action remove fan.  This addin is contains a widget and two feature actions for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  If the datasource is dynamic the range fan will update as the features location changes.
 
 ![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
 
@@ -54,11 +54,11 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 ## Contributing
 
-Anyone and everyone is welcome to contribute.
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2012-2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
