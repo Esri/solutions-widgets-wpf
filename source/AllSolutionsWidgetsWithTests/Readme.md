@@ -5,7 +5,8 @@ This solution tests the solutions-widgets-wpf projects.
 ## Features
 
 * Test availability of dependent services
-* Unit and mock/fake testing of the assemblies
+* Unit and mock/fake testing of the assemblies. 
+    * See the [Order of Battle Widget tests for more information](../OrderOfBattle/OrderOfBattleUnitTests)
 
 ## Requirements
 
@@ -16,11 +17,11 @@ This solution tests the solutions-widgets-wpf projects.
 ## Getting Started with the test projects
 
 * Open and run the test solution at source\AllSolutionsWidgetsWithTests with the Visual Studio Test Explorer
-* If using the command line, you may also use VSTest.Console.exe or MSTest.exe to run the test projects' dlls. See [the MSDN page for more information](http://msdn.microsoft.com/en-us/library/vstudio/jj155796.aspx)
+* If using the command line, you may also use VSTest.Console.exe or MSTest.exe to run the test projects' dlls. See [the MSDN help page for more information](http://msdn.microsoft.com/en-us/library/vstudio/jj155796.aspx).
  
 ### Services
 
-* See [TestDependentServices\TestDependentServices.cs](TestDependentServices\\TestDependentServices.cs) for a list of services tested
+* See [TestDependentServices\TestDependentServices.cs](TestDependentServices/TestDependentServices.cs) for a list of services tested
 
 ## Issues
 
