@@ -42,8 +42,8 @@ The Order of Battle Widget organizes data layers (units and equipment) into hier
 * ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
 
 ## Schema Requirements
-Force elements must have a field with a unique identifier (in Esri military features unit feature classes this is the uniquedesignation field) and a second field that points to the unique identifier of another feature that represents the next higher unit in the hierarchy (in Esri military features unit feature classes this is the higherformation field).
-Dependent feature classes such as equipment owned by units is represented by a unique identifier (in Esri military features equipment feature classes this field is uniquedesignatiom) and the owning unit in the units feature class (in Esri military features equipment feature classes this field is owningunit).
+* Unit elements, such as military feature force elements, elements must have a field with a unique identifier (in Esri military features unit feature classes this is the uniquedesignation field) and a second field that points to the unique identifier of another feature that represents the next higher unit in the hierarchy (in Esri military features unit feature classes this is the higherformation field).
+* Dependent elements, such as equipment owned by units, is represented by a unique identifier (in Esri military features equipment feature classes this field is uniquedesignatiom) and the owning unit in the units feature class (in Esri military features equipment feature classes this field is owningunit).
  
 ### Services
 
