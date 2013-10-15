@@ -63,7 +63,7 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 
 ### Services
 
-* There are several services that the addins depend on to function.  You can open, build, and run the test project [TestDependentServices](AllSolutionsWidgetsWithTests\TestDependentServices\TestDependentServices.cs) to check which services may not be available.
+* There are several services that the addins depend on to function.  You can open, build, and run the test project [TestDependentServices](source/AllSolutionsWidgetsWithTests/TestDependentServices/TestDependentServices.cs) to check which services may not be available.
 
 ## Resources
 
