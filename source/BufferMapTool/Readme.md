@@ -2,7 +2,7 @@
 
 The Buffer map tool generates buffers at specified distance and rings.  This addin is built as a Map Tool with a Toolbar for the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  The addin can be added as a Map Tool on a Map Widget.  No data is required to run the tool.
 
-![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( ScreenShot.png "solutions-widgets-wpf")
 
 ## Features
 
