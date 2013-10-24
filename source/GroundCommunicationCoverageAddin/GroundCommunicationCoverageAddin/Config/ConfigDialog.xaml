@@ -22,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Service URL:" Style="{StaticResource SettingLabelStyle}" Margin="0,5,0,3"/>
-            <TextBox x:Name="ServiceTextBox" Grid.Column="1" Text="http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/GroundCommunicationCoverage_Power/GPServer/GroundCommunicationCoverage" Margin="5,5,5,3" />
+            <TextBox x:Name="ServiceTextBox" Grid.Column="1" Text="TODO ADD URL TO AGI'S GROUND COMMUNICATION COVERAGE TO LINE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION" Margin="5,5,5,3" />
 
 
 

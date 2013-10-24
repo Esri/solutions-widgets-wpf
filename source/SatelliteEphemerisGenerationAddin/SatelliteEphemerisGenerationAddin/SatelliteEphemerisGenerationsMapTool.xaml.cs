@@ -45,7 +45,7 @@ namespace SatelliteEphemerisGenerationAddin
         public SatelliteEphemerisGenerationsMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/SatelliteEphemerisGeneration/GPServer/Satellite%20Ephemeris%20Generation";
+            ServiceURL = @"TODO ADD URL TO AGI'S SATELLITE EPHEMERIS GENERATION GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION";
 
         }
 

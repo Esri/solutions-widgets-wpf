@@ -45,7 +45,7 @@ namespace AirCraftRouteGenerationLineAddin
         public AircraftRouteGenLineMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftRouteGenerationToLine/GPServer/Aircraft%20Route%20Generation%20To%20Line";
+            ServiceURL = @"TODO ADD URL TO AGI'S AIRCRAFT ROUTE GENERATION TO LINE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION";
         }
 
         #region IMapTool

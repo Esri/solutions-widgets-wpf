@@ -37,14 +37,14 @@ namespace TestDependentServices
         Dictionary<string, string> PrivateServicesUrlToName = new Dictionary<string, string>()
         {
             // AGI:
-            { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftCommunicationCoverage/GPServer/AircraftCommunicationCoverage", 
-                "Aircraft Communication Coverage Addin: Aircraft Communication Coverage Service" },
-            { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftRouteGenerationToLine/GPServer/Aircraft%20Route%20Generation%20To%20Line", 
-                "Aircraft Route Generation Line Addin: Aircraft Route Generation Service" },
-            { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/GroundCommunicationCoverage_Power/GPServer/GroundCommunicationCoverage",
-                "Ground Communication Coverage Addin: Ground Communication Coverage (Power)" },
-            { "http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/SatelliteEphemerisGeneration/GPServer/Satellite%20Ephemeris%20Generation",
-                "Satellite Ephemeris Generation Addin: Satellite Ephemeris Generation" }
+            //{ "TODO ADD URL TO AGI'S AIRCRAFT COMMUNICATION COVERAGE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION", 
+            //    "Aircraft Communication Coverage Addin: Aircraft Communication Coverage Service" },
+            //{ "TODO ADD URL TO AGI'S AIRCRAFT ROUTE GENERATION TO LINE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION", 
+            //    "Aircraft Route Generation Line Addin: Aircraft Route Generation Service" },
+            //{ "TODO ADD URL TO AGI'S GROUND COMMUNICATION COVERAGE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION",
+            //    "Ground Communication Coverage Addin: Ground Communication Coverage (Power)" },
+            //{ "TODO ADD URL TO AGI'S SATELLITE EPHEMERIS GENERATION GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION",
+            //    "Satellite Ephemeris Generation Addin: Satellite Ephemeris Generation" }
         };
 
         [TestMethod]

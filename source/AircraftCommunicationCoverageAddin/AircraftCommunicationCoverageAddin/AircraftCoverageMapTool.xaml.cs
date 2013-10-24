@@ -45,7 +45,7 @@ namespace AircraftCommunicationCoverageAddin
         public AircraftCoverageMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/AircraftCommunicationCoverage/GPServer/AircraftCommunicationCoverage";
+            ServiceURL = @"TODO ADD URL TO AGI'S AIRCRAFT COMMUNICATION COVERAGE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION";
 
         }
 
