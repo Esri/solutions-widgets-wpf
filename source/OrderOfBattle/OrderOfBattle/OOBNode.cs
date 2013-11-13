@@ -1,17 +1,4 @@
-﻿/* Copyright 2013 Esri
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -65,22 +52,12 @@ namespace OOB
             _desc = desc;
 
         }
-        /*public OOBNode(String uid, String name, OOBDataSource ods, String ntype, ImageSource imgsrc, OOBNode p)
-        {
-            _children = new SortedDictionary<String, OOBNode>();
-            _ctype = childtype.NONE;
-            setNtype(ntype);
-            _key = uid;
-            _name = name;
-            _parent = p;
-            _is = imgsrc;
-            ds = ods;
-        }*/
+        
         private enum childtype { NONE = 0, UNITS = 1, DEPENDANTS = 2, BOTH = 3 };
         private childtype _ctype;
         private enum nodetype { UNITS = 0, OTHER = 1, TREEROOT = 3 };
         private nodetype _ntype;
-//        private updatestate _state;
+        private updatestate _state;
 
         private ImageSource _is;
         public ImageSource Icon
@@ -371,8 +348,11 @@ namespace OOB
         {
             if (n.Parent != null)
             {
-                n.Parent._ctype = childtype.BOTH;
-                propagateCtype(n.Parent);
+                if (!n.Parent.Name.Equals(n.Name))
+                {
+                    n.Parent._ctype = childtype.BOTH;
+                    propagateCtype(n.Parent);
+                }
             }
         }
 

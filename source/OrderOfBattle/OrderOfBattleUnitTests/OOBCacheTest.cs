@@ -1,17 +1,4 @@
-﻿/* Copyright 2013 Esri
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +14,7 @@ using System.Windows.Media.Imaging;
 using OOB;
 
 
-namespace OrderOfBattleUnitTests
+namespace OrderOfBattle102UnitTests
 {
     /// <summary>
     /// Summary description for OOBCacheTest
@@ -90,7 +77,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "1-1";
                 attributes["higherformation"] = "1";
@@ -103,7 +90,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = null;
                 fields["DESCFIELD"] = null;
                 int count = cache.RetrieveFeatureCache("UNITS").Count;
-                cache.AddFeature("UNITS", g, "", "{uniquedesignation}", fields);
+                cache.AddFeature("UNITS", g, "", "{uniquedesignation}", fields, r);
                 Assert.IsTrue(cache.RetrieveFeatureCache("UNITS").Count > count);
             }
             
@@ -116,7 +103,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "1-1";
                 attributes["higherformation"] = "1";
@@ -129,7 +116,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = null;
                 fields["DESCFIELD"] = null;
                 int count = cache.RetrieveFeatureCache("UNITS").Count;
-                cache.AddFeature("UNITS", g, "", "{uniquedesignation}", fields);
+                cache.AddFeature("UNITS", g, "", "{uniquedesignation}", fields, r);
                 String coords = cache.RetrieveFeatureCache("UNITS")["1-1"]["COORDS"].ToString();
                 client.Geometry.MapPoint p1 = new client.Geometry.MapPoint(1.0, 0.0);
                 g.GeometryGet = () => { return p1; };
@@ -145,7 +132,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "Wolfpack 1 C";
                 attributes["owningunit"] = "2nd Stryker Brigade";
@@ -159,7 +146,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = "type";
                 fields["DESCFIELD"] = null;
                 int count = cache.RetrieveFeatureCache("EQUIPMENT").Count;
-                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields);
+                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields, r);
                 Assert.IsTrue(cache.RetrieveFeatureCache("EQUIPMENT").Count > count);
             }
 
@@ -172,7 +159,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "Wolfpack 1 C";
                 attributes["owningunit"] = "2nd Stryker Brigade";
@@ -186,7 +173,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = "type";
                 fields["DESCFIELD"] = "type";
                 int count = cache.RetrieveFeatureCache("EQUIPMENT").Count;
-                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation} owned by {owningunit}", fields);
+                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation} owned by {owningunit}", fields, r);
                 cache.UpdateFeature("EQUIPMENT", "Wolfpack 1 C", "{type}", "{uniquedesignation}", g, fields);
                 Dictionary<String, Dictionary<String, Object>> fcache = cache.RetrieveFeatureCache("EQUIPMENT");
                 Dictionary<String, Object> f = fcache["Wolfpack 1 C"];
@@ -201,7 +188,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "Wolfpack 1 C";
                 attributes["owningunit"] = "2nd Stryker Brigade";
@@ -215,7 +202,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = "type";
                 fields["DESCFIELD"] = "type";
                 int count = cache.RetrieveFeatureCache("EQUIPMENT").Count;
-                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields);
+                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields, r);
                 fields["LABELS"] = "uniquedesignation,owningunit";
                 cache.UpdateFeature("EQUIPMENT", "Wolfpack 1 C", "Type: {type}", "{uniquedesignation} owned by {owningunit}", g, fields);
                 Dictionary<String, Dictionary<String, Object>> fcache = cache.RetrieveFeatureCache("EQUIPMENT");
@@ -232,7 +219,7 @@ namespace OrderOfBattleUnitTests
             {
                 client.Geometry.MapPoint p = new client.Geometry.MapPoint(0.0, 0.0);
                 clientfake.ShimGraphic g = new clientfake.ShimGraphic();
-
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "Wolfpack 1 C";
                 attributes["owningunit"] = "2nd Stryker Brigade";
@@ -246,7 +233,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = "type";
                 fields["DESCFIELD"] = "type";
                 int count = cache.RetrieveFeatureCache("EQUIPMENT").Count;
-                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields);
+                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields,r);
                 fields["LABELS"] = "uniquedesignation,owningunit";
                 cache.UpdateFeature("EQUIPMENT", "Wolfpack 1 C", "Type: {type}", "{uniquedesignation} owned by {owningunit}", g, fields);
                 Dictionary<String, Dictionary<String, Object>> fcache = cache.RetrieveFeatureCache("EQUIPMENT");
@@ -268,7 +255,7 @@ namespace OrderOfBattleUnitTests
                 BitmapDecoder decoder = new BmpBitmapDecoder(myUri, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 BitmapSource bitmapSource = decoder.Frames[0];
                 pms.Source = bitmapSource;
-                
+                clientfake.ShimUniqueValueRenderer r = new clientfake.ShimUniqueValueRenderer();
                 Dictionary<String, Object> attributes = new Dictionary<String, Object>();
                 attributes["uniquedesignation"] = "Wolfpack 1 C";
                 attributes["owningunit"] = "2nd Stryker Brigade";
@@ -282,7 +269,7 @@ namespace OrderOfBattleUnitTests
                 fields["DESCFLDS"] = "type";
                 fields["DESCFIELD"] = "type";
                 int count = cache.RetrieveFeatureCache("EQUIPMENT").Count;
-                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields);
+                cache.AddFeature("EQUIPMENT", g, "Type: {type}", "{uniquedesignation}", fields, r);
                 fields["LABELS"] = "uniquedesignation,owningunit";
                 g.SymbolGet = () => {return pms;};
                 cache.UpdateFeature("EQUIPMENT", "Wolfpack 1 C", "Type: {type}", "{uniquedesignation} owned by {owningunit}", g, fields);

@@ -1,17 +1,4 @@
-﻿/* Copyright 2013 Esri
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +13,7 @@ namespace OOB
     {
         public OOBCache() { }
         private client.Geometry.PointCollection geoCollection = new client.Geometry.PointCollection();
-//        private client.Geometry.Envelope _cacheExtent = null;
+        private client.Geometry.Envelope _cacheExtent = null;
         public client.Geometry.Envelope CacheExtent
         {
             get
@@ -37,7 +24,6 @@ namespace OOB
         }
         private Int32 r = 0;
         private Dictionary<String, Dictionary<String, Dictionary<String, object>>> _items = new Dictionary<String, Dictionary<String, Dictionary<String, object>>>();
-        //private SymbolCatalog _symcat = new SymbolCatalog();
         public Boolean IsDirty
         {
             get
@@ -56,43 +42,7 @@ namespace OOB
             get { return _refreshSymbols; }
             set { _refreshSymbols = value; }
         }
-        /*private void updateExtent(client.Geometry.MapPoint pt)
-        {
-            double xmin, ymin, xmax, ymax, ptX, ptY;
-            ptX = pt.X;
-            ptY = pt.Y;
-            if (_cacheExtent == null)
-            {
-                xmin = ptX - 1;
-                ymin = ptY - 1;
-                xmax = ptX + 1;
-                ymax = ptY + 1;
-                _cacheExtent = new client.Geometry.Envelope(xmin, ymin, xmax, ymax);
-                _cacheExtent.SpatialReference = pt.SpatialReference;
-            }
-            else
-            {
-                xmin = _cacheExtent.XMin;
-                ymin = _cacheExtent.YMin;
-                xmax = _cacheExtent.XMax;
-                ymax = CacheExtent.YMax;
-
-                if (ptX < xmin)
-                    xmin = ptX;
-                if (ptY < ymin)
-                    ymin = ptY;
-                if (ptX > xmax)
-                    xmax = ptX;
-                if (ptY > ymax)
-                    ymax = ptY;
-
-                _cacheExtent.XMin = xmin;
-                _cacheExtent.YMin = ymin;
-                _cacheExtent.XMax = xmax;
-                _cacheExtent.YMax = ymax;
-            }
-
-        }*/
+        
         public void AddFeatuereContainer(String key)
         {
             Dictionary<String, Dictionary<String, object>> fc = new Dictionary<String, Dictionary<String, object>>();
@@ -101,7 +51,7 @@ namespace OOB
             String updates_key = key + "_UPDATE";
             _items[updates_key] = ufc;
         }
-        public void AddFeature(String key, client.Graphic feature, String baseDesc, String baseLabel, Dictionary<String, String> fields)
+        public void AddFeature(String key, client.Graphic feature, String baseDesc, String baseLabel, Dictionary<String, String> fields, client.UniqueValueRenderer ur)
         {
             try
             {
@@ -117,7 +67,8 @@ namespace OOB
                 String descFlds = fields["DESCFLDS"];
                 String df = fields["DESCFIELD"];
                 description = createDescriptionString(feature, baseDesc, df, descFlds);
-                client.FeatureService.Symbols.PictureMarkerSymbol sym = feature.Symbol as client.FeatureService.Symbols.PictureMarkerSymbol;
+                //client.FeatureService.Symbols.PictureMarkerSymbol sym = feature.Symbol as client.FeatureService.Symbols.PictureMarkerSymbol;
+                client.FeatureService.Symbols.PictureMarkerSymbol sym = ur.GetSymbol(feature) as client.FeatureService.Symbols.PictureMarkerSymbol;
                 ImageSource isrc = null;
                 
                 if (uid != null)
@@ -190,12 +141,7 @@ namespace OOB
 
             for (Int32 i = 0; i < labelflds.Length; ++i)
             {
-                /*if(i != 0)
-                {
-                    l += " ";
-                }
-                String fld = labelflds[i];
-                l += f.Attributes[fld];*/
+                
                 String fld = labelflds[i];
                 String lstring = "{" + fld + "}";
                 if (f.Attributes[fld] != null)
@@ -263,7 +209,7 @@ namespace OOB
         {
             Boolean featureUpdated = false;
             Dictionary<String, Dictionary<String, object>> fList = _items[key];
-            //Dictionary<String, object> attributes = new Dictionary<String, object>();
+            
             Dictionary<String, object> f = fList[id];
             client.Geometry.MapPoint pt = feature.Geometry as client.Geometry.MapPoint;
 
@@ -276,8 +222,6 @@ namespace OOB
             object currentLabel = f["LABEL"];
             object currentDescription = f["DESCRIPTION"];
             object currentCoords = f["COORDS"];
-            //object nameobj = feature.Attributes[fields["NAME"]];
-            //object currentName = f["NAME"];
 
             client.FeatureService.Symbols.PictureMarkerSymbol sym = feature.Symbol as client.FeatureService.Symbols.PictureMarkerSymbol;
             object currentsym = f["ICON"];
