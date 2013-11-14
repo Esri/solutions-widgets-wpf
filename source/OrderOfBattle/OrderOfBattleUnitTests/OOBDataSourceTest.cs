@@ -1,4 +1,17 @@
-﻿using System;
+﻿﻿/* Copyright 2013 Esri
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +25,7 @@ using fake = ESRI.ArcGIS.OperationsDashboard.Fakes;
 
 using OOB;
 
-namespace OrderOfBattle102UnitTest
+namespace OrderOfBattleUnitTest
 {
     /// <summary>
     /// Summary description for OOBDataSourceTests
@@ -31,7 +44,7 @@ namespace OrderOfBattle102UnitTest
                 fds = new fake.ShimDataSource();
                 fds.NameGet = () => { return "Friendly Situation - Friendly Equipment"; };
                 fds.IdGet = () => { return "b8725bd2-1aa2-4a06-895b-d87a8028d75a"; };
-                using (FileStream fs = File.OpenRead("C:/Dev/VS/DefenseSolution/OrderOfBattle102/OrderOfBattle102UnitTests/resources/oobdatasources.txt")) 
+                using (FileStream fs = File.OpenRead("C:/Dev/VS/DefenseSolution/OrderOfBattle/OrderOfBattleUnitTests/resources/oobdatasources.txt")) 
                 {
                     byte[] b = new byte[1024];
                     UTF8Encoding temp = new UTF8Encoding(true);
