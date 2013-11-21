@@ -1,4 +1,4 @@
-﻿/* Copyright 2013 Esri
+﻿﻿/* Copyright 2013 Esri
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -44,16 +44,7 @@ namespace OrderOfBattleUnitTest
                 fds = new fake.ShimDataSource();
                 fds.NameGet = () => { return "Friendly Situation - Friendly Equipment"; };
                 fds.IdGet = () => { return "b8725bd2-1aa2-4a06-895b-d87a8028d75a"; };
-
-                string currentPath = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName;
-                string dataPath = System.IO.Path.Combine(currentPath, @"..\..\resources\");
-                string dataFile = dataPath + "oobdatasources.txt";
-                System.Diagnostics.Trace.WriteLine("Test data file=" + dataFile);
-
-                if (!File.Exists(dataFile))
-                    throw new Exception("Test data file not found: " + dataFile);
-
-                using (FileStream fs = File.OpenRead(dataFile)) 
+                using (FileStream fs = File.OpenRead("C:/Dev/VS/DefenseSolution/OrderOfBattle/OrderOfBattleUnitTests/resources/oobdatasources.txt")) 
                 {
                     byte[] b = new byte[1024];
                     UTF8Encoding temp = new UTF8Encoding(true);
