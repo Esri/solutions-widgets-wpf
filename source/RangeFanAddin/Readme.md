@@ -18,10 +18,12 @@ The main function of this addin is to create range fans for features from the be
 
 ### Getting Started with this addin
 * Open, build, and add the addin to the Operations Dashboard
+* Before you add the widget to an Operational View you must have a map widget in the view.  The map that is used in that map 
+  widget must contain a datasource.  You use one of the datasources in the map to configure the Range Fan widget.
 * Add the widget to an Operational View
 * Configure the widget:
 	1. **Title**: This is the title of the widget which is your list of range fans that you have created
-	2. **Data Source**:  This is the datasource that you are using to create range fans on.
+	2. **Data Source**:  This is the datasource that you are using to create range fans on which is in the map you want the range fans to draw in.
 	3. **Field**:  A unique identifier that you want to show in the range fan widget list to help you know what unit you have created a range fan
 	4. **Feature Actions**: These are the features actions that will work with the list of range fans in the widget. One in particular that you will want to add is the Remove Range Fan feature action to allow you to remove the graphics.
 	5. **Bearing**: Bearing to use when creating range fan

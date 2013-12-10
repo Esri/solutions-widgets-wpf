@@ -1,4 +1,4 @@
-﻿/* Copyright 2013 Esri
+﻿﻿/* Copyright 2013 Esri
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -49,10 +49,10 @@ namespace OrderOfBattleUnitTest
                 string dataPath = System.IO.Path.Combine(currentPath, @"..\..\resources\");
                 string dataFile = dataPath + "oobdatasources.txt";
                 System.Diagnostics.Trace.WriteLine("Test data file=" + dataFile);
-
+ 
                 if (!File.Exists(dataFile))
                     throw new Exception("Test data file not found: " + dataFile);
-
+ 
                 using (FileStream fs = File.OpenRead(dataFile)) 
                 {
                     byte[] b = new byte[1024];
