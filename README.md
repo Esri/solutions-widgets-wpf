@@ -6,14 +6,15 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 
 ## Features
 
-* [Aircraft Communication Coverage Addin](source/AircraftCommunicationCoverageAddin/Readme.md)
-* [Aircraft Route Generation Line Addin](source/AirCraftRouteGenerationLineAddin/Readme.md)
 * [Bomb Threat Addin](source/BombThreatAddin/Readme.md)
 * [Farthest On Circle Addin](source/FarthestOnCircleAddin/Readme.md)
-* [Ground Communication Coverage Addin](source/GroundCommunicationCoverageAddin/Readme.md)
 * [Order of Battle Addin](source/OrderOfBattle/Readme.md)
 * [Range Fan Addin](source/RangeFanAddin/Readme.md)
-* [Satellite Ephemeris Generation Addin](source/SatelliteEphemerisGenerationAddin/Readme.md)
+* **Example Addins that require services that are not publically available, so therefore will not run.  See [Services](#services) for more information**
+   * [Aircraft Communication Coverage Addin](source/AircraftCommunicationCoverageAddin/Readme.md)
+   * [Aircraft Route Generation Line Addin](source/AirCraftRouteGenerationLineAddin/Readme.md)
+   * [Ground Communication Coverage Addin](source/GroundCommunicationCoverageAddin/Readme.md)
+   * [Satellite Ephemeris Generation Addin](source/SatelliteEphemerisGenerationAddin/Readme.md)
 
 ## Sections
 
@@ -64,6 +65,7 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 ### Services
 
 * There are several services that the addins depend on to function.  You can open, build, and run the test project [TestDependentServices](source/AllSolutionsWidgetsWithTests/TestDependentServices/TestDependentServices.cs) to check which services may not be available.
+* If interested in the Addins that require services from AGI, please contact Todd Smith at tsmith@agi.com.
 
 ## Resources
 

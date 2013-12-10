@@ -1,17 +1,4 @@
-﻿/* Copyright 2013 Esri
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,6 +10,7 @@ using client = ESRI.ArcGIS.Client;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 
+
 namespace OOB.Config
 {
     /// <summary>
@@ -33,6 +21,12 @@ namespace OOB.Config
     {
         public OOBCache cache = new OOBCache();
         public List<DataSource> DataSources { get; private set; }
+        //public ESRI.ArcGIS.Client.Field ForceUIDField { get; private set; }
+        //public ESRI.ArcGIS.Client.Field ForceHFField { get; private set; }
+        //public ESRI.ArcGIS.Client.Field ForceLabelField { get; private set; }
+        //public ESRI.ArcGIS.Client.Field EquipmentUIDField { get; private set; }
+        //public ESRI.ArcGIS.Client.Field EquipmentHFField { get; private set; }
+        //public ESRI.ArcGIS.Client.Field EquipmentLabelField { get; private set; }
         public String OOBName { get; private set; }
         public string Caption { get; private set; }
         private Dictionary<String, OOBDataSource> _datasources = new Dictionary<String, OOBDataSource>();
@@ -43,6 +37,8 @@ namespace OOB.Config
         private DataSource _currentDS;
         private List<String> _currentLabelList = new List<String>();
         private List<String> _currentDescList = new List<String>();
+        private String curDescVal = "";
+        private String _currentDescFied;
         public Dictionary<String, String> OOBDsStrings = null;
         public String oobdsstring = null;
         public IEnumerable<IFeatureAction> SelectedFeatureActions { get; private set; }
@@ -127,7 +123,10 @@ namespace OOB.Config
                     {
                         rb_Symbol.IsChecked = true;
                     }
-                    setDescType(ods.DescType);
+                    if (ods.DescType != null)
+                    {
+                        setDescType(ods.DescType);
+                    }
                 }
             }
         }
@@ -311,6 +310,8 @@ namespace OOB.Config
             }
         }
 
+
+
         private void addDS(object sender, RoutedEventArgs e)
         {
             String key = tb_dsname.Text.ToUpper();
@@ -363,6 +364,7 @@ namespace OOB.Config
             popLabel.IsOpen = true;
         }
 
+
         private void ResetComboBoxes(DataSource dataSource, object sender)
         {
             UIDComboBox.ItemsSource = dataSource.Fields;
@@ -385,6 +387,9 @@ namespace OOB.Config
 
         }
 
+
+
+
         private void ValidateInput(object sender, TextChangedEventArgs e)
         {
             if (tbLabel == null || tb_dsname == null || tb_title == null)
@@ -401,6 +406,28 @@ namespace OOB.Config
                 }
             }
         }
+
+        /*private void set_equipment(object sender, RoutedEventArgs e)
+        {
+            if ((Boolean)((CheckBox)sender).IsChecked)
+            {
+                DataSourceSelectorEquipment.IsEnabled = true;
+                //EquipmentUIDComboBox.IsEnabled = true;
+                //EquipmentHFComboBox.IsEnabled = true;
+                //EquipmentLabelComboBox.IsEnabled = true;
+            }
+            else
+            {
+                if (DataSources.Count > 1)
+                {
+                    DataSources.Remove(DataSources[1]);
+                }
+                DataSourceSelectorEquipment.IsEnabled = false;
+                //EquipmentUIDComboBox.IsEnabled = false;
+                //EquipmentHFComboBox.IsEnabled = false;
+                //EquipmentLabelComboBox.IsEnabled = false;
+            }
+        }*/
 
         private async void AddDatasourceToCache(OOBDataSource ods)
         {
@@ -467,6 +494,8 @@ namespace OOB.Config
                 fields["DESCFLDS"] = DescFlds;
                 Query q = new Query();
 
+
+
                 q.Fields = qfields;
                 cache.AddFeatuereContainer(CacheName);
 
@@ -477,9 +506,11 @@ namespace OOB.Config
                 MapWidget mw = MapWidget.FindMapWidget(ds);
                 client.FeatureLayer fl = mw.FindFeatureLayer(ds);
                 //fl.Update();
+                client.UniqueValueRenderer r = fl.Renderer as client.UniqueValueRenderer;
                 foreach (client.Graphic g in fl.Graphics)
                 {
-                    cache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields);
+                    
+                    cache.AddFeature(CacheName, g, ods.BaseDescription, ods.BaseLabel, fields, r);
                 }
                 ods.IsCacheCreated = true;
 
@@ -507,6 +538,8 @@ namespace OOB.Config
                 ValidateInput(sender, e);
             }
         }
+
+
 
         private void tbLabel_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -574,8 +607,11 @@ namespace OOB.Config
         {
 
         }
-    }
 
+
+
+
+    }
     // Helper class to compare feature actions based on their type.
     class FeatureActionComparer : IEqualityComparer<IFeatureAction>
     {

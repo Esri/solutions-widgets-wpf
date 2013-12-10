@@ -45,7 +45,7 @@ namespace GroundCommunicationCoverageAddin
         public GroundCommCovMapTool()
         {
             InitializeComponent();
-            ServiceURL = @"http://ec2-107-20-210-202.compute-1.amazonaws.com:6080/arcgis/rest/services/STKServer/GroundCommunicationCoverage_Power/GPServer/GroundCommunicationCoverage";
+            ServiceURL = @"TODO ADD URL TO AGI'S GROUND COMMUNICATION COVERAGE TO LINE GEOPROCESSING SERVICE, THIS IS REQUIRED FOR THE THIS ADDIN TO FUNCTION";
 
         }
 
