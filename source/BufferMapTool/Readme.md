@@ -7,11 +7,16 @@ The Buffer map tool generates buffers at specified distance and rings.  This add
 ## Features
 
 * Creates buffer polygons based on specified distance and ring intervals. You can create buffers around
-1. Points drawn on the map
-2. Selected features on the map, 
-3. Selected features that meet attribute criteria.   
+1. Points you draw on the map (draw points on the map using draw points button)
+2. Selected features on the map (you must select features on the map first) 
+3. Selected features that meet attribute criteria from a specified layer
+   You must specify a layer and a field name in the map tool settings dialog box. This option lets you create buffer around features that meet your criteria from the specified layer (attribute selection from a layer).   
 
 ## Instructions
+1. "Add features interactively" option can be used to create buffers around points you have drawn on the map. 
+2. "Use selected features on the map" option can be used if you want to create buffer around the selected features on the map.
+    Features must be selected on the map for this option to work. 
+3. "Use Features From" option can be used to create buffer around features that meet attribute criteria. You must configure the map tool to specify a layer and field name in the map tool settings dialog box. The tool will create buffers around features from the selected layer that match selection criteria. 
 
 ### General Help
 
@@ -26,10 +31,12 @@ The Buffer map tool generates buffers at specified distance and rings.  This add
 
 * Visual Studio 2012
 * ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
+* ArcGIS Geometry Service is required - http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer
  
 ### Services
 
 * If you are using your own portal behind the firewall and cannot reach ArcGIS Online you will need to modify the service url to point to your own service.
+* ArcGIS Geometry Service is required - http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer
 
 ## Resources
 

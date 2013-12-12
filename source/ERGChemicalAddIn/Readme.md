@@ -26,10 +26,15 @@ The ERG Chemical map tool generates buffers at specified distance and rings.  Th
 
 * Visual Studio 2012
 * ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
+* Download and reference Extended WPF Toolkit 1.9.0 
+http://wpftoolkit.codeplex.com/releases/view/96972
  
 ### Services
 
 * If you are using your own portal behind the firewall and cannot reach ArcGIS Online you will need to modify the service url to point to your own service.
+* ERG Chemical GP Service - http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByChemical/GPServer/ERG%20By%20Chemical
+* ERG Placard GP Service - http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByPlacard/GPServer/ERG%20By%20Placard
+* Find Closest Weather Station GP Service - http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/FindNearestWS/GPServer/FindNearestWeatherStation
 
 ## Resources
 
@@ -64,6 +69,8 @@ limitations under the License.
 
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
+
+Note: Portions of this code use Extended WPF Toolkit whose use is governed by the Microsoft License (Ms-PL). For more details, see http://wpftoolkit.codeplex.com/license.
 
 
 [](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF 10.2)

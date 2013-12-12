@@ -1,4 +1,18 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,6 +43,8 @@ namespace ERGChemicalAddIn.Config
         public string ERGChemicalURL { get; private set; }
         public string ERGPlacardURL { get; private set; }
         public string FindNearestWSURL { get; private set; }
+        public string DefaultChemicalName { get; private set; }
+        public string DefaultPlacardName { get; private set; }
 
         //wind directions lookup data - must be exist in a webmap
         public string WindDirectionLayerDataSource { get; private set; }
@@ -38,8 +54,8 @@ namespace ERGChemicalAddIn.Config
 
         private string _selectedDataSourceName;
 
-        public ERGChemicalConfigDialog(string ERGChemicalURL, string ERGPlacardURL, string WindDirectionLayerDataSource, 
-            string FindNearestWSURL, string windDirectionFieldName, string windWeatherStationFieldName, string windRecordedDateFieldName)
+        public ERGChemicalConfigDialog(string ERGChemicalURL, string ERGPlacardURL, string WindDirectionLayerDataSource,
+            string FindNearestWSURL, string windDirectionFieldName, string windWeatherStationFieldName, string windRecordedDateFieldName, string defaultChemicalName, string defaultPlacardName)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -48,6 +64,8 @@ namespace ERGChemicalAddIn.Config
             txtERGChemicalURL.Text = ERGChemicalURL;
             txtERGPlacardURL.Text = ERGPlacardURL;
             txtFindNearestWSURL.Text = FindNearestWSURL;
+            ERGChemicalName.Text = defaultChemicalName;
+            ERGPlacardName.Text = defaultPlacardName; 
 
             if (!string.IsNullOrEmpty(windDirectionFieldName))
                 WindDirectionFieldName = windDirectionFieldName;
@@ -121,6 +139,12 @@ namespace ERGChemicalAddIn.Config
             ERGChemicalURL = txtERGChemicalURL.Text;
             ERGPlacardURL = txtERGPlacardURL.Text;
             FindNearestWSURL = txtFindNearestWSURL.Text;
+
+            if (!String.IsNullOrEmpty(ERGPlacardName.Text))
+                DefaultPlacardName = ERGPlacardName.Text;
+
+            if (!String.IsNullOrEmpty(ERGChemicalName.Text))
+                DefaultChemicalName = ERGChemicalName.Text;
 
             if (WindDirection_DataSourceSelector.IsEnabled)
             {

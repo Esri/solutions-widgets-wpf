@@ -45,14 +45,11 @@
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Client">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
+    <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />

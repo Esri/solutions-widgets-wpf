@@ -1,4 +1,18 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,11 +34,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ESRI.ArcGIS.Client;
+using client = ESRI.ArcGIS.Client;
 using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Tasks;
 using ESRI.ArcGIS.OperationsDashboard;
-using client = ESRI.ArcGIS.Client;
+
 
 
 namespace ERGChemicalAddIn
@@ -57,8 +71,6 @@ namespace ERGChemicalAddIn
 
         private string _weatherStationDistanceInfo;
 
-        //private List<ESRI.ArcGIS.OperationsDashboard.DataSource> _selectableDataSource = new List<ESRI.ArcGIS.OperationsDashboard.DataSource> { }; 
-
         private int _windDirectionTo = 45;
         public int WindDirectionTo
         {
@@ -79,13 +91,17 @@ namespace ERGChemicalAddIn
         public ObservableCollection<string> PlacardList { get; private set; }
         private List<GPParameterInfo> placardGPParameters;
 
-        private FeatureLayer _windDirectionLayer;
+        private client.FeatureLayer _windDirectionLayer;
 
         private string _gpJobId = "";
 
+        private string _defaultChemicalName;
+        private string _defaultPlacardName;
+        private string _defaultERGName; 
+
         public ERGChemicalMapToolbar(MapWidget mapWidget, string ERGChemicalURL, string ERGPlacardURL,
-           string FindNearestWSURL, string WindDirectionLayerDataSource, string windDirectionFieldName, 
-            string windWeatherStationFieldName, string windRecordedDateFieldName)
+           string FindNearestWSURL, string WindDirectionLayerDataSource, string windDirectionFieldName,
+            string windWeatherStationFieldName, string windRecordedDateFieldName, string defaultChemicalName, string defaultPlacardName)
         {
             try
             {
@@ -109,12 +125,24 @@ namespace ERGChemicalAddIn
                 ChemicalList = getListOfChemicalsOrPlacards("chemical", chemicalJSONUrl);
                 cmbChemicalOrPlacardType.ItemsSource = ChemicalList;
 
+                if (!String.IsNullOrEmpty(defaultChemicalName))
+                    _defaultChemicalName = defaultChemicalName;
+                else
+                    _defaultChemicalName = _defaultERGName;
+
+                cmbChemicalOrPlacardType.SelectedValue = _defaultChemicalName;
+
                 //set up erg Placard GP URL
                 ERGPlacardURL = (ERGPlacardURL ?? "");
                 _placardURL = ERGPlacardURL;
                 placardGPParameters = new List<GPParameterInfo>();
                 var placardJsonUrl = _placardURL + "?f=pjson";
                 PlacardList = getListOfChemicalsOrPlacards("placard", placardJsonUrl);
+
+                if (!String.IsNullOrEmpty(defaultPlacardName))
+                    _defaultPlacardName = defaultPlacardName;
+                else
+                    _defaultPlacardName = _defaultERGName; 
 
                 //wind direction
                 _findNearestWSURL = FindNearestWSURL;
@@ -194,6 +222,7 @@ namespace ERGChemicalAddIn
                         if (parameter["name"] == "material_type" || parameter["name"] == "placard_id")
                         {
                             var choiceList = parameter["choiceList"];
+                            _defaultERGName = parameter["defaultValue"];
                             for (int j = 0; j < choiceList.Length; j++) //loop through parameters
                             {
                                 list.Add(choiceList[j]);
@@ -257,7 +286,7 @@ namespace ERGChemicalAddIn
             try
             {
                 _spillLocationGraphicsLayer.ClearGraphics();
-                Graphic graphic = new ESRI.ArcGIS.Client.Graphic();
+                client.Graphic graphic = new ESRI.ArcGIS.Client.Graphic();
                 graphic.Geometry = e.MapPoint;
 
                 graphic.Symbol = _mydictionary["spillSymbol"] as client.Symbols.MarkerSymbol;               
@@ -289,12 +318,12 @@ namespace ERGChemicalAddIn
                     if (cmbChemicalorPlacard.SelectedValue.ToString() == "Chemical")
                     {
                         cmbChemicalOrPlacardType.ItemsSource = ChemicalList;
-                        cmbChemicalOrPlacardType.SelectedIndex = 0;
+                        cmbChemicalOrPlacardType.SelectedValue = _defaultChemicalName;
                     }
                     else
                     {
                         cmbChemicalOrPlacardType.ItemsSource = PlacardList;
-                        cmbChemicalOrPlacardType.SelectedIndex = 1;
+                        cmbChemicalOrPlacardType.SelectedValue = _defaultPlacardName;
                     }
                 }
             }
@@ -444,9 +473,6 @@ namespace ERGChemicalAddIn
                     Geoprocessor findNearestWSGPTask = new Geoprocessor(_findNearestWSURL);
                     findNearestWSGPTask.OutputSpatialReference = _mapWidget.Map.SpatialReference;
 
-                    //findNearestWSGPTask.JobCompleted += findNearestWSGPTask_JobCompleted;
-                    //findNearestWSGPTask.SubmitJobAsync(parameters);
-                   
                     findNearestWSGPTask.ExecuteCompleted += findNearestWSGPTask_ExecuteCompleted;
                     findNearestWSGPTask.Failed += GeoprocessorTask_Failed;
                     findNearestWSGPTask.ExecuteAsync(parameters);
@@ -510,7 +536,7 @@ namespace ERGChemicalAddIn
 
                     //add the erg zone polygons on the map
                     GPFeatureRecordSetLayer gpLayer = e.Parameter as GPFeatureRecordSetLayer;
-                    foreach (Graphic graphic in gpLayer.FeatureSet.Features)
+                    foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
                     {
                         string zone = graphic.Attributes["ERGZone"].ToString();
                         switch (zone)
@@ -540,7 +566,7 @@ namespace ERGChemicalAddIn
                 {
                     //add the erg zone polygons on the map
                     GPFeatureRecordSetLayer gpLayer = e.Parameter as GPFeatureRecordSetLayer;
-                    foreach (Graphic graphic in gpLayer.FeatureSet.Features)
+                    foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
                     {
                         string lineType = graphic.Attributes["LineType"].ToString();
                         switch (lineType)
@@ -590,7 +616,7 @@ namespace ERGChemicalAddIn
                     query.ReturnGeometry = true;
                     query.Fields = new string[] { d.ObjectIdFieldName };
 
-                    QueryResult result = await d.ExecuteQueryAsync(query);
+                    ESRI.ArcGIS.OperationsDashboard.QueryResult result = await d.ExecuteQueryAsync(query);
                     if (result.Features.Count > 0)
                     {
                         // Get the array of IDs from the query results.
@@ -635,7 +661,7 @@ namespace ERGChemicalAddIn
             try
             {
                 GPFeatureRecordSetLayer gpLayer =e.Parameter as GPFeatureRecordSetLayer; 
-                foreach (Graphic graphic in gpLayer.FeatureSet.Features)
+                foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
                 {
                     double distance = Convert.ToDouble(graphic.Attributes["NEAR_DIST"]) * 69.09;
                     _weatherStationDistanceInfo = "Distance to weather station: " + distance.ToString("0.000") + " miles";
@@ -673,7 +699,7 @@ namespace ERGChemicalAddIn
                     if (gpParameter is GPFeatureRecordSetLayer)
                     {
                         GPFeatureRecordSetLayer gpLayer = gpParameter as GPFeatureRecordSetLayer;
-                        foreach (Graphic graphic in gpLayer.FeatureSet.Features)
+                        foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
                         {
                             double distance = Convert.ToDouble(graphic.Attributes["NEAR_DIST"]) * 69.09;
                             _weatherStationDistanceInfo = "Distance to weather station: " + distance.ToString("0.000") + " miles";
@@ -719,7 +745,7 @@ namespace ERGChemicalAddIn
                     DateTime date;
                     string recordedDate ="";
                     int windTo = -999;
-                    Graphic graphic = featureSet.Features[0];
+                    client.Graphic graphic = featureSet.Features[0];
 
                     if (!string.IsNullOrEmpty(_windDirectionFieldName))
                     {

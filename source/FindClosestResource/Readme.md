@@ -8,11 +8,16 @@ Find the closest facility map tool identifies closest facilities from given inci
 
 * Finds closest facilities from given incidents. To locate closest facilities:
 1. Draw incident points on the map
-2. Select facilities from a given layer, 
-3. Draw or select barriers on the map.
+2. Select facilities from a given layer 
+3. Draw or select barriers on the map
 4. Closest facilities are identified and the best routes are returned   
 
 ## Instructions
+* How to set up the map tool: 
+In the Configure Find Closest Facility Map Tool dialog set the following parameters:
+1. Resource Layer (Facilities) - Specify resources layer. This layer contains facility locations that are searched for when finding the closest location. These locations are referred to as facilities or resources.
+2. Select a field name for the layer. Facilities or Resource locations will be selected on the map based on attribute criteria. In the map tool, you will specifiy facilities layer and from that layer you will select given facilities (hospital, police stations etc).
+3. Select barriers layers: Use this parameter to specify a layer that contains temporary restrictions or represent additional time or distance that may be required to travel on the underlying streets. 
 
 ### General Help
 
@@ -27,10 +32,16 @@ Find the closest facility map tool identifies closest facilities from given inci
 
 * Visual Studio 2012
 * ArcGIS Runtime SDK for WPF 10.2, included in the SDK is a copy of the Operations Dashboard
+* Requires ArcGIS Closest Facility Services 
+http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility
+* Download and reference Extended WPF Toolkit 1.9.0 
+http://wpftoolkit.codeplex.com/releases/view/96972
  
 ### Services
 
 * If you are using your own portal behind the firewall and cannot reach ArcGIS Online you will need to modify the service url to point to your own service.
+* Requires ArcGIS Closest Facility Services 
+http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility
 
 ## Resources
 
@@ -65,6 +76,8 @@ limitations under the License.
 
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
+
+Note: Portions of this code use Extended WPF Toolkit whose use is governed by the Microsoft License (Ms-PL). For more details, see http://wpftoolkit.codeplex.com/license.
 
 
 [](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF 10.2)

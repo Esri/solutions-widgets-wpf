@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -14,7 +27,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ESRI.ArcGIS.Client;
 using ESRI.ArcGIS.Client.Geometry;
 using ESRI.ArcGIS.Client.Symbols;
 using ESRI.ArcGIS.Client.Tasks;
@@ -62,7 +74,6 @@ namespace BufferMapTool
 
             // The following parameters are used when user selecting features from a layer. 
             // DataSource and Field names need to be specified in the tool settings. 
-            
             BufferLayers = new ObservableCollection<BufferLayer>();
             var selectLyr = new BufferLayer();
            
@@ -92,7 +103,6 @@ namespace BufferMapTool
                         layerDataSource = d;
                         break;
                     }
-
                 }
 
                 BufferTypes = new ObservableCollection<BufferType>();
@@ -127,9 +137,7 @@ namespace BufferMapTool
             // Add any code that cleans up actions taken when activating the toolbar. 
             // For example, ensure any mouse handlers are removed.
             if (_mapWidget != null)
-            {
                 _mapWidget.Map.MouseClick -= Map_MouseClick;
-            }
         }
 
 
@@ -139,7 +147,7 @@ namespace BufferMapTool
             {
                 _acLayers = _mapWidget.Map.Layers.FirstOrDefault(lyr => lyr is client.AcceleratedDisplayLayers) as client.AcceleratedDisplayLayers;
 
-                _bufferPolygonLayer = new GraphicsLayer() { ID = "bufferPolygonLayer" };
+                _bufferPolygonLayer = new client.GraphicsLayer() { ID = "bufferPolygonLayer" };
                 _bufferPointLayer = new ESRI.ArcGIS.Client.GraphicsLayer() { ID = "bufferPointLayer" };
               
                 if (_acLayers.Count() > 0)
@@ -161,10 +169,8 @@ namespace BufferMapTool
 
             if (clickPoint != null)
             {
-                //_bufferPointLayer.ClearGraphics();
-
                 e.MapPoint.SpatialReference = _mapWidget.Map.SpatialReference;
-                Graphic graphic = new Graphic()
+                client.Graphic graphic = new client.Graphic()
                 {
                     Geometry = e.MapPoint,
                     Symbol = _resourceDictionary["bufferSymbol"] as client.Symbols.PictureMarkerSymbol     
@@ -178,8 +184,8 @@ namespace BufferMapTool
         void GeometryService_BufferCompleted(object sender, GraphicsEventArgs args)
         {
             _bufferPolygonLayer.Graphics.Clear();
-            IList<Graphic> results = args.Results;
-            foreach (Graphic graphic in results)
+            IList<client.Graphic> results = args.Results;
+            foreach (client.Graphic graphic in results)
             {
                 graphic.Symbol = _resourceDictionary["bufferZone"] as client.Symbols.SimpleFillSymbol; 
                 _bufferPolygonLayer.Graphics.Add(graphic);
@@ -278,8 +284,29 @@ namespace BufferMapTool
             {
                 if (btnAddPoint != null)
                     btnAddPoint.IsEnabled = true;
+                if (cmbLayers !=null && cmbLayers.IsEnabled == true)
+                {
+                    cmbLayers.IsEnabled = false;
+                    cmbFacility.IsEnabled = false;
+                }
             }
-            else 
+            else if (_selectedRadioButtonName == "rbSelectedFeaturesFromLayer")
+            {
+                if (BufferLayers.Count > 1 && cmbLayers.IsEnabled == false)
+                {
+                    cmbLayers.IsEnabled = true;
+                    cmbFacility.IsEnabled = true;
+                }
+            }
+            else if (_selectedRadioButtonName == "rbSelectedFeaturesOnMap")
+            {
+                if (cmbLayers !=null && cmbLayers.IsEnabled == true)
+                {
+                    cmbLayers.IsEnabled = false;
+                    cmbFacility.IsEnabled = false;
+                }
+            }
+            else
             {
                 if (btnAddPoint != null)
                     btnAddPoint.IsEnabled = false;
@@ -330,7 +357,7 @@ namespace BufferMapTool
         // ***********************************************************************************
         // * Query for the facilities is completed... populate facility type combobox
         // ***********************************************************************************
-        void queryBufferLayer_ExecuteCompleted(QueryResult result)
+        void queryBufferLayer_ExecuteCompleted(ESRI.ArcGIS.OperationsDashboard.QueryResult result)
         {
             BufferTypes.Clear();
 
@@ -341,7 +368,7 @@ namespace BufferMapTool
 
             if (result != null && result.Features.Count > 0)
             {
-                foreach (Graphic graphic in result.Features)
+                foreach (client.Graphic graphic in result.Features)
                 {
                     if (graphic.Attributes[_bufferField] != null)
                     {
@@ -355,7 +382,6 @@ namespace BufferMapTool
                             BufferTypes.Add(resourceType);
                     }
                 }
-                //cmbFacility.ItemsSource = _resourceTypes;
             }
             else
                 System.Windows.MessageBox.Show("No features returned from query");
@@ -389,13 +415,13 @@ namespace BufferMapTool
         // ***********************************************************************************
         // * Query for the facilities is completed... populate facility type combobox
         // ***********************************************************************************
-        void queryResourceType_ExecuteCompleted(QueryResult result)
+        void queryResourceType_ExecuteCompleted(ESRI.ArcGIS.OperationsDashboard.QueryResult result)
         {
             _bufferPointLayer.Graphics.Clear();
             if (result.Features != null && result.Features.Count > 0)
             {
 
-                foreach (Graphic graphic in result.Features)
+                foreach (client.Graphic graphic in result.Features)
                 {
                     SimpleMarkerSymbol sms = new SimpleMarkerSymbol()
                     {
@@ -437,7 +463,8 @@ namespace BufferMapTool
             ////clear the graphicsLayer
             _bufferPointLayer.Graphics.Clear();
             _bufferPolygonLayer.Graphics.Clear();
-            _bufferParams.Features.Clear();
+            if (_bufferParams != null)
+                _bufferParams.Features.Clear();
 
             ////Clear selected features 
             IEnumerable<ESRI.ArcGIS.OperationsDashboard.DataSource> dataSources = OperationsDashboard.Instance.DataSources;

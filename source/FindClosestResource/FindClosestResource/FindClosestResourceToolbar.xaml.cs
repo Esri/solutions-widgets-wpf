@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Copyright 2013 Esri
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -121,8 +134,7 @@ namespace FindClosestResource
             _mapWidget = mapWidget;
 
             //set up the route task with find closest facility option 
-            _routeTask = new RouteTask("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Closest%20Facility");
-            //_routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility");
+            _routeTask = new RouteTask("http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility");
             _routeTask.SolveClosestFacilityCompleted += SolveClosestFacility_Completed;
             _routeTask.Failed += SolveClosestFacility_Failed;
 
@@ -181,11 +193,6 @@ namespace FindClosestResource
             {
                 ////set up resources/facilities layer  
                 ResourceLayers = new ObservableCollection<ResourceLayer>();
-                //var selectLyr = new ResourceLayer();
-                //selectLyr.Name = "Select a layer";
-                //selectLyr.DataSource = null;
-                //ResourceLayers.Add(selectLyr);
-
                 var resourceLayer = new ResourceLayer();
                 resourceLayer.Name = resourceDatasources[0].Name;
                 resourceLayer.DataSource = resourceDatasources[0];
@@ -378,10 +385,6 @@ namespace FindClosestResource
         // ***********************************************************************************
         void Map_MouseClick(object sender, client.Map.MouseEventArgs e)
         {
-
-            //if (_incidentsGraphicsLayer.Graphics.Count > 0)
-                //_incidentsGraphicsLayer.Graphics.Clear();
-
             client.Geometry.MapPoint clickPoint = e.MapPoint;
             if (clickPoint != null)
             {
@@ -415,17 +418,13 @@ namespace FindClosestResource
         // ***********************************************************************************
         private void cmbLayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if(cmbLayers.SelectedIndex > 0)
-            //{
-                ResourceLayer layer = (ResourceLayer) cmbLayers.SelectedItem; 
-                queryResourceLayer(layer.DataSource); 
-            //}
+            ResourceLayer layer = (ResourceLayer) cmbLayers.SelectedItem; 
+            queryResourceLayer(layer.DataSource); 
         }
 
         // ***********************************************************************************
         // * Query the selected resource layer to get the different resource types... 
         // ***********************************************************************************
-        //private void queryResourceLayer(string resourceLayerName)
         private async void queryResourceLayer(ESRI.ArcGIS.OperationsDashboard.DataSource dataSource)
         {
             var query = new ESRI.ArcGIS.OperationsDashboard.Query();
@@ -444,7 +443,7 @@ namespace FindClosestResource
         // ***********************************************************************************
         // * Query for the facilities is completed... populate facility type combobox
         // ***********************************************************************************
-        void queryResourceLayer_ExecuteCompleted(QueryResult result)
+        void queryResourceLayer_ExecuteCompleted(ESRI.ArcGIS.OperationsDashboard.QueryResult result)
         {
             ResourceTypes.Clear();
 
@@ -471,7 +470,6 @@ namespace FindClosestResource
                             ResourceTypes.Add(resourceType);
                     }
                 }
-                //cmbFacility.ItemsSource = _resourceTypes;
             }
             else
                 System.Windows.MessageBox.Show("No features returned from query");
@@ -520,7 +518,7 @@ namespace FindClosestResource
         // ***********************************************************************************
         // * Query for the facilities is completed... populate facility type combobox
         // ***********************************************************************************
-        void queryResourceType_ExecuteCompleted(QueryResult result)
+        void queryResourceType_ExecuteCompleted(ESRI.ArcGIS.OperationsDashboard.QueryResult result)
         {
             _facilitiesGraphicsLayer.Graphics.Clear();
             if (result.Features != null && result.Features.Count > 0)
@@ -564,7 +562,7 @@ namespace FindClosestResource
                 Facilities = _facilitiesGraphicsLayer.Graphics,  //MUST GET THIS FROM THE DATASOURCE ... RESOURCES LAYER???              
                 ReturnDirections = true, //ReturnDirections2.IsChecked.HasValue ? ReturnDirections2.IsChecked.Value : false,
                 DirectionsLengthUnits = esriUnits.esriMiles, //GetDirectionsLengthUnits(DirectionsLengthUnits2.SelectionBoxItem.ToString().Trim()),
-                DirectionsTimeAttribute = "Time",
+                DirectionsTimeAttribute = "", //"Time",
 
                 ReturnRoutes = true,
                 ReturnFacilities = true,
@@ -779,7 +777,7 @@ namespace FindClosestResource
         // * Query for the facilities is completed... populate facility type combobox
         // ***********************************************************************************
         //void queryBarrierType_ExecuteCompleted(object sender, ESRI.ArcGIS.Client.Tasks.QueryEventArgs args)
-        void queryBarrierType_ExecuteCompleted(QueryResult result)
+        void queryBarrierType_ExecuteCompleted(ESRI.ArcGIS.OperationsDashboard.QueryResult result)
         {
             _pointBarriersGraphicsLayer.Graphics.Clear();
 

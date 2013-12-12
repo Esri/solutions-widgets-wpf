@@ -48,7 +48,10 @@
                 <RowDefinition Height="auto" MinHeight="35" />
                 <RowDefinition Height="auto" MinHeight="35" />
                 <RowDefinition Height="auto" MinHeight="35" />
+                <RowDefinition Height="auto" MinHeight="35" />
+                <RowDefinition Height="auto" MinHeight="35" />
             </Grid.RowDefinitions>
+
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" MinWidth="120"/>
@@ -64,6 +67,14 @@
                      Grid.Row="0"
                      Grid.Column="1"
                      Margin="5,2">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="ERG Chemical Service URL"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Enter ERG Chemical GP Service REST URL."/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </TextBox.ToolTip>
             </TextBox>
 
             <!--ERG Placard URL ROW 1-->
@@ -77,9 +88,17 @@
                      Grid.Column="1"
                      Margin="5,2,5,2"
                      VerticalAlignment="Center" Height="32">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="ERG Placard Service URL"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Enter ERG Placard GP Service REST URL."/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </TextBox.ToolTip>
             </TextBox>
 
-            <!--ERG Placard URL ROW 2-->
+            <!--Find Nearest WS URL ROW 2-->
             <TextBlock Grid.Row="2"
                  Text="Find Nearest WS"
                        VerticalAlignment="Center"
@@ -90,6 +109,14 @@
                      Grid.Column="1"
                      Margin="5,2"
                      VerticalAlignment="Center" Height="29">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="Nearest Weather Station"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Enter Rest end point URL link for find the nearest weather station GP Service"/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </TextBox.ToolTip>
             </TextBox>
 
             <!-- Result Options !-->
@@ -98,7 +125,14 @@
                         Margin="10,0,0,0"
                         Grid.Row="3"
                         Grid.Column="1">
-                    <TextBlock Text="Select Wind Direction Layer"/>
+                <CheckBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="Wind Direction Layer"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Select the Wind Direction Layer. Wind direction from this layer will be used to calculate affected area"/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </CheckBox.ToolTip>
             </CheckBox>
 
             <!--Wind Speed Layer DataSource - Row 4-->
@@ -119,7 +153,9 @@
             <ComboBox x:Name="WindDirectionFieldList" Grid.Row="5" Grid.Column="1" 
                       HorizontalAlignment="Stretch"
                       DisplayMemberPath="Alias" Margin="5"
-                      Style="{StaticResource comboTB}"/>
+                      Style="{StaticResource comboTB}">
+                
+            </ComboBox>
 
             <!-- Wind Station Name Field!-->
             <TextBlock Grid.Row="6" Text="Station Name Field:" Style="{StaticResource SettingLabelStyle}" />
@@ -134,6 +170,44 @@
                     HorizontalAlignment="Stretch"
                     DisplayMemberPath="Alias" Margin="5"
                     Style="{StaticResource comboTB}"/>
+
+            <!--Default Chemical Name 8-->
+            <TextBlock Grid.Row="8"
+                 Text="Default Chemical"
+                 VerticalAlignment="Center"
+                 Style="{StaticResource SettingLabelStyle}" />
+            <TextBox x:Name="ERGChemicalName"
+                     Grid.Row="8"
+                     Grid.Column="1"
+                     Margin="5,2">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="Defautl Chemical"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Enter a name of ERG Chemical will be listed in the dropdown by default."/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
+
+            <!--Default Placard Name-->
+            <TextBlock Grid.Row="9"
+                 Text="Default Placard"
+                 VerticalAlignment="Center"
+                 Style="{StaticResource SettingLabelStyle}" />
+            <TextBox x:Name="ERGPlacardName"
+                     Grid.Row="9"
+                     Grid.Column="1"
+                     Margin="5,2">
+                <TextBox.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold"><Run Text="Defautl Placard"/></TextBlock>
+                            <TextBlock TextWrapping="Wrap"><Run Text="Enter a name of ERG Placard will be listed in the dropdown by default."/></TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </TextBox.ToolTip>
+            </TextBox>
 
         </Grid>
 

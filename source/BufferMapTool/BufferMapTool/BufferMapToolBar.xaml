@@ -21,11 +21,9 @@
             <GroupBox x:Name="radioButtons">
                 <DockPanel VerticalAlignment="top" HorizontalAlignment="Stretch" Height="200" Margin="0,0,0,0">
                 <!-- Select Features Interactively !-->
-                <!--<DockPanel  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,50,0,0" Height="20">-->
-                    <RadioButton Margin="10,-80,0,0" VerticalAlignment="Center" x:Name="rbDrawPoints" IsChecked="True" Checked="RadioButtonChecked">
+                    <RadioButton Margin="10,-80,0,0" GroupName="bufferChecks" VerticalAlignment="Center" x:Name="rbDrawPoints" IsChecked="True" Checked="RadioButtonChecked">
                         <TextBlock Text="Add features interactively"/>
                     </RadioButton>
-                <!--</DockPanel>-->
 
                 <DockPanel  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="-165,70,0,0" Height="50">
                     <TextBlock x:Name="txtDrawing" HorizontalAlignment="Left" 
@@ -49,18 +47,14 @@
                 </DockPanel>
 
                 <!-- Work with selected features on the map !-->
-                <!--<DockPanel  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,120,0,0" Height="20">-->
-                    <RadioButton Margin="-380,70,0,0" VerticalAlignment="Center" x:Name="rbSelectedFeaturesOnMap" Checked="RadioButtonChecked">
+                    <RadioButton Margin="-380,70,0,0" GroupName="bufferChecks" VerticalAlignment="Center" x:Name="rbSelectedFeaturesOnMap" Checked="RadioButtonChecked">
                         <TextBlock Text="Use selected features on the map"/>
                     </RadioButton>
-                <!--</DockPanel>-->
 
                 <!-- Select Features from Layer !-->
-                <!--<DockPanel  HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="0,140,0,0" Height="50">-->
-                    <RadioButton Margin="-380,130,0,0" VerticalAlignment="Center" x:Name="rbSelectedFeaturesFromLayer" Checked="RadioButtonChecked">
+                    <RadioButton Margin="-380,130,0,0" GroupName="bufferChecks" VerticalAlignment="Center" x:Name="rbSelectedFeaturesFromLayer" Checked="RadioButtonChecked">
                         <TextBlock Text="Use Features From"/>
                     </RadioButton>
-                <!--</DockPanel>-->
                 </DockPanel>
             </GroupBox>
 
@@ -71,7 +65,7 @@
                 <ComboBox x:Name="cmbLayers" Width="240" Height="30"  HorizontalAlignment="Stretch" 
                           Style="{StaticResource ThemedComboBoxStyle}" SelectedIndex="0" 
                           SelectionChanged="cmbLayers_SelectionChanged" 
-                          DisplayMemberPath="Name" ItemsSource="{Binding BufferLayers}">
+                          DisplayMemberPath="Name" ItemsSource="{Binding BufferLayers}" IsEnabled="False">
                     <ComboBox.ToolTip>
                         <ToolTip>
                             <StackPanel>
@@ -89,7 +83,7 @@
                        Width="100"></TextBlock>
                 <ComboBox x:Name="cmbFacility" Width="240" Height="30" HorizontalAlignment="Stretch" Style="{StaticResource ThemedComboBoxStyle}" 
                       SelectedIndex="0" DisplayMemberPath="Name" 
-                      SelectionChanged="cmbFieldType_SelectionChanged" ItemsSource="{Binding BufferTypes}">
+                      SelectionChanged="cmbFieldType_SelectionChanged" ItemsSource="{Binding BufferTypes}" >
                     <ComboBox.ToolTip>
                         <ToolTip>
                             <StackPanel>

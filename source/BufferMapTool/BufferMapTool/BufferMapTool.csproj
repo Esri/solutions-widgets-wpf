@@ -45,14 +45,13 @@
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.Client">
+    <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -83,7 +82,6 @@
     <Compile Include="Config\BufferMapToolConfig.xaml.cs">
       <DependentUpon>BufferMapToolConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Config\client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
