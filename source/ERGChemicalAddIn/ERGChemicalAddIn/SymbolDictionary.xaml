@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
+    <esri:PictureMarkerSymbol x:Key="spillSymbol" OffsetY="15" OffsetX="15" Source="Images/HAZMAT_Icon.png" Height="30" Width="30"/>
+    <esri:PictureMarkerSymbol x:Key="facilitiesSymbol" OffsetY="15" OffsetX="15" Source="Images/facilities30.png" Height="30" Width="30"/>
+
+    <esri:SimpleFillSymbol x:Key="sfsZone1" Fill="#98F08080" BorderBrush="Transparent" BorderThickness="0"/>
+    <esri:SimpleFillSymbol x:Key="sfsZone2" Fill="#98FFCCCC" BorderBrush="Transparent"  BorderThickness="0"/>
+    <esri:SimpleFillSymbol x:Key="sfsZone3" Fill="Transparent" BorderBrush="Transparent"  BorderThickness="0"/>
+
+    <esri:SimpleLineSymbol x:Key="ArcLineSymbol" Width="1" Color="Black" />
+    <esri:SimpleLineSymbol x:Key="RadialSymbol" Width="1" Style="Dash"  Color="Black"/>
+</ResourceDictionary>

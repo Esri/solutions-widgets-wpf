@@ -1,0 +1,200 @@
+﻿<UserControl x:Class="FindClosestResource.FindCloseFacilityResultView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:il="clr-namespace:Microsoft.Expression.Interactivity.Layout;assembly=Microsoft.Expression.Interactions"
+             xmlns:opsDash="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             xmlns:opsCenter="clr-namespace:ESRI.ArcGIS.OperationsDashboard;assembly=ESRI.ArcGIS.OperationsDashboard"
+             xmlns:esri="http://schemas.esri.com/arcgis/client/2009"
+             mc:Ignorable="d"
+             d:DesignHeight="600"
+             d:DesignWidth="600" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+
+    <Grid Background="{DynamicResource ApplicationBackgroundBrush}" Width="550" DataContext="{Binding}">
+        <Grid.Resources>
+            <ItemsPanelTemplate x:Key="FluidItemsPanelTemplate">
+                <StackPanel>
+                    <i:Interaction.Behaviors>
+                        <il:FluidMoveBehavior AppliesTo="Children"
+                                Duration="0:0:0.75"
+                                Tag="DataContext">
+                            <il:FluidMoveBehavior.EaseY>
+                                <BackEase EasingMode="EaseInOut"
+                        Amplitude="0" />
+                            </il:FluidMoveBehavior.EaseY>
+                            <il:FluidMoveBehavior.EaseX>
+                                <BackEase EasingMode="EaseInOut"
+                        Amplitude="0" />
+                            </il:FluidMoveBehavior.EaseX>
+                        </il:FluidMoveBehavior>
+                    </i:Interaction.Behaviors>
+                </StackPanel>
+            </ItemsPanelTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Button 
+                ToolTip="Maximize the Find Closest Resource Toolbar" 
+                Visibility="Hidden"
+                 x:Name="maximizeButton"
+                 Height="32"
+                 Width="32"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="left"
+                Style="{StaticResource TouchToolbarButtonStyle}"
+                Click="btnMinMax_Click">
+            <Image Source="/FindClosestResource;component/Images/MapTool16.png" Stretch="None" />
+        </Button>
+        
+        
+                <Button Cursor="Hand"
+                    Style="{StaticResource TouchToolbarButtonStyle}"
+                    Content="&#8254;"
+                    FontSize="32"
+                        Height="32"
+                        Width="32"
+                    Click="btnMinMax_Click"
+                         Margin="5,0,5,0"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Right">
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold">Minimize</TextBlock>
+                                <TextBlock>Minimize find closest resource window</TextBlock>
+                            </StackPanel>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+        
+        <Viewbox Height="32"
+             Width="32"
+             Margin="5, 25,0,0"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Left">
+            <Button Cursor="Hand"
+              Style="{StaticResource ThemedSmallBackButtonStyle}" 
+                    Click="btnBack_Click">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Go Back</TextBlock>
+                            <TextBlock>Go back to the Find Closest Resource window</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+        </Viewbox>
+
+        <Button Margin="50,30,15,5"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Left"
+            Style="{StaticResource ListItemButtonStyle}">
+            <Button.Content>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Closest Facilties"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource ThemedForegroundBrush}"/>
+                    <TextBlock Grid.Row="2"
+                       Margin="0,5,0,0"
+                       Text=""
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource ThemedSecondaryTextBrush}"
+                       FontSize="9"
+                       FontWeight="Bold" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+        <Rectangle Grid.Row="1"
+               Style="{StaticResource HorizontalAccentRectangleStyle}"
+               Margin="0,5" />
+
+        <ListBox Grid.Row="3" PresentationTraceSources.TraceLevel="High"
+                 x:Name="lbDirections"
+             ItemsSource="{Binding Directions,UpdateSourceTrigger=PropertyChanged}"
+             Background="Transparent"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             HorizontalContentAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             BorderThickness="0"
+             Style="{StaticResource ThemedListBoxStyle}"
+             ItemContainerStyle="{StaticResource ThemedListBoxItemStyle}"
+             ItemsPanel="{StaticResource FluidItemsPanelTemplate}"
+             SelectionChanged="lbDirection_SelectionChanged">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="10,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0,5"
+                            Text="{Binding From,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Foreground="{DynamicResource ThemedSecondaryTextBrush}" />
+                        <TextBlock Grid.Column="1" Margin="0,5"
+                            Text="{Binding To,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" 
+                            Foreground="{StaticResource ThemedForegroundBrush}"/>
+                        <TextBlock Grid.Column="2" Margin="0,5"
+                            Text="{Binding FieldType,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ThemedForegroundBrush}"/>
+                        <TextBlock Grid.Column="3" Margin="0,5"
+                            Text="{Binding Rank,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ThemedForegroundBrush}"/>
+                        <TextBlock Grid.Column="4" Margin="0,5"
+                            Text="{Binding TotalTime,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Foreground="{StaticResource ThemedForegroundBrush}"/>
+                        <TextBlock Grid.Column="5" Margin="0,5"
+                            Text="{Binding TotalLength,UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" 
+                            Foreground="{StaticResource ThemedForegroundBrush}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Rectangle Style="{StaticResource HorizontalAccentRectangleStyle}"
+               Margin="5,0"
+               Grid.Row="4" />
+
+    
+        <Button Grid.Row="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource ToolbarDoneButtonStyle}"
+			MinWidth="95"
+            Margin="10,5"
+                Click="DoneButton_Click">
+            <TextBlock Text="Done" />
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold">Done</TextBlock>
+                        <TextBlock>Close the Find Closest Resource Map Toolbar</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+
+
+    </Grid>
+</UserControl>

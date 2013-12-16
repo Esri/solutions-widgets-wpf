@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:esri="http://schemas.esri.com/arcgis/client/2009">
+    <esri:PictureMarkerSymbol x:Key="bufferSymbol" Source="Images/SpringGreenPushpin.png" Height="32" Width="32" OffsetX="16" OffsetY="16"/>
+    <esri:SimpleFillSymbol x:Key="bufferZone" Fill="Transparent" BorderBrush="Red" BorderThickness="2"/>
+</ResourceDictionary>
