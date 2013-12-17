@@ -38,8 +38,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
-    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
-    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
+    <ReferenceFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder32>
+    <ReferenceFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)SDK\OperationsDashboard</ReferenceFolder64>
     <!--set ReferenceFolder depending on 32bit or 64bit machine-->
     <ReferenceFolder Condition="Exists('$(ReferenceFolder32)')">$(ReferenceFolder32)</ReferenceFolder>
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
@@ -47,11 +47,12 @@
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.Client, Version=10.2.0.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.Client.dll</HintPath>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -135,13 +136,12 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetFileName)" "$(ProjectDir)..\..\..\application"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <!--depending on 32bit or 64bit machine the reg key for the IDEIntegration folder is different-->
-    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
-    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.1.1@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
+    <IDEIntegrationFolder32>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder32>
+    <IDEIntegrationFolder64>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ESRI\ArcGISRuntimeWPF10.2@InstallDir)\SDK\IDEIntegration</IDEIntegrationFolder64>
     <!--set IDEIntegrationFolder depending on 32bit or 64bit machine-->
     <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder32)')">$(IDEIntegrationFolder32)</IDEIntegrationFolder>
     <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder64)')">$(IDEIntegrationFolder64)</IDEIntegrationFolder>
@@ -152,5 +152,6 @@
   </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
+    <Copy SourceFiles="$(TargetDir)BufferMapTool.opdashboardAddin" DestinationFolder="$(ProjectDir)..\..\..\application" />
   </Target>
 </Project>

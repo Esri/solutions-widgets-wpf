@@ -171,6 +171,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("There is an error! Check your parameters!", "Error");
                 return; 
             }
@@ -237,6 +238,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 list.Add("Service didn't return list. Check configuration");
                 return list; 
             }
@@ -266,6 +268,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return;
             }
         }
@@ -295,7 +298,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error in mouseclick");
+                System.Diagnostics.Debug.WriteLine("Error in mouseclick: " + ex.Message);
             }
             _mapWidget.Map.MouseClick -= Map_MouseClick;
         }
@@ -329,6 +332,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return;
             }
         }
@@ -449,6 +453,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return;
             }
         }
@@ -484,6 +489,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("Could not get wind direction!", "Error");
                 return;
             }
@@ -584,6 +590,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("Error processing ERG Task Results!", "Error");
                 return;
             }
@@ -685,6 +692,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("Error processing ERG Task Results!", "Error");
                 return;
             }
@@ -725,6 +733,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("Error finding the nearest weather station!", "Error");
                 return;
             }
@@ -783,6 +792,7 @@ namespace ERGChemicalAddIn
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 MessageBox.Show("Error find the wind direction info!", "Error");
                 return;
             }

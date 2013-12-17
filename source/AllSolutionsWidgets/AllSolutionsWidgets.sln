@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeFanAddin", "..\RangeFa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatelliteEphemerisGenerationAddin", "..\SatelliteEphemerisGenerationAddin\SatelliteEphemerisGenerationAddin\SatelliteEphemerisGenerationAddin.csproj", "{BF5BDA98-9901-4267-949D-A518EA02D638}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BufferMapTool", "..\BufferMapTool\BufferMapTool\BufferMapTool.csproj", "{BA428266-6045-48B8-80CB-52F12D873C1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERGChemicalAddIn", "..\ERGChemicalAddIn\ERGChemicalAddIn\ERGChemicalAddIn.csproj", "{5F08684B-DB31-4847-B56D-0AF7F972FE1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindClosestResource", "..\FindClosestResource\FindClosestResource\FindClosestResource.csproj", "{BE67BD8D-86D0-47E2-8DE0-4D234AD2CBC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +61,18 @@ Global
 		{BF5BDA98-9901-4267-949D-A518EA02D638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF5BDA98-9901-4267-949D-A518EA02D638}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF5BDA98-9901-4267-949D-A518EA02D638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA428266-6045-48B8-80CB-52F12D873C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA428266-6045-48B8-80CB-52F12D873C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA428266-6045-48B8-80CB-52F12D873C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA428266-6045-48B8-80CB-52F12D873C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F08684B-DB31-4847-B56D-0AF7F972FE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F08684B-DB31-4847-B56D-0AF7F972FE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F08684B-DB31-4847-B56D-0AF7F972FE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F08684B-DB31-4847-B56D-0AF7F972FE1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE67BD8D-86D0-47E2-8DE0-4D234AD2CBC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE67BD8D-86D0-47E2-8DE0-4D234AD2CBC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE67BD8D-86D0-47E2-8DE0-4D234AD2CBC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE67BD8D-86D0-47E2-8DE0-4D234AD2CBC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

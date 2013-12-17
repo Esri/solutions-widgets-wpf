@@ -25,12 +25,20 @@ namespace TestDependentServices
     {
         Dictionary<string, string> PublicServicesUrlToName = new Dictionary<string, string>()
         {
-            // ArcGIS Online:
+            // BombThreatToolbar, Buffer Map Tool --> ArcGIS Online:
             { "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer", 
                 "Bomb Threat Addin - Geometry Service" },
             // Try It Live Staging Portal:
             { "http://afmcloud.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle", 
-                "Farthest On Circle Addin - geoprocessing service" }       
+                "Farthest On Circle Addin - geoprocessing service" },
+            // ERG Chemical Addin
+            { "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByChemical/GPServer/ERG%20By%20Chemical", 
+                "ERG Chemical Addin - geoprocessing service" }
+            // TODO: Removed until this link can be resolved: 
+            // Find Closest Resource
+            // { "http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility", 
+            //    "Find Closest Resource - routing service" }
+ 
         };
 
         // TODO: Need to get services hosted publicly - Issue: https://github.com/ArcGIS/solutions-widgets-wpf/issues/10

@@ -26,7 +26,6 @@ namespace OOB
     {
         public OOBCache() { }
         private client.Geometry.PointCollection geoCollection = new client.Geometry.PointCollection();
-        private client.Geometry.Envelope _cacheExtent = null;
         public client.Geometry.Envelope CacheExtent
         {
             get

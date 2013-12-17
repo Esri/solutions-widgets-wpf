@@ -158,10 +158,10 @@ namespace BufferMapTool
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return;
             }
         }
-
 
         void Map_MouseClick(object sender, client.Map.MouseEventArgs e)
         {

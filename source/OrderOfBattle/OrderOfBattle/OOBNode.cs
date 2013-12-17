@@ -70,7 +70,6 @@ namespace OOB
         private childtype _ctype;
         private enum nodetype { UNITS = 0, OTHER = 1, TREEROOT = 3 };
         private nodetype _ntype;
-        private updatestate _state;
 
         private ImageSource _is;
         public ImageSource Icon

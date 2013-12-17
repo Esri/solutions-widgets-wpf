@@ -7,7 +7,10 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 ## Features
 
 * [Bomb Threat Addin](source/BombThreatAddin/Readme.md)
+* [Buffer Map Tool](source/BufferMapTool/Readme.md)
+* [ERG Chemical AddIn](source/ERGChemicalAddIn/Readme.md)
 * [Farthest On Circle Addin](source/FarthestOnCircleAddin/Readme.md)
+* [Find Closest Resource](source/FindClosestResource/Readme.md)
 * [Order of Battle Addin](source/OrderOfBattle/Readme.md)
 * [Range Fan Addin](source/RangeFanAddin/Readme.md)
 * **Example Addins that require services that are not publically available, so therefore will not run.  See [Services](#services) for more information**
@@ -53,8 +56,10 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 * Running
     * Check the readme for each addin for more details about what each one does.
     * To run from Visual Studio:
-        * Update Project Debug properties to correctly locate add-in build path in /addinpath command line argument. 
-        * E.g. Command Line Arguments: /addinpath:"{FULLY QUALIFIED PATH TO}\solutions-widgets-wpf\applications"
+        * Update Project Debug properties to
+        * Start external program: e.g. "C:\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\OperationsDashboard.exe"
+        * Correctly locate add-in build path and supply in command line arguments as /addinpath:"{PATH TO ADDIN}"
+            * E.g. Command Line Arguments: /addinpath:"{FULLY QUALIFIED PATH TO}\solutions-widgets-wpf\applications"
     * To run from a command prompt:
         * > cd solutions-widgets-wpf\applications
         * > "C:\Program Files (x86)\ArcGIS SDKs\WPF10.2\sdk\OperationsDashboard\OperationsDashboard.exe" /addinpath:"{LOCAL PATH TO}\solutions-widgets-wpf\applications"
@@ -65,7 +70,6 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 ### Services
 
 * There are several services that the addins depend on to function.  You can open, build, and run the test project [TestDependentServices](source/AllSolutionsWidgetsWithTests/TestDependentServices/TestDependentServices.cs) to check which services may not be available.
-* If interested in the Addins that require services from AGI, please contact Todd Smith at tsmith@agi.com.
 
 ## Resources
 

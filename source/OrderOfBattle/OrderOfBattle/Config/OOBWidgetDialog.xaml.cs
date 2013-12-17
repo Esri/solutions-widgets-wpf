@@ -21,12 +21,6 @@ namespace OOB.Config
     {
         public OOBCache cache = new OOBCache();
         public List<DataSource> DataSources { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceUIDField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceHFField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field ForceLabelField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentUIDField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentHFField { get; private set; }
-        //public ESRI.ArcGIS.Client.Field EquipmentLabelField { get; private set; }
         public String OOBName { get; private set; }
         public string Caption { get; private set; }
         private Dictionary<String, OOBDataSource> _datasources = new Dictionary<String, OOBDataSource>();
@@ -37,8 +31,7 @@ namespace OOB.Config
         private DataSource _currentDS;
         private List<String> _currentLabelList = new List<String>();
         private List<String> _currentDescList = new List<String>();
-        private String curDescVal = "";
-        private String _currentDescFied;
+
         public Dictionary<String, String> OOBDsStrings = null;
         public String oobdsstring = null;
         public IEnumerable<IFeatureAction> SelectedFeatureActions { get; private set; }
@@ -123,7 +116,7 @@ namespace OOB.Config
                     {
                         rb_Symbol.IsChecked = true;
                     }
-                    if (ods.DescType != null)
+                    if (ods.DescType != null)  // <-- TODO: Remove this warning (this is always true)
                     {
                         setDescType(ods.DescType);
                     }
@@ -406,28 +399,6 @@ namespace OOB.Config
                 }
             }
         }
-
-        /*private void set_equipment(object sender, RoutedEventArgs e)
-        {
-            if ((Boolean)((CheckBox)sender).IsChecked)
-            {
-                DataSourceSelectorEquipment.IsEnabled = true;
-                //EquipmentUIDComboBox.IsEnabled = true;
-                //EquipmentHFComboBox.IsEnabled = true;
-                //EquipmentLabelComboBox.IsEnabled = true;
-            }
-            else
-            {
-                if (DataSources.Count > 1)
-                {
-                    DataSources.Remove(DataSources[1]);
-                }
-                DataSourceSelectorEquipment.IsEnabled = false;
-                //EquipmentUIDComboBox.IsEnabled = false;
-                //EquipmentHFComboBox.IsEnabled = false;
-                //EquipmentLabelComboBox.IsEnabled = false;
-            }
-        }*/
 
         private async void AddDatasourceToCache(OOBDataSource ods)
         {
