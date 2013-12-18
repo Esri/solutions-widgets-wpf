@@ -10,7 +10,7 @@ This solution tests the solutions-widgets-wpf projects.
 
 ## Requirements
 
-* Visual Studio 2012 - Update 2 or later
+* Visual Studio 2012 Ultimate or Premium Update 2 or later
     * IMPORTANT: Visual Studio 2012 Update 2 is required to run the Unit Tests provided with the repository (pre-Update 2 Visual Studio was missing required testing assemblies except in the Ultimate edition)
 * ArcGIS Runtime SDK for WPF 10.2
 
@@ -18,6 +18,7 @@ This solution tests the solutions-widgets-wpf projects.
 
 * Open and run the test solution at source\AllSolutionsWidgetsWithTests with the Visual Studio Test Explorer
 * If using the command line, you may also use VSTest.Console.exe or MSTest.exe to run the test projects' dlls. See [the MSDN help page for more information](http://msdn.microsoft.com/en-us/library/vstudio/jj155796.aspx).
+    *  e.g. "C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" "solutions-widgets-wpf\application\OrderOfBattleUnitTests.dll" (or TestDependentServices.dll, etc.)
  
 ### Services
 

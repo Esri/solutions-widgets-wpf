@@ -133,4 +133,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetFileName)" "$(ProjectDir)..\..\..\application"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

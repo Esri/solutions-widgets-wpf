@@ -50,8 +50,10 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
         * `cd solutions-widgets-wpf\source\AllSolutionsWidgets`
         * `msbuild AllSolutionsWidgets.sln /property:Configuration=Release`
 * Running Units Test to Verify Your Solution
-    * Important Note: Visual Studio 2012 Update 2 is required to run the Unit Tests provided with the repository
+    * Important Note: Visual Studio 2012 Ultimate or Premium Update 2 is required to build and run the Unit Tests provided with the repository
     * Open and run the test solution at source\AllSolutionsWidgetsWithTests with the Visual Studio Test Explorer
+    * Alternately, use VSTest.Console.exe or MSTest.exe to run one of the test projects' dlls
+        * e.g. "C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" "solutions-widgets-wpf\application\OrderOfBattleUnitTests.dll"
     * See the Readme in the [Unit Test Solution](source/AllSolutionsWidgetsWithTests/Readme.md) for more information
 * Running
     * Check the readme for each addin for more details about what each one does.
