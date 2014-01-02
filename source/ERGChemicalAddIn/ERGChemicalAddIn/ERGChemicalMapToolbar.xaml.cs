@@ -94,6 +94,7 @@ namespace ERGChemicalAddIn
         private client.FeatureLayer _windDirectionLayer;
 
         private string _gpJobId = "";
+        private string _gpExecutionType = "";
 
         private string _defaultChemicalName;
         private string _defaultPlacardName;
@@ -206,6 +207,10 @@ namespace ERGChemicalAddIn
 
                     dynamic gpServiceInfo = jsSerializer.Deserialize<dynamic>(jsonString);
                     dynamic gpParameters = gpServiceInfo["parameters"];
+
+                    dynamic gpExecutionType = gpServiceInfo["executionType"];
+                    _gpExecutionType = gpExecutionType as string; 
+        
 
                     for (int i = 0; i < gpParameters.Length; i++)
                     {
@@ -402,13 +407,13 @@ namespace ERGChemicalAddIn
             {
                 if (_spillLocationGraphicsLayer.Graphics.Count > 0)
                 {
-                    Geoprocessor geoprocessorTask = null;
-
+                    Geoprocessor geoprocessorTask = new Geoprocessor();
                     if (cmbChemicalOrPlacardType.SelectedValue == null)
                     {
                         MessageBox.Show("Check your material or placard type!", "Error");
                         return;
                     }
+
                     var materialType = cmbChemicalOrPlacardType.SelectedValue.ToString();
                     var spillTime = cmbSpillTime.SelectedValue.ToString();
                     var spillSize = cmbSpillSize.SelectedValue.ToString();
@@ -419,18 +424,17 @@ namespace ERGChemicalAddIn
 
                     if (cmbChemicalorPlacard.SelectedValue.ToString() == "Chemical")
                     {
-                        geoprocessorTask = new Geoprocessor(_chemicalURL);
-                        geoprocessorTask.JobCompleted += ergChemicalGeoprocessorTask_JobCompleted;
+                        geoprocessorTask.Url = _chemicalURL;
                         parameters.Add(new GPString("material_type", materialType));
+                        geoprocessorTask.JobCompleted += ergChemicalGeoprocessorTask_JobCompleted;
                     }
                     else
                     {
-                        geoprocessorTask = new Geoprocessor(_placardURL);
+                        geoprocessorTask.Url = _placardURL;
                         geoprocessorTask.JobCompleted += ergPlacardGeoprocessorTask_JobCompleted;
                         parameters.Add(new GPString("placard_id", materialType));
                     }
 
-                    //http://resources.esri.com/help/9.3/arcgisserver/apis/silverlight/help/GP_task.htm
                     geoprocessorTask.OutputSpatialReference = _mapWidget.Map.SpatialReference;
                     geoprocessorTask.ProcessSpatialReference = _mapWidget.Map.SpatialReference;
 
@@ -442,7 +446,15 @@ namespace ERGChemicalAddIn
                     parameters.Add(new GPString("time_of_day", spillTime));
                     parameters.Add(new GPString("spill_size", spillSize));
 
-                    geoprocessorTask.SubmitJobAsync(parameters);
+
+                    if (_gpExecutionType == "esriExecutionTypeSynchronous")
+                    {
+                        geoprocessorTask.ExecuteCompleted += ERGGeoprocessorTask_ExecuteCompleted;
+                        geoprocessorTask.Failed += GeoprocessorTask_Failed;
+                        geoprocessorTask.ExecuteAsync(parameters);
+                    }
+                    else
+                        geoprocessorTask.SubmitJobAsync(parameters);
                 }
                 else
                     MessageBox.Show("Please add spill location on the map", "Error");
@@ -494,6 +506,67 @@ namespace ERGChemicalAddIn
 
         #region ERG Chemical GP Tool Logic
 
+        //Execute task is completed 
+        void ERGGeoprocessorTask_ExecuteCompleted(object sender, GPExecuteCompleteEventArgs e)
+        {
+            foreach (GPParameter gpParameter in e.Results.OutParameters)
+            {
+                if (gpParameter is GPFeatureRecordSetLayer)
+                {
+                    if (gpParameter.Name == "output_areas")
+                    {
+                        _ergZoneGraphicsLayer.Graphics.Clear();
+                        ESRI.ArcGIS.Client.Geometry.Polygon sharedPolygon = null;
+
+                        //add the erg zone polygons on the map
+                        GPFeatureRecordSetLayer gpLayer = gpParameter as GPFeatureRecordSetLayer;
+                        foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
+                        {
+                            string zone = graphic.Attributes["ERGZone"].ToString();
+                            switch (zone)
+                            {
+                                case "Initial Isolation Zone":
+                                    graphic.Symbol = _mydictionary["sfsZone2"] as client.Symbols.SimpleFillSymbol;
+                                    break;
+                                case "Protective Action Zone":
+                                    graphic.Symbol = _mydictionary["sfsZone1"] as client.Symbols.SimpleFillSymbol;
+                                    break;
+                                case "Combined Zone":
+                                    graphic.Symbol = _mydictionary["sfsZone3"] as client.Symbols.SimpleFillSymbol;
+                                    sharedPolygon = (ESRI.ArcGIS.Client.Geometry.Polygon)graphic.Geometry;
+                                    break;
+                            }
+                            _ergZoneGraphicsLayer.Graphics.Add(graphic);
+                        }
+                        //zoom to the result
+                        if (chkZoomToMap.IsChecked == true)
+                            _mapWidget.Map.Extent = sharedPolygon.Extent.Expand(1.2);
+                    }
+                    else 
+                    {
+                        //add the erg zone polygons on the map
+                        GPFeatureRecordSetLayer gpLayer = gpParameter as GPFeatureRecordSetLayer;
+                        foreach (client.Graphic graphic in gpLayer.FeatureSet.Features)
+                        {
+                            string lineType = graphic.Attributes["LineType"].ToString();
+                            switch (lineType)
+                            {
+                                case "Arc":
+                                    graphic.Symbol = _mydictionary["ArcLineSymbol"] as client.Symbols.SimpleLineSymbol;
+                                    break;
+                                case "Radial":
+                                    graphic.Symbol = _mydictionary["RadialSymbol"] as client.Symbols.SimpleLineSymbol;
+                                    break;
+                            }
+                            _ergZoneGraphicsLayer.Graphics.Add(graphic);
+                        }
+                    }
+
+                }
+            }
+        }
+
+
         // ***********************************************************************************
         // * ..ERG Placard GP Tool Job Completed  
         // ***********************************************************************************
@@ -503,7 +576,7 @@ namespace ERGChemicalAddIn
             geoprocessorTask.GetResultDataCompleted += ergGPTask_GetResultDataCompleted;
             geoprocessorTask.Failed += new EventHandler<TaskFailedEventArgs>(GeoprocessorTask_Failed);
 
-            _gpJobId = e.JobInfo.JobId; 
+            _gpJobId = e.JobInfo.JobId;
             geoprocessorTask.GetResultDataAsync(e.JobInfo.JobId, "output_areas");
         }
 
@@ -517,7 +590,7 @@ namespace ERGChemicalAddIn
             geoprocessorTask.GetResultDataCompleted += ergGPTask_GetResultDataCompleted;
             geoprocessorTask.Failed += new EventHandler<TaskFailedEventArgs>(GeoprocessorTask_Failed);
 
-            _gpJobId = e.JobInfo.JobId; 
+            _gpJobId = e.JobInfo.JobId;
             geoprocessorTask.GetResultDataAsync(e.JobInfo.JobId, "output_areas");
         }
 
