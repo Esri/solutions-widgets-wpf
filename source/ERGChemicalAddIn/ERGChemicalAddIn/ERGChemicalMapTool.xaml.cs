@@ -41,7 +41,9 @@ namespace ERGChemicalAddIn
         ERGChemicalMapToolbar _ergChemicalToolbar = null;
        
         //persisted members 
-        private string _ergChemicalURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByChemical/GPServer/ERG%20By%20Chemical";
+        private string _ergChemicalURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByChemical/GPServer/ERG%20By%20Chemical";
+        private string _ergPlacardURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByPlacard/GPServer/ERG%20By%20Placard";
+        private string _findNearestWSURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/FindNearestWS/GPServer/FindNearestWeatherStation";
 
         [DataMember(Name = "ERGChemicalURL")]
         public string ERGChemicalURL
@@ -59,8 +61,7 @@ namespace ERGChemicalAddIn
                 }
             }
         }
-
-        private string _ergPlacardURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByPlacard/GPServer/ERG%20By%20Placard";
+        
 
         [DataMember(Name = "ERGPlacardURL")]
         public string ERGPlacardURL
@@ -79,7 +80,6 @@ namespace ERGChemicalAddIn
             }
         }
 
-        private string _findNearestWSURL = "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/FindNearestWS/GPServer/FindNearestWeatherStation";
 
         [DataMember(Name = "FindNearestWSURL")]
         public string FindNearestWSURL
