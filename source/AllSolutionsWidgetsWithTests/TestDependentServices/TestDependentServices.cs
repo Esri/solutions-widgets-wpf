@@ -31,9 +31,14 @@ namespace TestDependentServices
             // Try It Live Staging Portal:
             { "http://afmcloud.esri.com/arcgis/rest/services/Tasks/FarthestOnCircle/GPServer/Farthest%20On%20Circle", 
                 "Farthest On Circle Addin - geoprocessing service" },
-            // ERG Chemical Addin
-            { "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/ERG/ERGByChemical/GPServer/ERG%20By%20Chemical", 
-                "ERG Chemical Addin - geoprocessing service" }
+            // ERG Chemical Addin 1-3
+            { "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByChemical/GPServer/ERG%20By%20Chemical", 
+                "ERG Chemical Addin - geoprocessing service 1" },
+            { "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByPlacard/GPServer/ERG%20By%20Placard",
+                "ERG Chemical Addin - geoprocessing service 2" },
+            { "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/FindNearestWS/GPServer/FindNearestWeatherStation",
+                "ERG Chemical Addin - geoprocessing service 3" }
+
             // TODO: Removed until this link can be resolved: 
             // Find Closest Resource
             // { "http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility", 
