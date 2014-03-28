@@ -31,7 +31,7 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 ## Requirements
 
 * Visual Studio 2012
-* ArcGIS Runtime SDK for WPF 10.2
+* ArcGIS Runtime SDK for WPF 10.2 (or later)
     * included in the SDK is a copy of the Operations Dashboard
 
 ## Instructions
