@@ -368,6 +368,23 @@ namespace BombThreatAddin
         {
             try
             {
+                if (_graphicsLayer != null)
+                    _graphicsLayer.Graphics.Clear();
+                // Find the map layer in the map widget that contains the data source.
+                IEnumerable<ESRI.ArcGIS.OperationsDashboard.DataSource> dataSources = OperationsDashboard.Instance.DataSources;
+                foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
+                {
+
+                    if (_mapWidget != null)
+                    {
+                        // Get the feature layer in the map for the data source.
+                        client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
+
+                        //Clear Selection on Feature Layers in map
+                        featureL.ClearSelection();
+
+                    }
+                }
                 if (txtAddress.Text == "Enter Address")
                 {
                     int BuildingEvacDistance = 0;
@@ -497,7 +514,7 @@ namespace BombThreatAddin
                 {
                     _mapWidget.Map.MouseClick -= Map_MouseClick;
                 }
-                Locator locatorTask = new Locator("http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Address_NA_10/GeocodeServer");
+                Locator locatorTask = new Locator("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
                 locatorTask.AddressToLocationsCompleted += new EventHandler<AddressToLocationsEventArgs>(locatorTask_AddressToLocationsCompleted);
                 locatorTask.Failed += new EventHandler<TaskFailedEventArgs>(locatorTaskFindAddress_Failed);
                 AddressToLocationsParameters addressParams = new AddressToLocationsParameters()
