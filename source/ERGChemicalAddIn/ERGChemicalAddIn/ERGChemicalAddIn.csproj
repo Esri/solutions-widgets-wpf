@@ -51,7 +51,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2.2\sdk\OperationsDashboard\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
+      <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
