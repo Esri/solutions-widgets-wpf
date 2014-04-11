@@ -44,18 +44,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ESRI.ArcGIS.Client, Version=10.2.2.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL" />
-    <Reference Include="ESRI.ArcGIS.Client.10.2.0.0.Fakes">
-      <HintPath>FakesAssemblies\ESRI.ArcGIS.Client.10.2.0.0.Fakes.dll</HintPath>
-    </Reference>
     <Reference Include="ESRI.ArcGIS.Client.10.2.2.0.Fakes">
       <HintPath>FakesAssemblies\ESRI.ArcGIS.Client.10.2.2.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
       <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.OperationsDashboard.10.2.0.0.Fakes">
-      <HintPath>FakesAssemblies\ESRI.ArcGIS.OperationsDashboard.10.2.0.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard.10.2.2.0.Fakes">
       <HintPath>FakesAssemblies\ESRI.ArcGIS.OperationsDashboard.10.2.2.0.Fakes.dll</HintPath>
