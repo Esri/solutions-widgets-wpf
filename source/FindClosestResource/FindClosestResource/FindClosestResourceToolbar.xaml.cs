@@ -655,7 +655,8 @@ namespace FindClosestResource
 
                     TextSymbol routeRankSymbol = new TextSymbol(); 
                     routeRankSymbol.FontFamily = new FontFamily("Arial Black");
-                    routeRankSymbol.OffsetX = -4;
+                    //Modified offsetx from -4 to 5
+                    routeRankSymbol.OffsetX = 5;
                     routeRankSymbol.OffsetY = 10;
 
                     routeRankSymbol.Text = e.RouteResults[i].Directions.RouteID.ToString();
