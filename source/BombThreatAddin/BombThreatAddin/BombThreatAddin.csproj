@@ -138,9 +138,6 @@
     <IDEIntegrationFolder Condition="Exists('$(IDEIntegrationFolder64)')">$(IDEIntegrationFolder64)</IDEIntegrationFolder>
   </PropertyGroup>
   <Import Project="$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets" Condition="Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')" />
-  <Target Name="BeforeBuild" Condition="!Exists('$(IDEIntegrationFolder)\ESRI.ArcGIS.OperationsDashboard.targets')">
-    <Error Text="The Esri WPF SDK is not correctly installed - 'ESRI.ArcGIS.OperationsDashboard.targets' not found (IDEIntegrationFolder='$(IDEIntegrationFolder)')." />
-  </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
     <Copy SourceFiles="$(TargetDir)BombThreatAddin.opdashboardAddin" DestinationFolder="$(ProjectDir)..\..\..\application" />

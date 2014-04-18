@@ -37,11 +37,11 @@
                     <TextBlock Text="Click Map"/>
                 </Button>
                 <Button x:Name="RunButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
-              ToolTip="FOCToolbar Button Tooltip" Click="RunButton_Click_1" IsEnabled="False">
+              ToolTip="After adding a point you click Run to create the stand-off distance rings" Click="RunButton_Click_1" IsEnabled="False">
                     <TextBlock Text="Run" />
                 </Button>
                 <Button x:Name="ClearButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5" MinWidth="65" Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
-              ToolTip="FOCToolbar Button Tooltip" Click="ClearButton_Click_1">
+              ToolTip="Click to clear all locations and stand-off distance rings" Click="ClearButton_Click_1">
                     <TextBlock Text="Clear"/>
                 </Button>
                 <Button x:Name="DoneButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,10,5"  Height="25" Style="{StaticResource ToolbarCancelButtonStyle}"
