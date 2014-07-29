@@ -42,18 +42,20 @@ namespace BombThreatAddin
     public partial class BombThreatToolbar : UserControl, IMapToolbar
     {
         private MapWidget _mapWidget = null;
+        string _serviceURL = null;
         ESRI.ArcGIS.Client.Geometry.MapPoint location = new MapPoint();
         client.GraphicsLayer _graphicsLayer = null;
         client.Geometry.Polygon outdoorPoly = new client.Geometry.Polygon();
         client.Geometry.Polygon indoorPoly = new client.Geometry.Polygon();
         bool callQuery = false; 
 
-        public BombThreatToolbar(MapWidget mapWidget)
+        public BombThreatToolbar(MapWidget mapWidget, string serviceURL)
         {
             InitializeComponent();
 
             // Store a reference to the MapWidget that the toolbar has been installed to.
             _mapWidget = mapWidget;
+            _serviceURL = serviceURL;
         }
 
         /// <summary>
@@ -156,7 +158,7 @@ namespace BombThreatAddin
                 foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
                 {
 
-                    if (_mapWidget != null)
+                    if (_mapWidget != null && d.IsSelectable == true)
                     {
                         // Get the feature layer in the map for the data source.
                         client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
@@ -200,7 +202,7 @@ namespace BombThreatAddin
                 foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
                 {
 
-                    if (_mapWidget != null)
+                    if (_mapWidget != null && d.IsSelectable == true)
                     {
                         // Get the feature layer in the map for the data source.
                         client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
@@ -375,7 +377,7 @@ namespace BombThreatAddin
                 foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
                 {
 
-                    if (_mapWidget != null)
+                    if (_mapWidget != null && d.IsSelectable == true)
                     {
                         // Get the feature layer in the map for the data source.
                         client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
@@ -443,7 +445,7 @@ namespace BombThreatAddin
                     graphic.Geometry = location;
 
                     GeometryService geometryTask = new GeometryService();
-                    geometryTask.Url = "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer";
+                    geometryTask.Url = _serviceURL;
                     geometryTask.BufferCompleted += GeometryService_BufferCompleted;
                     geometryTask.Failed += GeometryService_Failed;
 
@@ -482,7 +484,7 @@ namespace BombThreatAddin
                 foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
                 {
 
-                    if (_mapWidget != null)
+                    if (_mapWidget != null && d.IsSelectable == true)
                     {
                         // Get the feature layer in the map for the data source.
                         client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);

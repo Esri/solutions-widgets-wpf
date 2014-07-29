@@ -387,8 +387,11 @@ namespace ERGChemicalAddIn
 
             foreach (ESRI.ArcGIS.OperationsDashboard.DataSource d in dataSources)
             {
-                client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
-                featureL.ClearSelection();
+                if (d.IsSelectable == true)
+                { 
+                    client.FeatureLayer featureL = _mapWidget.FindFeatureLayer(d);
+                    featureL.ClearSelection();
+                }
             }
         }
 
@@ -712,7 +715,8 @@ namespace ERGChemicalAddIn
                         }
                     }
                     else
-                        featureL.ClearSelection();
+                        if (d.IsSelectable == true)
+                            featureL.ClearSelection();
                 }
             }
         }

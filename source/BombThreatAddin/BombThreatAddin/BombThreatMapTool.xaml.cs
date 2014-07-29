@@ -39,9 +39,12 @@ namespace BombThreatAddin
     {
         BombThreatToolbar _bombToolbar = null;
 
+        [DataMember(Name = "serviceURL")]
+        public string ServiceURL { get; set; }
         public BombThreatMapTool()
         {
             InitializeComponent();
+            ServiceURL = "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer";
         }
 
         #region IMapTool
@@ -76,7 +79,7 @@ namespace BombThreatAddin
         /// <value>True if the Configure button should be shown, otherwise false.</value>
         public bool CanConfigure
         {
-            get { return false; }
+            get { return true; }
         }
 
         /// <summary>
@@ -87,8 +90,11 @@ namespace BombThreatAddin
         /// <returns>True if the user clicks ok, otherwise false.</returns>
         public bool Configure(System.Windows.Window owner)
         {
-            // Implement this method if CanConfigure returned true.
-            throw new NotImplementedException();
+            Config.ConfigWin dialog = new Config.ConfigWin();
+            if (dialog.ShowDialog() != true)
+                return false;
+            ServiceURL = dialog.ServiceTextBox.Text;
+            return true;
         }
 
         #endregion
@@ -107,7 +113,7 @@ namespace BombThreatAddin
             // Set the Checked property of the ToggleButton to false after work is complete.
             if ((MapWidget != null) && (MapWidget.Map != null))
             {
-                _bombToolbar = new BombThreatToolbar(MapWidget);
+                _bombToolbar = new BombThreatToolbar(MapWidget, ServiceURL);
                 MapWidget.SetToolbar(_bombToolbar);
             }
         }
