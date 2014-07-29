@@ -49,7 +49,7 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
         * Open a Visual Studio Command Prompt: Start Menu | Microsoft Visual Studio 2012 | Visual Studio Tools | Developer Command Prompt for VS 2012
         * `cd solutions-widgets-wpf\source\AllSolutionsWidgets`
         * `msbuild AllSolutionsWidgets.sln /property:Configuration=Release`
-    * If you run into issues building with IDE error.  Close Visual Studio and open .csproj file associated with the widget you are trying to compile.  Search for 10.2.2 and replace with the version of the Runtime SDK that you are using.  This should fix the problem.
+    * IMPORTANT:  **If you run into issues building with IDE error.  Close Visual Studio and open .csproj file associated with the widget you are trying to compile.  Search for 10.2.2 and replace with the version of the Runtime SDK that you are using.  This should fix the problem.**
 * Running Units Test to Verify Your Solution
     * Important Note: Visual Studio 2012 Ultimate or Premium Update 2 is required to build and run the Unit Tests provided with the repository
     * Open and run the test solution at source\AllSolutionsWidgetsWithTests with the Visual Studio Test Explorer
