@@ -13,6 +13,7 @@ The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashbo
 * [Find Closest Resource](source/FindClosestResource/Readme.md)
 * [Order of Battle Addin](source/OrderOfBattle/Readme.md)
 * [Range Fan Addin](source/RangeFanAddin/Readme.md)
+* [Live Camera Feeds](source/LiveWebCams/Readme.md)
 * **Example Addins that require services that are not publically available, so therefore will not run.  See [Services](#services) for more information**
    * [Aircraft Communication Coverage Addin](source/AircraftCommunicationCoverageAddin/Readme.md)
    * [Aircraft Route Generation Line Addin](source/AirCraftRouteGenerationLineAddin/Readme.md)
