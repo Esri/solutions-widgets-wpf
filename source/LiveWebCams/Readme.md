@@ -2,7 +2,7 @@
 
 This addin is a widget that allows you to configure to show the live camera feed from a camera.  It will updated at an interval based on the datasource that you configure the widget to use.
 
-![Image of Operations Dashboard]( Screenshot.PNG "solutions-widgets-wpf")
+![Image of Operations Dashboard]( Screenshot.png "solutions-widgets-wpf")
 
 ## Features
 
