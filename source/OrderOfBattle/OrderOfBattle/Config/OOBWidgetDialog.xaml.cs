@@ -116,10 +116,7 @@ namespace OOB.Config
                     {
                         rb_Symbol.IsChecked = true;
                     }
-                    if (ods.DescType != null)  // <-- TODO: Remove this warning (this is always true)
-                    {
-                        setDescType(ods.DescType);
-                    }
+                    
                 }
             }
         }
