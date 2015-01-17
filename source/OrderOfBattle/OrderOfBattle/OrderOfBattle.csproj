@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{80FF1DBF-4826-489A-8B87-4EC54F9BEEC6}</ProjectGuid>
+    <ProjectGuid>{0A1EFF45-C6F9-47B4-A49C-AFBE54430984}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrderOfBattle</RootNamespace>
@@ -45,12 +45,18 @@
     <ReferenceFolder Condition="Exists('$(ReferenceFolder64)')">$(ReferenceFolder64)</ReferenceFolder>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ArcGIS.Desktop.Framework">
+      <HintPath>..\..\..\..\..\..\..\ArcGIS\bin\ArcGIS.Desktop.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.Client">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.Client.Behaviors, Version=10.2.2.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL" />
+    <Reference Include="ESRI.ArcGIS.Client.IDEIntegration.VisualStudio, Version=10.2.2.0, Culture=neutral, PublicKeyToken=29c6dd6e8553d944, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\ArcGIS SDKs\WPF10.2.2\sdk\ideintegration\ESRI.ArcGIS.Client.IDEIntegration.VisualStudio.dll</HintPath>
+    </Reference>
     <Reference Include="ESRI.ArcGIS.OperationsDashboard">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ReferenceFolder)\ESRI.ArcGIS.OperationsDashboard.dll</HintPath>
@@ -118,8 +124,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\infantry.jpg" />
-    <Resource Include="Images\infantrySymbol.jpg" />
     <Resource Include="Images\Widget32.png" />
   </ItemGroup>
   <ItemGroup>
@@ -128,16 +132,15 @@
     <Resource Include="Images\cursor_hand_select.png" />
     <Resource Include="Images\eye_inv.png" />
     <Resource Include="Images\gnome_zoom_fit_best.png" />
-    <Resource Include="Images\selection_rectangular_up.png" />
-    <Resource Include="Images\show.png" />
-    <Resource Include="Images\zoom_in_256.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\settings.png" />
-    <Resource Include="Images\wrench.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Images\infantry.jpg" />
+    <Resource Include="Images\infantrySymbol.jpg" />
     <Resource Include="Images\plus.png" />
+    <Resource Include="Images\selection_rectangular_up.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\show.png" />
+    <Resource Include="Images\tools %281%29.png" />
+    <Resource Include="Images\wrench.png" />
+    <Resource Include="Images\zoom_in_256.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -161,6 +164,5 @@
   </Target>
   <Target Name="AfterBuild">
     <MakeOpDashboardAddin InputAssembly="$(TargetPath)" OutputPath="$(OpDashboardAddinPath)" />
-    <Copy SourceFiles="$(TargetDir)OrderOfBattle.opdashboardAddin" DestinationFolder="$(ProjectDir)..\..\..\application" />
   </Target>
 </Project>
