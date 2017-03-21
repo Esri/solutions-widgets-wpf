@@ -111,4 +111,4 @@ A copy of the license is available in the repository's
 Note: Portions of this code use Json.NET whose use is governed by the MIT License. For more details, see [http://json.codeplex.com/license](http://json.codeplex.com/license).
 
 [](Esri Tags: ArcGIS Defense and Intelligence Situational Awareness ArcGIS Runtime WPF Military ArcGISSolutions)
-[](Esri Language: C#)
+[](Esri Language: C-Sharp)
