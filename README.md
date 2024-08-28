@@ -1,5 +1,7 @@
 # solutions-widgets-wpf
 
+## *This repository is no longer maintained* 
+
 The Solutions Widgets (WPF) are examples of how to extend the [Operations Dashboard for ArcGIS](http://resources.arcgis.com/en/operations-dashboard/).  There are multiple Addins available to use as is or to take and modify to meet your needs.
 
 ![Image of Operations Dashboard]( ScreenShot.PNG "solutions-widgets-wpf")
